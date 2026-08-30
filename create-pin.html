@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault - Security PIN</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            🔢
+        </div>
+
+        <h1>DocVault</h1>
+
+        <p class="subtitle">
+            Add an extra layer of security
+        </p>
+
+
+        <div class="login-box">
+
+            <h2>Create Security PIN</h2>
+
+            <p class="login-text">
+                This PIN will be required when your QR code is scanned.
+            </p>
+
+
+            <form id="pinForm">
+
+                <label for="securityPin">
+                    Security PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="securityPin"
+                    placeholder="Enter 6 digit PIN"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <label for="confirmSecurityPin">
+                    Confirm Security PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmSecurityPin"
+                    placeholder="Re-enter 6 digit PIN"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <button type="submit" id="createVaultBtn">
+                    Create Secure Vault
+                </button>
+
+            </form>
+
+
+            <div
+                id="pinMessage"
+                style="
+                    text-align: center;
+                    margin-top: 18px;
+                    font-size: 14px;
+                "
+            ></div>
+
+        </div>
+
+
+        <p class="security-note">
+            🔒 Your Security PIN is different from your account password.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        const pinForm =
+            document.getElementById("pinForm");
+
+        const createVaultBtn =
+            document.getElementById("createVaultBtn");
+
+        const pinMessage =
+            document.getElementById("pinMessage");
+
+
+        pinForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const pin =
+                    document.getElementById("securityPin")
+                    .value;
+
+
+                const confirmPin =
+                    document.getElementById("confirmSecurityPin")
+                    .value;
+
+
+                // Check 6 digits
+                if (!/^\d{6}$/.test(pin)) {
+
+                    pinMessage.textContent =
+                        "❌ Security PIN must contain exactly 6 digits.";
+
+                    pinMessage.style.color =
+                        "#ef4444";
+
+                    return;
+                }
+
+
+                // Check confirmation
+                if (pin !== confirmPin) {
+
+                    pinMessage.textContent =
+                        "❌ Security PINs do not match.";
+
+                    pinMessage.style.color =
+                        "#ef4444";
+
+                    return;
+                }
+
+
+                // PIN should not be too simple
+                if (
+                    pin === "000000" ||
+                    pin === "111111" ||
+                    pin === "123456" ||
+                    pin === "654321"
+                ) {
+
+                    pinMessage.textContent =
+                        "❌ Please choose a stronger Security PIN.";
+
+                    pinMessage.style.color =
+                        "#ef4444";
+
+                    return;
+                }
+
+
+                pinMessage.textContent =
+                    "✅ Security PIN validated.";
+
+                pinMessage.style.color =
+                    "#22c55e";
+
+
+                createVaultBtn.disabled = true;
+
+                createVaultBtn.textContent =
+                    "Creating Vault...";
+
+
+                /*
+                    IMPORTANT:
+
+                    The PIN is NOT saved here.
+
+                    In the next backend step we will:
+                    1. Save the account securely.
+                    2. Hash the account password.
+                    3. Hash the Security PIN.
+                    4. Generate a permanent vault ID.
+                    5. Generate the permanent QR.
+                */
+
+
+                setTimeout(function () {
+
+                    window.location.href =
+                        "/dashboard.html";
+
+                }, 800);
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

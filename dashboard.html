@@ -1,0 +1,5238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DocVault - Dashboard</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                Segoe UI,
+                Arial,
+                sans-serif;
+
+            background: #0b1224;
+
+            color: #f8fafc;
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        .dashboard-container {
+
+            width:
+                min(
+                    1180px,
+                    calc(100% - 32px)
+                );
+
+            margin: 0 auto;
+
+            padding:
+                28px 0 50px;
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .dashboard-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            gap: 20px;
+
+            padding:
+                22px 26px;
+
+            margin-bottom: 24px;
+
+            border:
+                1px solid #263653;
+
+            border-radius: 22px;
+
+            background: #151f34;
+
+            box-shadow:
+                0 18px 50px
+                rgba(0,0,0,.22);
+        }
+
+
+        .brand {
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            letter-spacing: -.4px;
+        }
+
+
+        .welcome {
+
+            margin:
+                6px 0 0;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        .logout-btn {
+
+            border:
+                1px solid #ef4444;
+
+            color: #fecaca;
+
+            background:
+                transparent;
+
+            border-radius: 12px;
+
+            padding:
+                11px 18px;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .logout-btn:hover {
+
+            background: #7f1d1d;
+
+            color: white;
+        }
+
+
+        /* =====================================
+           HERO
+        ===================================== */
+
+        .hero {
+
+            display: grid;
+
+            grid-template-columns:
+                1.4fr .6fr;
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .hero-card,
+        .stat-card {
+
+            border:
+                1px solid #263653;
+
+            border-radius: 22px;
+
+            background: #151f34;
+
+            padding: 28px;
+        }
+
+
+        .hero-card {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172640,
+                    #132036
+                );
+        }
+
+
+        .hero-card .eyebrow {
+
+            color: #38bdf8;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .hero-card h1 {
+
+            margin:
+                8px 0;
+
+            font-size:
+                clamp(
+                    27px,
+                    4vw,
+                    40px
+                );
+        }
+
+
+        .hero-card p {
+
+            margin: 0;
+
+            color: #a8b5c9;
+
+            line-height: 1.6;
+        }
+
+
+        .stat-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .stat-label {
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        .stat-number {
+
+            margin-top: 5px;
+
+            font-size: 38px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================
+           ACTION BUTTONS
+        ===================================== */
+
+        .dashboard-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1.3fr 1fr 1fr;
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .action-btn {
+
+            border:
+                1px solid #2b9fd3;
+
+            border-radius: 16px;
+
+            padding:
+                17px 18px;
+
+            color: white;
+
+            background: #078ac7;
+
+            font-weight: 750;
+
+            transition: .2s ease;
+        }
+
+
+        .action-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background: #0b9bdc;
+        }
+
+
+        .action-btn:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        .secondary-btn {
+
+            border:
+                1px solid #334766;
+
+            border-radius: 16px;
+
+            padding:
+                17px 18px;
+
+            color: #e2e8f0;
+
+            background: #18253b;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .secondary-btn:hover {
+
+            background: #21324d;
+
+            border-color: #4b668d;
+        }
+
+
+        /* =====================================
+           SEARCH
+        ===================================== */
+
+        .search-section {
+
+            position: relative;
+
+            margin-bottom: 22px;
+        }
+
+
+        #searchInput {
+
+            width: 100%;
+
+            border:
+                1px solid #334766;
+
+            border-radius: 16px;
+
+            outline: none;
+
+            padding:
+                16px 18px 16px 48px;
+
+            background: #101a2e;
+
+            color: white;
+        }
+
+
+        #searchInput:focus {
+
+            border-color: #20a9e8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    32,
+                    169,
+                    232,
+                    .12
+                );
+        }
+
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 18px;
+
+            top: 14px;
+
+            font-size: 19px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           DOCUMENT HEADING
+        ===================================== */
+
+        .document-heading {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: end;
+
+            margin:
+                0 2px 14px;
+        }
+
+
+        .document-heading h2 {
+
+            margin: 0;
+
+            font-size: 25px;
+        }
+
+
+        #documentCount {
+
+            margin:
+                5px 0 0;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           DOCUMENT LIST
+        ===================================== */
+
+        .document-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+
+        .document-card {
+
+            border:
+                1px solid #263653;
+
+            border-radius: 18px;
+
+            background: #151f34;
+
+            padding: 20px;
+
+            min-height: 190px;
+
+            transition: .2s ease;
+        }
+
+
+        .document-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                #3b587f;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.18);
+        }
+
+
+        .document-card .file-icon {
+
+            font-size: 30px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .document-card h3 {
+
+            margin:
+                0 0 6px;
+
+            font-size: 17px;
+
+            word-break: break-word;
+        }
+
+
+        .document-card p {
+
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        .document-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 8px;
+
+            margin-top: 16px;
+        }
+
+
+        .document-actions button {
+
+            padding:
+                10px 8px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+        }
+
+
+        .view-btn {
+
+            border:
+                1px solid #334766;
+
+            background: #18253b;
+
+            color: #e2e8f0;
+        }
+
+
+        .view-btn:hover {
+
+            background: #21324d;
+        }
+
+
+        .download-btn {
+
+            border:
+                1px solid #2b9fd3;
+
+            background: #078ac7;
+
+            color: white;
+        }
+
+
+        .download-btn:hover {
+
+            background: #0b9bdc;
+        }
+
+
+        /* =====================================
+           EMPTY STATE
+        ===================================== */
+
+        .empty-state {
+
+            grid-column:
+                1 / -1;
+
+            border:
+                1px dashed #3a4c69;
+
+            border-radius: 22px;
+
+            background: #111b2e;
+
+            padding:
+                50px 24px;
+
+            text-align: center;
+        }
+
+
+        .empty-icon {
+
+            font-size: 52px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .empty-state h3 {
+
+            margin:
+                8px 0;
+
+            font-size: 22px;
+        }
+
+
+        .empty-state p {
+
+            color: #94a3b8;
+
+            margin-bottom: 22px;
+        }
+
+
+        .empty-state button {
+
+            border: 0;
+
+            border-radius: 13px;
+
+            padding:
+                13px 20px;
+
+            background: #078ac7;
+
+            color: white;
+
+            font-weight: 750;
+        }
+
+
+        .empty-state button:hover {
+
+            background: #0b9bdc;
+        }
+
+
+        /* =====================================
+           MODAL
+        ===================================== */
+
+        .modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(
+                    2,
+                    6,
+                    23,
+                    .78
+                );
+
+            backdrop-filter:
+                blur(7px);
+
+            z-index: 100;
+        }
+
+
+        .modal-content {
+
+            width:
+                min(
+                    500px,
+                    100%
+                );
+
+            max-height: 90vh;
+
+            overflow: auto;
+
+            border:
+                1px solid #334766;
+
+            border-radius: 22px;
+
+            background: #151f34;
+
+            padding: 25px;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0,0,0,.45);
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 22px;
+        }
+
+
+        .modal-header h2 {
+
+            margin: 0;
+        }
+
+
+        .close-btn {
+
+            border: 0;
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 10px;
+
+            color: #cbd5e1;
+
+            background: #22314a;
+
+            font-size: 18px;
+        }
+
+
+        .close-btn:hover {
+
+            background: #334766;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin:
+                15px 0 7px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="search"],
+        input[type="file"] {
+
+            width: 100%;
+
+            border:
+                1px solid #334766;
+
+            border-radius: 12px;
+
+            padding: 13px;
+
+            background: #0f192d;
+
+            color: #e2e8f0;
+
+            outline: none;
+        }
+
+
+        input[type="text"]:focus {
+
+            border-color: #20a9e8;
+        }
+
+
+        .file-note {
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+
+        #saveDocumentBtn {
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            border: 0;
+
+            border-radius: 13px;
+
+            padding: 14px;
+
+            background: #078ac7;
+
+            color: white;
+
+            font-weight: 800;
+        }
+
+
+        #saveDocumentBtn:hover {
+
+            background: #0b9bdc;
+        }
+
+
+        #saveDocumentBtn:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================
+           QR
+        ===================================== */
+
+        .qr-placeholder {
+
+            text-align: center;
+
+            border:
+                1px dashed #3a4c69;
+
+            border-radius: 18px;
+
+            padding:
+                30px 20px;
+
+            background: #101a2e;
+        }
+
+
+        .qr-icon {
+
+            width: 92px;
+
+            height: 92px;
+
+            display: grid;
+
+            place-items: center;
+
+            margin:
+                0 auto 15px;
+
+            border-radius: 16px;
+
+            background: white;
+
+            color: #111827;
+
+            font-size: 58px;
+        }
+
+
+        .qr-placeholder h3 {
+
+            margin:
+                0 0 8px;
+        }
+
+
+        .qr-placeholder p,
+        .qr-info {
+
+            color: #94a3b8;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           PERMANENT QR - ISOLATED COMPONENT
+        ===================================== */
+
+        .qr-modal-content {
+            width: min(520px, 100%);
+        }
+
+        .qr-kicker {
+            color: #55bdf0;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        .qr-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 300px;
+            border: 1px dashed #3a4c69;
+            border-radius: 20px;
+            background: #101a2e;
+            color: #dbe7f5;
+            text-align: center;
+        }
+
+        .qr-loading span {
+            color: #8fa1ba;
+            font-size: 13px;
+        }
+
+        .qr-spinner {
+            width: 42px;
+            height: 42px;
+            margin-bottom: 5px;
+            border: 3px solid #263653;
+            border-top-color: #35afe9;
+            border-radius: 50%;
+            animation: qrSpin .8s linear infinite;
+        }
+
+        @keyframes qrSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .qr-error {
+            padding: 15px;
+            border: 1px solid #7f1d1d;
+            border-radius: 14px;
+            background: #2a1218;
+            color: #fecaca;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .qr-card {
+            padding: 24px;
+            border: 1px solid #2f486b;
+            border-radius: 22px;
+            background:
+                radial-gradient(circle at top right, rgba(45, 144, 205, .16), transparent 35%),
+                linear-gradient(145deg, #162640, #0e182b);
+        }
+
+        .qr-card-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .qr-brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #3c6a91;
+            border-radius: 13px;
+            background: #102a45;
+            font-size: 20px;
+        }
+
+        .qr-brand-name {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 850;
+        }
+
+        .qr-brand-subtitle {
+            margin-top: 3px;
+            color: #63c8f5;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .qr-image-frame {
+            width: 250px;
+            height: 250px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            padding: 12px;
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 15px 35px rgba(0,0,0,.25);
+        }
+
+        .qr-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .qr-owner {
+            text-align: center;
+        }
+
+        /* OWNER NAME MUST ALWAYS BE WHITE */
+        .qr-owner-name {
+            color: #ffffff !important;
+            font-size: 21px;
+            font-weight: 850;
+            line-height: 1.3;
+        }
+
+        .qr-owner-email {
+            margin-top: 5px;
+            color: #cbd9ea;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .qr-divider {
+            height: 1px;
+            margin: 18px 0;
+            background: #2b405e;
+        }
+
+        .qr-secure-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid #294362;
+            border-radius: 13px;
+            background: rgba(8, 20, 37, .55);
+        }
+
+        .qr-secure-note > span {
+            font-size: 17px;
+        }
+
+        .qr-secure-note strong {
+            color: #f4f8ff;
+            font-size: 13px;
+        }
+
+        .qr-secure-note p {
+            margin: 4px 0 0;
+            color: #8fa5c0;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .qr-details {
+            margin-top: 13px;
+            padding: 11px 13px;
+            border: 1px solid #293f5e;
+            border-radius: 12px;
+            background: #0f192c;
+        }
+
+        .qr-url-label {
+            margin-bottom: 5px;
+            color: #6fbce1;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .qr-url {
+            color: #aebed2;
+            font-size: 11px;
+            line-height: 1.45;
+            word-break: break-all;
+        }
+
+        .qr-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 13px;
+        }
+
+        @media (max-width: 560px) {
+            .qr-card {
+                padding: 18px;
+            }
+
+            .qr-image-frame {
+                width: min(250px, 72vw);
+                height: min(250px, 72vw);
+            }
+
+            .qr-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* =====================================
+           SETTINGS
+        ===================================== */
+
+        .setting-option {
+
+            width: 100%;
+
+            text-align: left;
+
+            margin-bottom: 10px;
+        }
+
+
+
+        /* =====================================
+           SECURITY CENTER
+        ===================================== */
+
+        .security-option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 18px;
+            margin-bottom: 12px;
+            border: 1px solid #2d405f;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #17243a, #111c30);
+            color: #e8eef8;
+            text-align: left;
+            transition: .2s ease;
+        }
+
+        .security-option:hover {
+            transform: translateY(-1px);
+            border-color: #4386b8;
+            background: linear-gradient(135deg, #1a2b45, #142239);
+        }
+
+        .security-option-main {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .security-option-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 42px;
+            border: 1px solid #315070;
+            border-radius: 12px;
+            background: #0f1a2d;
+            font-size: 19px;
+        }
+
+        .security-option-copy strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .security-option-copy span {
+            display: block;
+            color: #8fa1ba;
+            font-size: 12px;
+        }
+
+        .security-option-arrow {
+            color: #67c8f4;
+            font-size: 20px;
+        }
+
+        .security-divider {
+            height: 1px;
+            margin: 7px 0 17px;
+            background: #263653;
+        }
+
+        .security-modal-content {
+            width: min(470px, 100%);
+        }
+
+        .security-kicker {
+            margin: -12px 0 21px;
+            color: #8fa1ba;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .security-step {
+            display: none;
+        }
+
+        .security-step.active {
+            display: block;
+        }
+
+        .security-field {
+            margin-bottom: 16px;
+        }
+
+        .security-field label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 0 0 8px;
+        }
+
+        .security-forgot {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: #55bdf0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .security-forgot:hover {
+            color: #8bdcff;
+            text-decoration: underline;
+        }
+
+        .security-input {
+            width: 100%;
+            border: 1px solid #344967;
+            border-radius: 13px;
+            padding: 14px 15px;
+            outline: none;
+            background: #0d172a;
+            color: #f8fafc;
+        }
+
+        .security-input:focus {
+            border-color: #35afe9;
+            box-shadow: 0 0 0 3px rgba(53,175,233,.12);
+        }
+
+        .security-primary {
+            width: 100%;
+            border: 1px solid #2b9fd3;
+            border-radius: 13px;
+            padding: 13px 15px;
+            background: #078ac7;
+            color: white;
+            font-weight: 800;
+            transition: .2s ease;
+        }
+
+        .security-primary:hover {
+            background: #0b9bdc;
+        }
+
+        .security-secondary {
+            width: 100%;
+            border: 1px solid #334766;
+            border-radius: 13px;
+            padding: 12px 15px;
+            margin-top: 9px;
+            background: #18253b;
+            color: #dbe7f5;
+            font-weight: 700;
+        }
+
+        .security-secondary:hover {
+            background: #21324d;
+        }
+
+        .security-message {
+            min-height: 20px;
+            margin: 13px 0 0;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .security-progress {
+            display: flex;
+            gap: 7px;
+            margin: -5px 0 20px;
+        }
+
+        .security-progress span {
+            height: 4px;
+            flex: 1;
+            border-radius: 99px;
+            background: #263653;
+        }
+
+        .security-progress span.active {
+            background: #28a9e5;
+        }
+
+        .recovery-note {
+            margin: -7px 0 18px;
+            padding: 11px 12px;
+            border: 1px solid #2b405e;
+            border-radius: 11px;
+            background: #101b2f;
+            color: #91a3bc;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 850px) {
+
+            .hero {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .dashboard-actions {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .document-list {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 560px) {
+
+            .dashboard-container {
+
+                width:
+                    min(
+                        calc(100% - 20px),
+                        1180px
+                    );
+
+                padding-top: 10px;
+            }
+
+
+            .dashboard-header {
+
+                padding: 18px;
+            }
+
+
+            .brand {
+
+                font-size: 21px;
+            }
+
+
+            .document-list {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .hero-card,
+            .stat-card {
+
+                padding: 22px;
+            }
+
+        }
+
+    
+/* ===== Professional Profile Panel ===== */
+.profile-panel {
+    width: min(560px, 94vw);
+    background: #0b1729;
+    border: 1px solid #263f5e;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 28px 90px rgba(0,0,0,.55);
+}
+.profile-header {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:28px;
+}
+.profile-eyebrow {
+    margin:0 0 7px;
+    color:#58c7ff;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+.profile-header h2 {
+    margin:0;
+    color:#f5f8ff;
+    font-size:28px;
+    line-height:1.15;
+}
+.profile-subtitle {
+    margin:10px 0 0;
+    color:#8ea5c2;
+    font-size:14px;
+    line-height:1.55;
+}
+.profile-avatar-wrap {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:4px 0 28px;
+}
+.profile-avatar {
+    width:112px;
+    height:112px;
+    border-radius:50%;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,#163252,#0f243d);
+    border:3px solid #315577;
+    box-shadow:0 14px 35px rgba(0,0,0,.35);
+}
+.profile-avatar img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+.profile-avatar-placeholder {
+    color:#77a3ca;
+    font-size:38px;
+    font-weight:800;
+}
+.profile-photo-btn {
+    margin-top:13px;
+    padding:9px 16px;
+    border:1px solid #365779;
+    border-radius:11px;
+    background:#12263f;
+    color:#dcecff;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+.profile-photo-btn:hover {
+    border-color:#55bdf0;
+    background:#17314f;
+}
+.profile-field {
+    margin-top:18px;
+}
+.profile-field label {
+    display:block;
+    margin-bottom:8px;
+    color:#c9d7e8;
+    font-size:13px;
+    font-weight:700;
+}
+.profile-input {
+    width:100%;
+    box-sizing:border-box;
+    padding:13px 15px;
+    border:1px solid #2c4767;
+    border-radius:12px;
+    background:#0f2138;
+    color:#f4f8ff;
+    outline:none;
+    font-size:15px;
+}
+.profile-input:focus {
+    border-color:#4caee8;
+    box-shadow:0 0 0 3px rgba(76,174,232,.10);
+}
+.profile-email {
+    color:#8da4bd;
+    background:#0b192d;
+    cursor:not-allowed;
+}
+.profile-email-note {
+    margin:7px 0 0;
+    color:#667f9c;
+    font-size:12px;
+}
+.profile-save {
+    width:100%;
+    margin-top:24px;
+    padding:13px 18px;
+    border:1px solid #3185ff;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2478e8,#315fd2);
+    color:#fff;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+}
+.profile-save:hover { filter:brightness(1.08); }
+.profile-message {
+    min-height:18px;
+    margin:10px 0 0;
+    text-align:center;
+    font-size:13px;
+}
+
+
+/* ===== Clean Professional Profile UI ===== */
+.profile-section {
+    margin: 0 0 22px;
+    padding: 22px 20px 20px;
+    border: 1px solid #2d4565;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #14243a, #0f1b2e);
+}
+.profile-section-title {
+    margin-bottom: 18px;
+    color: #55bdf0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+.profile-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 14px;
+}
+.profile-avatar {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1b4268, #102a46);
+    border: 3px solid #3a638b;
+    box-shadow: 0 12px 30px rgba(0,0,0,.28);
+}
+.profile-avatar img {
+    display: block !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-avatar-placeholder {
+    color: #dceeff;
+    font-size: 38px;
+    font-weight: 800;
+}
+.profile-photo-btn {
+    width: 42px;
+    height: 42px;
+    margin-top: -4px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #0f1b2e;
+    border-radius: 50%;
+    background: #2385d8;
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 5px 16px rgba(0,0,0,.3);
+    cursor: pointer;
+}
+.profile-photo-btn:hover {
+    background: #2f9bea;
+    transform: translateY(-1px);
+}
+.profile-identity {
+    text-align: center;
+}
+.profile-name-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: 100%;
+}
+.profile-name {
+    color: #ffffff;
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 800;
+    word-break: break-word;
+}
+.profile-name-edit {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #365779;
+    border-radius: 9px;
+    background: #132a44;
+    color: #66c8f4;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+.profile-name-edit:hover {
+    border-color: #55bdf0;
+    background: #183957;
+    transform: translateY(-1px);
+}
+.profile-email {
+    margin-top: 6px;
+    color: #91abc7;
+    background: transparent;
+    font-size: 13px;
+    word-break: break-word;
+}
+.profile-editor {
+    display: none;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #263c59;
+}
+.profile-editor label {
+    display: block;
+    margin: 0 0 8px;
+    color: #cbd9e9;
+    font-size: 13px;
+    font-weight: 700;
+}
+.profile-editor .profile-input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #334d6e;
+    border-radius: 12px;
+    background: #0c1729;
+    color: #fff;
+    outline: none;
+}
+.profile-editor .profile-input:focus {
+    border-color: #35afe9;
+    box-shadow: 0 0 0 3px rgba(53,175,233,.11);
+}
+.profile-editor-actions {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 9px;
+    margin-top: 10px;
+}
+.profile-save, .profile-cancel {
+    min-height: 42px;
+    padding: 10px 15px;
+    border-radius: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.profile-save {
+    border: 1px solid #3185ff;
+    background: linear-gradient(135deg,#2478e8,#315fd2);
+    color: #fff;
+}
+.profile-cancel {
+    border: 1px solid #334766;
+    background: #18253b;
+    color: #dbe7f5;
+}
+.profile-note {
+    margin-top: 9px;
+    color: #7189a4;
+    font-size: 11px;
+    line-height: 1.45;
+}
+@media (max-width: 560px) {
+    .profile-section { padding: 18px 15px; }
+}
+
+
+/* ===== SIMPLE PROFILE HEADER ===== */
+.dashboard-header.simple-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 8px 0 18px;
+    margin: 0;
+    min-height: 0;
+}
+
+.top-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top-profile-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #163252, #0f243d);
+    border: 2px solid #315577;
+    box-shadow: 0 8px 22px rgba(0,0,0,.25);
+}
+
+.top-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#topProfileAvatarText {
+    color: #e7f1ff;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.top-profile-name {
+    color: #f5f8ff;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+@media (max-width: 560px) {
+    .dashboard-header.simple-profile-header {
+        padding: 6px 0 14px;
+    }
+
+    .top-profile-avatar {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .top-profile-name {
+        font-size: 18px;
+    }
+}
+
+
+        /* ===== DOCUMENT EDIT / DELETE ===== */
+        .document-actions {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .edit-btn {
+            border: 1px solid #3185ff;
+            background: #132846;
+            color: #bfdbfe;
+        }
+
+        .edit-btn:hover {
+            background: #1a3b68;
+        }
+
+        .delete-btn {
+            border: 1px solid #ef4444;
+            background: #321824;
+            color: #fecaca;
+        }
+
+        .delete-btn:hover {
+            background: #5a1f2b;
+            color: #ffffff;
+        }
+
+        .edit-modal-content {
+            width: min(620px, 100%);
+        }
+
+        .delete-modal-content {
+            width: min(560px, 100%);
+            text-align: center;
+        }
+
+        .delete-icon {
+            width: 78px;
+            height: 78px;
+            display: grid;
+            place-items: center;
+            margin: 8px auto 18px;
+            border: 1px solid #ef4444;
+            border-radius: 22px;
+            background: #321824;
+            color: #fecaca;
+            font-size: 38px;
+        }
+
+        .delete-question {
+            margin: 0;
+            color: #f8fafc;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .delete-warning {
+            margin: 10px 0 22px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .modal-secondary {
+            width: 100%;
+            border: 1px solid #334766;
+            border-radius: 13px;
+            padding: 13px 15px;
+            background: #18253b;
+            color: #dbe7f5;
+            font-weight: 800;
+        }
+
+        .modal-secondary:hover {
+            background: #21324d;
+        }
+
+        .modal-danger {
+            width: 100%;
+            border: 1px solid #ef4444;
+            border-radius: 13px;
+            padding: 13px 15px;
+            background: #7f1d2d;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .modal-danger:hover {
+            background: #991b38;
+        }
+
+        .current-file-box {
+            margin-top: 8px;
+            padding: 12px 13px;
+            border: 1px solid #2d4565;
+            border-radius: 12px;
+            background: #101b2f;
+            color: #a9bdd4;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .current-file-label {
+            display: block;
+            margin-bottom: 4px;
+            color: #67c8f4;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        #editDocumentFile::file-selector-button {
+            margin-right: 10px;
+            padding: 9px 13px;
+            border: 1px solid #2b9fd3;
+            border-radius: 9px;
+            background: #078ac7;
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        @media (max-width: 700px) {
+            .document-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .modal-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- SIMPLE PROFILE HEADER -->
+
+    <header class="dashboard-header simple-profile-header">
+
+        <div class="top-profile">
+
+            <div id="topProfileAvatar" class="top-profile-avatar">
+                <span id="topProfileAvatarText">G</span>
+            </div>
+
+            <div id="topProfileName" class="top-profile-name">
+                Hi, Gokul
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================
+         HERO + STAT
+    ====================================== -->
+
+    <section class="hero">
+
+        <div class="hero-card">
+
+            <div class="eyebrow">
+                Private Vault
+            </div>
+
+
+            <h1>
+                Welcome to your vault 👋
+            </h1>
+
+
+            <p>
+                Store, manage and securely access
+                your important documents from one
+                protected place.
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span class="stat-label">
+                Documents in your vault
+            </span>
+
+
+            <div
+                class="stat-number"
+                id="statNumber"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         ACTIONS
+    ====================================== -->
+
+    <section class="dashboard-actions">
+
+
+        <button
+            type="button"
+            class="action-btn"
+            id="addDocumentBtn"
+        >
+            ➕ Add Document
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-btn"
+            id="qrBtn"
+        >
+            📷 My Permanent QR
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-btn"
+            id="settingsBtn"
+        >
+            ⚙️ Settings
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         SEARCH
+    ====================================== -->
+
+    <section class="search-section">
+
+        <span class="search-icon">
+            🔍
+        </span>
+
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search documents..."
+        >
+
+    </section>
+
+
+
+    <!-- =====================================
+         DOCUMENT HEADING
+    ====================================== -->
+
+    <div class="document-heading">
+
+        <div>
+
+            <h2>
+                My Documents
+            </h2>
+
+            <p id="documentCount">
+                0 documents
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================
+         DOCUMENT LIST
+    ====================================== -->
+
+    <section
+        id="documentList"
+        class="document-list"
+    >
+
+        <div
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <div class="empty-icon">
+                📁
+            </div>
+
+
+            <h3>
+                No Documents Yet
+            </h3>
+
+
+            <p>
+                Add your first document
+                to your secure vault.
+            </p>
+
+
+            <button
+                type="button"
+                id="emptyAddBtn"
+            >
+                ➕ Add Your First Document
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         ADD DOCUMENT MODAL
+    ====================================== -->
+
+    <div
+        id="documentModal"
+        class="modal"
+        style="display:none;"
+    >
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    Add Document
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeModalBtn"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+
+            <form id="documentForm">
+
+
+                <label for="documentName">
+                    Document Name
+                </label>
+
+
+                <input
+                    type="text"
+                    id="documentName"
+                    placeholder="Example: Aadhaar Card"
+                    required
+                >
+
+
+
+                <label for="documentFile">
+                    Select PDF or Photo
+                </label>
+
+
+                <input
+                    type="file"
+                    id="documentFile"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    required
+                >
+
+
+                <p class="file-note">
+                    Supported: PDF, JPG, JPEG, PNG
+                    • Maximum 10 MB
+                </p>
+
+
+                <button
+                    type="submit"
+                    id="saveDocumentBtn"
+                >
+                    💾 Save Document
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================
+         QR MODAL - ISOLATED
+    ====================================== -->
+
+    <div
+        id="qrModal"
+        class="modal"
+        style="display:none;"
+    >
+        <div class="modal-content qr-modal-content">
+
+            <div class="modal-header">
+                <div>
+                    <div class="qr-kicker">SECURE SHARING</div>
+                    <h2>My Permanent QR</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeQrBtn"
+                    aria-label="Close QR"
+                >✕</button>
+            </div>
+
+            <div id="qrLoading" class="qr-loading">
+                <div class="qr-spinner"></div>
+                <strong>Generating your permanent QR...</strong>
+                <span>Please wait a moment.</span>
+            </div>
+
+            <div id="qrError" class="qr-error" style="display:none;"></div>
+
+            <div id="qrCard" class="qr-card" style="display:none;">
+
+                <div class="qr-card-brand">
+                    <div class="qr-brand-mark">🔐</div>
+                    <div>
+                        <div class="qr-brand-name">DocVault</div>
+                        <div class="qr-brand-subtitle">PERMANENT SECURE ACCESS</div>
+                    </div>
+                </div>
+
+                <div class="qr-image-frame">
+                    <img
+                        id="qrImage"
+                        class="qr-image"
+                        alt="DocVault Permanent QR"
+                    >
+                </div>
+
+                <div class="qr-owner">
+                    <div id="qrOwnerName" class="qr-owner-name">Vault Owner</div>
+                    <div id="qrOwnerEmail" class="qr-owner-email"></div>
+                </div>
+
+                <div class="qr-divider"></div>
+
+                <div class="qr-secure-note">
+                    <span>🔒</span>
+                    <div>
+                        <strong>Secure document access</strong>
+                        <p>Scan the QR to open your protected viewer. A Security PIN is required to access documents.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="qrDetails" class="qr-details" style="display:none;">
+                <div class="qr-url-label">SECURE VIEWER</div>
+                <div id="qrUrl" class="qr-url"></div>
+            </div>
+
+            <div id="qrActions" class="qr-actions" style="display:none;">
+                <button
+                    type="button"
+                    class="action-btn"
+                    id="downloadQrBtn"
+                >⬇ Download QR</button>
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="printQrBtn"
+                >🖨 Print</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================
+         SETTINGS / SECURITY CENTER
+    ====================================== -->
+
+    <div
+        id="settingsModal"
+        class="modal"
+        style="display:none;"
+    >
+        <div class="modal-content" style="max-width:560px;">
+
+            <div class="modal-header">
+                <div>
+                    <div style="color:#55bdf0;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px;">
+                        Account Protection
+                    </div>
+                    <h2 style="margin:0;">Security Center</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeSettingsBtn"
+                >✕</button>
+            </div>
+
+
+            <!-- PROFILE -->
+            <section class="profile-section" id="profileSection">
+                <div class="profile-section-title">
+                    <span>PROFILE</span>
+                </div>
+
+                <div class="profile-avatar-wrap">
+                    <div id="profileAvatar" class="profile-avatar">
+                        <span id="profileAvatarText" class="profile-avatar-placeholder">G</span>
+                    </div>
+                    <button type="button" class="profile-photo-btn" id="profilePhotoBtn" title="Change profile photo" aria-label="Change profile photo">
+                        📷
+                    </button>
+                    <input type="file" id="profilePhotoInput" accept="image/*" hidden>
+                </div>
+
+                <div class="profile-identity">
+                    <div class="profile-name-row">
+                        <div id="profileDisplayName" class="profile-name">Gokul</div>
+                        <button type="button" class="profile-name-edit" id="editProfileBtn" title="Edit name" aria-label="Edit profile name">
+                            ✎
+                        </button>
+                    </div>
+                    <div id="profileDisplayEmail" class="profile-email">Loading email...</div>
+                </div>
+
+                <div class="profile-editor" id="profileEditor">
+                    <label for="profileNameInput">Profile Name</label>
+                    <input id="profileNameInput" class="profile-input" type="text" maxlength="60" autocomplete="name" placeholder="Enter your name">
+                    <div class="profile-editor-actions">
+                        <button type="button" class="profile-save" id="saveProfileBtn">Save Name</button>
+                        <button type="button" class="profile-cancel" id="cancelProfileBtn">Cancel</button>
+                    </div>
+                    <div class="profile-note">Your Gmail address is linked to your account and cannot be changed here.</div>
+                </div>
+            </section>
+
+            <p style="color:#8fa1ba;font-size:13px;line-height:1.55;margin:-9px 0 20px;">
+                Manage the credentials that protect your DocVault account and document access.
+            </p>
+
+            <button type="button" class="security-option" id="changePinBtn">
+                <span class="security-option-main">
+                    <span class="security-option-icon">🔢</span>
+                    <span class="security-option-copy">
+                        <strong>Security PIN</strong>
+                        <span>Change your six-digit document access PIN</span>
+                    </span>
+                </span>
+                <span class="security-option-arrow">›</span>
+            </button>
+<div class="security-divider"></div>
+
+            <button type="button" class="security-option" id="changePasswordBtn">
+                <span class="security-option-main">
+                    <span class="security-option-icon">🔐</span>
+                    <span class="security-option-copy">
+                        <strong>Account Password</strong>
+                        <span>Update the password used to sign in</span>
+                    </span>
+                </span>
+                <span class="security-option-arrow">›</span>
+            </button>
+<div class="security-divider"></div>
+
+            <button
+                type="button"
+                class="secondary-btn setting-option"
+                id="logoutSettingsBtn"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+    <!-- EDIT DOCUMENT MODAL -->
+    <div id="editDocumentModal" class="modal" style="display:none;">
+        <div class="modal-content edit-modal-content">
+            <div class="modal-header">
+                <h2>Edit Document</h2>
+                <button type="button" class="close-btn" id="closeEditDocumentBtn" aria-label="Close edit document">✕</button>
+            </div>
+
+            <form id="editDocumentForm">
+                <label for="editDocumentName">Document Name</label>
+                <input type="text" id="editDocumentName" maxlength="120" required>
+
+                <label for="editDocumentFile">Change File</label>
+                <input type="file" id="editDocumentFile" accept=".pdf,.jpg,.jpeg,.png">
+
+                <div class="current-file-box">
+                    <span class="current-file-label">Already Existing File</span>
+                    <span id="editCurrentFileName">Current file</span>
+                </div>
+
+                <p class="file-note">
+                    Leave the file unchanged to keep the current document.
+                    Choose a new file only when you want to replace it.
+                    Supported: PDF, JPG, JPEG, PNG • Maximum 10 MB
+                </p>
+
+                <div class="modal-actions">
+                    <button type="button" class="modal-secondary" id="cancelEditDocumentBtn">Cancel</button>
+                    <button type="submit" class="action-btn" id="saveDocumentChangesBtn">💾 Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DELETE DOCUMENT MODAL -->
+    <div id="deleteDocumentModal" class="modal" style="display:none;">
+        <div class="modal-content delete-modal-content">
+            <div class="modal-header">
+                <h2>Delete Document</h2>
+                <button type="button" class="close-btn" id="closeDeleteDocumentBtn" aria-label="Close delete document">✕</button>
+            </div>
+
+            <div class="delete-icon">🗑️</div>
+
+            <p class="delete-question">
+                Are you sure you want to delete
+                "<strong id="deleteDocumentName">document</strong>"?
+            </p>
+
+            <p class="delete-warning">This action cannot be undone.</p>
+
+            <div class="modal-actions">
+                <button type="button" class="modal-secondary" id="cancelDeleteDocumentBtn">Cancel</button>
+                <button type="button" class="modal-danger" id="confirmDeleteDocumentBtn">🗑 Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+<!-- SECURITY ACTION MODAL -->
+<div id="securityActionModal" class="modal" style="display:none;">
+    <div class="modal-content security-modal-content">
+
+        <div class="modal-header">
+            <div>
+                <div id="securityActionEyebrow"
+                     style="color:#55bdf0;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px;">
+                    Credential Update
+                </div>
+                <h2 id="securityActionTitle">Change Security PIN</h2>
+            </div>
+            <button type="button" class="close-btn" id="closeSecurityActionBtn">✕</button>
+        </div>
+
+        <div class="security-progress">
+            <span id="securityProgressOne" class="active"></span>
+            <span id="securityProgressTwo"></span>
+        </div>
+
+        <p id="securityActionKicker" class="security-kicker">
+            Verify your current credential. Once verified, you can create a new one.
+        </p>
+
+        <form id="securityActionForm" novalidate>
+
+            <div id="securityCurrentStep" class="security-step active">
+                <div class="security-field">
+                    <label for="securityCurrentValue">
+                        <span id="securityCurrentLabel">Current Security PIN</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        id="securityCurrentValue"
+                        class="security-input"
+                        autocomplete="current-password"
+                        placeholder="Enter your current PIN"
+                        required
+                    >
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;margin:-5px 0 10px;">
+                    <button
+                        type="button"
+                        class="security-forgot"
+                        id="securityStepForgot"
+                    >
+                        Forgot Security PIN?
+                    </button>
+                </div>
+
+                <button type="submit" class="security-primary" id="securityVerifyBtn">
+                    Continue Securely
+                </button>
+
+                <p id="securityCurrentMessage" class="security-message"></p>
+            </div>
+
+            <div id="securityNewStep" class="security-step">
+
+                <div class="security-field">
+                    <label for="securityNewValue">
+                        <span id="securityNewLabel">New Security PIN</span>
+                    </label>
+                    <input
+                        type="password"
+                        id="securityNewValue"
+                        class="security-input"
+                        autocomplete="new-password"
+                        placeholder="Create a new PIN"
+                        required
+                    >
+                </div>
+
+                <div class="security-field">
+                    <label for="securityConfirmValue">
+                        <span id="securityConfirmLabel">Confirm New Security PIN</span>
+                    </label>
+                    <input
+                        type="password"
+                        id="securityConfirmValue"
+                        class="security-input"
+                        autocomplete="new-password"
+                        placeholder="Re-enter your new PIN"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="security-primary" id="securitySaveBtn">
+                    Save New Credential
+                </button>
+
+                <button type="button" class="security-secondary" id="securityBackBtn">
+                    ← Back to Verification
+                </button>
+
+                <p id="securityNewMessage" class="security-message"></p>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- SECURITY RECOVERY MODAL -->
+<div id="securityRecoveryModal" class="modal" style="display:none;">
+  <div class="modal-content security-modal-content">
+    <div class="modal-header">
+      <div>
+        <div style="color:#55bdf0;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:5px;">Secure Recovery</div>
+        <h2 id="securityRecoveryTitle">Recover Access</h2>
+      </div>
+      <button type="button" class="close-btn" id="closeSecurityRecoveryBtn">✕</button>
+    </div>
+    <p id="securityRecoveryDescription" class="security-kicker">Verify your registered Gmail address to restore access securely.</p>
+
+    <div id="recoveryEmailStep" class="security-step active">
+      <div class="recovery-note">A one-time verification code will be sent to the Gmail address registered with this DocVault account.</div>
+      <div class="security-field">
+        <label for="recoveryEmail">Registered Gmail Address</label>
+        <input type="email" id="recoveryEmail" class="security-input" placeholder="example@gmail.com" autocomplete="email">
+      </div>
+      <button type="button" class="security-primary" id="sendRecoveryOtpBtn">Send Verification Code</button>
+    </div>
+
+    <div id="recoveryOtpStep" class="security-step">
+      <div class="recovery-note">Enter the six-digit verification code sent to your Gmail.</div>
+      <div class="security-field">
+        <label for="recoveryOtp">Verification Code</label>
+        <input type="text" id="recoveryOtp" class="security-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code">
+      </div>
+      <button type="button" class="security-primary" id="verifyRecoveryOtpBtn">Verify &amp; Continue</button>
+    </div>
+
+    <div id="recoveryNewPasswordStep" class="security-step">
+      <div class="security-field"><label for="recoveryNewPassword">New Account Password</label><input type="password" id="recoveryNewPassword" class="security-input" minlength="8" autocomplete="new-password" placeholder="Create a new password"></div>
+      <div class="security-field"><label for="recoveryConfirmPassword">Confirm New Password</label><input type="password" id="recoveryConfirmPassword" class="security-input" minlength="8" autocomplete="new-password" placeholder="Re-enter the new password"></div>
+      <button type="button" class="security-primary" id="resetPasswordBtn">Set New Password</button>
+    </div>
+
+    <div id="recoveryNewPinStep" class="security-step">
+      <div class="security-field"><label for="recoveryNewPin">New Security PIN</label><input type="password" id="recoveryNewPin" class="security-input" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="Create a new 6-digit PIN"></div>
+      <div class="security-field"><label for="recoveryConfirmPin">Confirm New Security PIN</label><input type="password" id="recoveryConfirmPin" class="security-input" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="Re-enter the new PIN"></div>
+      <button type="button" class="security-primary" id="resetPinBtn">Set New Security PIN</button>
+    </div>
+
+    <p id="securityRecoveryMessage" class="security-message"></p>
+  </div>
+</div>
+
+<script>
+
+
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
+
+    const addDocumentBtn =
+        document.getElementById(
+            "addDocumentBtn"
+        );
+
+
+    const emptyAddBtn =
+        document.getElementById(
+            "emptyAddBtn"
+        );
+
+
+    const documentModal =
+        document.getElementById(
+            "documentModal"
+        );
+
+
+    const closeModalBtn =
+        document.getElementById(
+            "closeModalBtn"
+        );
+
+
+    const documentForm =
+        document.getElementById(
+            "documentForm"
+        );
+
+
+    const qrBtn =
+        document.getElementById(
+            "qrBtn"
+        );
+
+
+    const qrModal =
+        document.getElementById(
+            "qrModal"
+        );
+
+
+    const closeQrBtn =
+        document.getElementById(
+            "closeQrBtn"
+        );
+
+
+    const settingsBtn =
+        document.getElementById(
+            "settingsBtn"
+        );
+
+
+    const settingsModal =
+        document.getElementById(
+            "settingsModal"
+        );
+
+    const topProfileAvatar =
+        document.getElementById("topProfileAvatar");
+
+    const topProfileName =
+        document.getElementById("topProfileName");
+
+    const profileAvatar = document.getElementById("profileAvatar");
+    const profileAvatarText = document.getElementById("profileAvatarText");
+    const profilePhotoBtn = document.getElementById("profilePhotoBtn");
+    const profilePhotoInput = document.getElementById("profilePhotoInput");
+    const profileDisplayName = document.getElementById("profileDisplayName");
+    const profileDisplayEmail = document.getElementById("profileDisplayEmail");
+    const editProfileBtn = document.getElementById("editProfileBtn");
+    const profileEditor = document.getElementById("profileEditor");
+    const profileNameInput = document.getElementById("profileNameInput");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const cancelProfileBtn = document.getElementById("cancelProfileBtn");
+
+
+
+    const closeSettingsBtn =
+        document.getElementById(
+            "closeSettingsBtn"
+        );
+
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn"
+        );
+
+
+    const logoutSettingsBtn =
+        document.getElementById(
+            "logoutSettingsBtn"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const documentList =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    const documentCount =
+        document.getElementById(
+            "documentCount"
+        );
+
+
+    const statNumber =
+        document.getElementById(
+            "statNumber"
+        );
+
+
+    const welcomeText =
+        document.getElementById(
+            "welcomeText"
+        );
+
+    const editDocumentModal =
+        document.getElementById("editDocumentModal");
+
+    const editDocumentForm =
+        document.getElementById("editDocumentForm");
+
+    const editDocumentName =
+        document.getElementById("editDocumentName");
+
+    const editDocumentFile =
+        document.getElementById("editDocumentFile");
+
+    const editCurrentFileName =
+        document.getElementById("editCurrentFileName");
+
+    const saveDocumentChangesBtn =
+        document.getElementById("saveDocumentChangesBtn");
+
+    const cancelEditDocumentBtn =
+        document.getElementById("cancelEditDocumentBtn");
+
+    const closeEditDocumentBtn =
+        document.getElementById("closeEditDocumentBtn");
+
+    const deleteDocumentModal =
+        document.getElementById("deleteDocumentModal");
+
+    const deleteDocumentName =
+        document.getElementById("deleteDocumentName");
+
+    const cancelDeleteDocumentBtn =
+        document.getElementById("cancelDeleteDocumentBtn");
+
+    const closeDeleteDocumentBtn =
+        document.getElementById("closeDeleteDocumentBtn");
+
+    const confirmDeleteDocumentBtn =
+        document.getElementById("confirmDeleteDocumentBtn");
+
+    let selectedEditDocumentId = "";
+    let selectedDeleteDocumentId = "";
+
+
+
+
+    // ==========================================
+    // DOCUMENT DATA
+    // ==========================================
+
+    let allDocuments = [];
+
+
+
+    // ==========================================
+    // MODALS
+    // ==========================================
+
+    function openDocumentModal() {
+
+        documentModal.style.display =
+            "flex";
+    }
+
+
+    function closeDocumentModal() {
+
+        documentModal.style.display =
+            "none";
+    }
+
+
+    // ==========================================
+    // PROFILE MANAGEMENT
+    // ==========================================
+
+    const PROFILE_NAME_KEY = "docvault.profileName";
+    const PROFILE_PHOTO_KEY = "docvault.profilePhoto";
+
+    function getStoredProfileName() {
+        return (localStorage.getItem(PROFILE_NAME_KEY) || "").trim();
+    }
+
+    function renderProfile() {
+        const name = getStoredProfileName() || window.docVaultOwnerName || "Gokul";
+        const email = window.docVaultOwnerEmail || "";
+
+        window.docVaultOwnerName = name;
+        profileDisplayName.textContent = name;
+        profileDisplayEmail.textContent = email;
+        profileNameInput.value = name;
+
+        const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
+
+        if (topProfileName) {
+            topProfileName.textContent = "Hi, " + name;
+        }
+
+        if (topProfileAvatar) {
+            if (photo) {
+                topProfileAvatar.innerHTML =
+                    `<img src="${photo}" alt="Profile photo">`;
+            } else {
+                const initial =
+                    name.charAt(0).toUpperCase() || "G";
+
+                topProfileAvatar.innerHTML =
+                    `<span id="topProfileAvatarText">${initial}</span>`;
+            }
+        }
+
+        if (photo) {
+            profileAvatar.innerHTML = `<img src="${photo}" alt="Profile photo" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        } else {
+            const initial = name.charAt(0).toUpperCase() || "G";
+            profileAvatar.innerHTML = `<span class="profile-avatar-placeholder">${initial}</span>`;
+        }
+    }
+
+    editProfileBtn.addEventListener("click", function () {
+        profileEditor.style.display = profileEditor.style.display === "block" ? "none" : "block";
+        profileNameInput.focus();
+        profileNameInput.select();
+    });
+
+    cancelProfileBtn.addEventListener("click", function () {
+        profileEditor.style.display = "none";
+        renderProfile();
+    });
+
+    saveProfileBtn.addEventListener("click", function () {
+        const name = profileNameInput.value.trim();
+        if (!name) {
+            alert("Please enter your profile name.");
+            profileNameInput.focus();
+            return;
+        }
+        localStorage.setItem(PROFILE_NAME_KEY, name);
+        window.docVaultOwnerName = name;
+        renderProfile();
+        profileEditor.style.display = "none";
+    });
+
+    profilePhotoBtn.addEventListener("click", function () {
+        profilePhotoInput.click();
+    });
+
+    profilePhotoInput.addEventListener("change", function () {
+        const file = profilePhotoInput.files && profilePhotoInput.files[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+            alert("Please choose an image file.");
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            alert("Profile photo must be 2 MB or smaller.");
+            profilePhotoInput.value = "";
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function () {
+            localStorage.setItem(PROFILE_PHOTO_KEY, reader.result);
+            renderProfile();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    async function openQrModal() {
+
+        qrModal.style.display = "flex";
+
+        const qrLoading =
+            document.getElementById("qrLoading");
+
+        const qrError =
+            document.getElementById("qrError");
+
+        const qrCard =
+            document.getElementById("qrCard");
+
+        const qrDetails =
+            document.getElementById("qrDetails");
+
+        const qrActions =
+            document.getElementById("qrActions");
+
+        const qrImage =
+            document.getElementById("qrImage");
+
+        const qrUrl =
+            document.getElementById("qrUrl");
+
+        const qrOwnerName =
+            document.getElementById("qrOwnerName");
+
+        const qrOwnerEmail =
+            document.getElementById("qrOwnerEmail");
+
+        renderProfile();
+
+        qrLoading.style.display = "flex";
+        qrError.style.display = "none";
+        qrCard.style.display = "none";
+        qrDetails.style.display = "none";
+        qrActions.style.display = "none";
+
+        qrImage.removeAttribute("src");
+        qrUrl.textContent = "";
+        qrOwnerName.textContent = window.docVaultOwnerName || "Gokul";
+        qrOwnerEmail.textContent = "";
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/permanent-qr",
+                    {
+                        method: "GET",
+                        credentials: "same-origin",
+                        cache: "no-store"
+                    }
+                );
+
+            const result =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !result.success ||
+                !result.qrImage
+            ) {
+                throw new Error(
+                    result.message ||
+                    "Unable to generate permanent QR."
+                );
+            }
+
+            qrImage.src = result.qrImage;
+
+            qrOwnerName.textContent =
+                window.docVaultOwnerName ||
+                "Gokul";
+
+            qrOwnerEmail.textContent =
+                window.docVaultOwnerEmail || "";
+
+            qrUrl.textContent =
+                result.viewerUrl || "";
+
+            qrImage.dataset.viewerUrl =
+                result.viewerUrl || "";
+
+            qrLoading.style.display = "none";
+            qrCard.style.display = "block";
+            qrDetails.style.display =
+                result.viewerUrl ? "block" : "none";
+            qrActions.style.display = "grid";
+
+        } catch (error) {
+
+            console.error(
+                "Permanent QR error:",
+                error
+            );
+
+            qrLoading.style.display = "none";
+
+            qrError.textContent =
+                "❌ " +
+                (error.message ||
+                "Unable to load QR.");
+
+            qrError.style.display = "block";
+        }
+    }
+
+
+    function closeQrModal() {
+
+        qrModal.style.display = "none";
+    }
+
+
+    function openSettingsModal() {
+
+        settingsModal.style.display =
+            "flex";
+    }
+
+
+    function closeSettingsModal() {
+
+        settingsModal.style.display =
+            "none";
+    }
+
+
+
+    addDocumentBtn.addEventListener(
+        "click",
+        openDocumentModal
+    );
+
+
+    emptyAddBtn.addEventListener(
+        "click",
+        openDocumentModal
+    );
+
+
+    closeModalBtn.addEventListener(
+        "click",
+        closeDocumentModal
+    );
+
+
+    qrBtn.addEventListener(
+        "click",
+        openQrModal
+    );
+
+
+    closeQrBtn.addEventListener(
+        "click",
+        closeQrModal
+    );
+
+
+    // ==========================================
+    // QR DOWNLOAD - ISOLATED
+    // ==========================================
+
+    document
+        .getElementById("downloadQrBtn")
+        .addEventListener(
+            "click",
+            async function () {
+
+                const qrImage =
+                    document.getElementById(
+                        "qrImage"
+                    );
+
+                if (
+                    !qrImage.src ||
+                    !qrImage.complete
+                ) {
+                    return;
+                }
+
+                try {
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+                    const ctx =
+                        canvas.getContext("2d");
+
+                    const width = 900;
+                    const height = 1120;
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    ctx.fillStyle = "#0e182b";
+                    ctx.fillRect(
+                        0,
+                        0,
+                        width,
+                        height
+                    );
+
+                    ctx.fillStyle = "#162640";
+                    ctx.fillRect(
+                        45,
+                        45,
+                        width - 90,
+                        height - 90
+                    );
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font =
+                        "800 44px Arial";
+                    ctx.fillText(
+                        "🔐 DocVault",
+                        90,
+                        125
+                    );
+
+                    ctx.fillStyle = "#63c8f5";
+                    ctx.font =
+                        "800 18px Arial";
+                    ctx.fillText(
+                        "PERMANENT SECURE ACCESS",
+                        90,
+                        160
+                    );
+
+                    const qrSize = 560;
+                    const qrX =
+                        (width - qrSize) / 2;
+                    const qrY = 205;
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(
+                        qrX - 18,
+                        qrY - 18,
+                        qrSize + 36,
+                        qrSize + 36
+                    );
+
+                    ctx.drawImage(
+                        qrImage,
+                        qrX,
+                        qrY,
+                        qrSize,
+                        qrSize
+                    );
+
+                    const ownerName =
+                        document
+                            .getElementById(
+                                "qrOwnerName"
+                            )
+                            .textContent ||
+                        "Vault Owner";
+
+                    const ownerEmail =
+                        document
+                            .getElementById(
+                                "qrOwnerEmail"
+                            )
+                            .textContent ||
+                        "";
+
+                    ctx.textAlign = "center";
+
+                    // OWNER NAME - WHITE
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font =
+                        "800 34px Arial";
+                    ctx.fillText(
+                        ownerName,
+                        width / 2,
+                        855
+                    );
+
+                    ctx.fillStyle = "#cbd9ea";
+                    ctx.font =
+                        "500 21px Arial";
+                    ctx.fillText(
+                        ownerEmail,
+                        width / 2,
+                        895
+                    );
+
+                    ctx.fillStyle = "#63c8f5";
+                    ctx.font =
+                        "700 19px Arial";
+                    ctx.fillText(
+                        "Scan to open secure document viewer",
+                        width / 2,
+                        965
+                    );
+
+                    ctx.fillStyle = "#91a5bd";
+                    ctx.font =
+                        "500 17px Arial";
+                    ctx.fillText(
+                        "Security PIN required for document access",
+                        width / 2,
+                        1000
+                    );
+
+                    ctx.textAlign = "start";
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+                    link.download =
+                        "DocVault-Permanent-QR.png";
+
+                    link.href =
+                        canvas.toDataURL(
+                            "image/png"
+                        );
+
+                    document.body.appendChild(
+                        link
+                    );
+
+                    link.click();
+                    link.remove();
+
+                } catch (error) {
+
+                    console.error(
+                        "QR download error:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to download QR."
+                    );
+                }
+            }
+        );
+
+
+    // ==========================================
+    // QR PRINT - ISOLATED
+    // ==========================================
+
+    document
+        .getElementById("printQrBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const qrCard =
+                    document.getElementById(
+                        "qrCard"
+                    );
+
+                if (
+                    !qrCard ||
+                    qrCard.style.display === "none"
+                ) {
+                    return;
+                }
+
+                const printWindow =
+                    window.open(
+                        "",
+                        "_blank",
+                        "width=700,height=850"
+                    );
+
+                if (!printWindow) {
+                    alert(
+                        "Please allow pop-ups to print the QR."
+                    );
+                    return;
+                }
+
+                printWindow.document.write(`
+                    <!doctype html>
+                    <html>
+                    <head>
+                        <title>DocVault Permanent QR</title>
+                        <style>
+                            body {
+                                margin: 0;
+                                padding: 35px;
+                                background: #0e182b;
+                                color: white;
+                                font-family: Arial, sans-serif;
+                                text-align: center;
+                            }
+
+                            .card {
+                                max-width: 520px;
+                                margin: auto;
+                                padding: 28px;
+                                border-radius: 22px;
+                                background: #162640;
+                            }
+
+                            img {
+                                width: 310px;
+                                height: 310px;
+                                object-fit: contain;
+                                background: white;
+                                padding: 12px;
+                                border-radius: 15px;
+                            }
+
+                            h1 {
+                                margin: 10px 0 5px;
+                                color: white;
+                            }
+
+                            .email {
+                                color: #cbd9ea;
+                            }
+
+                            .note {
+                                margin-top: 20px;
+                                color: #63c8f5;
+                                font-size: 14px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="card">
+                            <h1>🔐 DocVault</h1>
+                            <img
+                                src="${document.getElementById("qrImage").src}"
+                            >
+                            <h1>
+                                ${escapeHtml(
+                                    document.getElementById("qrOwnerName").textContent
+                                )}
+                            </h1>
+                            <div class="email">
+                                ${escapeHtml(
+                                    document.getElementById("qrOwnerEmail").textContent
+                                )}
+                            </div>
+                            <div class="note">
+                                Scan to open secure document viewer
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `);
+
+                printWindow.document.close();
+                printWindow.focus();
+
+                setTimeout(
+                    function () {
+                        printWindow.print();
+                    },
+                    300
+                );
+            }
+        );
+
+
+    settingsBtn.addEventListener(
+        "click",
+        openSettingsModal
+    );
+
+
+    closeSettingsBtn.addEventListener(
+        "click",
+        closeSettingsModal
+    );
+
+
+
+    // ==========================================
+    // FILE SIZE
+    // ==========================================
+
+    function formatFileSize(bytes) {
+
+        if (!bytes) {
+            return "0 KB";
+        }
+
+
+        if (bytes < 1024) {
+
+            return bytes + " B";
+        }
+
+
+        if (bytes < 1024 * 1024) {
+
+            return (
+                bytes / 1024
+            ).toFixed(1) + " KB";
+        }
+
+
+        return (
+            bytes /
+            (1024 * 1024)
+        ).toFixed(1) + " MB";
+    }
+
+
+
+    // ==========================================
+    // HTML SAFETY
+    // ==========================================
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+    }
+
+
+
+    // ==========================================
+    // FILE ICON
+    // ==========================================
+
+    function getFileIcon(fileType) {
+
+        if (
+            fileType ===
+            "application/pdf"
+        ) {
+
+            return "📕";
+        }
+
+
+        return "🖼️";
+    }
+
+
+
+    // ==========================================
+    // LOAD DOCUMENTS
+    // ==========================================
+
+    async function loadDocuments() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/documents",
+                    {
+                        method: "GET",
+
+                        credentials:
+                            "same-origin"
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                console.error(
+                    "Unable to load documents:",
+                    result.message
+                );
+
+                return;
+            }
+
+
+            allDocuments =
+                result.documents || [];
+
+
+            renderDocuments(
+                allDocuments
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Load documents error:",
+                error
+            );
+        }
+    }
+
+
+
+    // ==========================================
+    // RENDER DOCUMENTS
+    // ==========================================
+
+    function renderDocuments(list) {
+
+        documentList.innerHTML = "";
+
+
+        documentCount.textContent =
+            `${list.length} document${
+                list.length === 1
+                    ? ""
+                    : "s"
+            }`;
+
+
+        statNumber.textContent =
+            list.length;
+
+
+        if (list.length === 0) {
+
+            const empty =
+                document.createElement(
+                    "div"
+                );
+
+
+            empty.className =
+                "empty-state";
+
+
+            empty.innerHTML = `
+
+                <div class="empty-icon">
+                    📁
+                </div>
+
+                <h3>
+                    No Documents Yet
+                </h3>
+
+                <p>
+                    Add your first document
+                    to your secure vault.
+                </p>
+
+                <button
+                    type="button"
+                    id="newEmptyAddBtn"
+                >
+                    ➕ Add Your First Document
+                </button>
+
+            `;
+
+
+            documentList.appendChild(
+                empty
+            );
+
+
+            document
+                .getElementById(
+                    "newEmptyAddBtn"
+                )
+                .addEventListener(
+                    "click",
+                    openDocumentModal
+                );
+
+
+            return;
+        }
+
+
+
+        list.forEach(
+            function (doc) {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "document-card";
+
+
+                card.dataset.name =
+                    doc.name || "";
+
+
+                const icon =
+                    getFileIcon(
+                        doc.fileType
+                    );
+
+
+                const type =
+                    doc.fileType ===
+                    "application/pdf"
+                        ? "PDF"
+                        : "Image";
+
+
+                card.innerHTML = `
+
+                    <div class="file-icon">
+                        ${icon}
+                    </div>
+
+
+                    <h3>
+                        ${escapeHtml(
+                            doc.name
+                        )}
+                    </h3>
+
+
+                    <p>
+                        ${type}
+                        •
+                        ${formatFileSize(
+                            doc.size
+                        )}
+                    </p>
+
+
+                    <div
+                        class="document-actions"
+                    >
+
+                        <button
+                            type="button"
+                            class="view-btn"
+                            data-id="${escapeHtml(
+                                doc.id
+                            )}"
+                        >
+                            👁 View
+                        </button>
+
+
+
+                        <button
+                            type="button"
+                            class="download-btn"
+                            data-id="${escapeHtml(
+                                doc.id
+                            )}"
+                        >
+                            ⬇ Download
+                        </button>
+
+                        <button
+                            type="button"
+                            class="edit-btn"
+                            data-id="${escapeHtml(
+                                doc.id
+                            )}"
+                        >
+                            ✎ Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            data-id="${escapeHtml(
+                                doc.id
+                            )}"
+                        >
+                            🗑 Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                const viewButton =
+                    card.querySelector(
+                        ".view-btn"
+                    );
+
+                const downloadButton =
+                    card.querySelector(
+                        ".download-btn"
+                    );
+
+                const editButton =
+                    card.querySelector(
+                        ".edit-btn"
+                    );
+
+                const deleteButton =
+                    card.querySelector(
+                        ".delete-btn"
+                    );
+
+                viewButton.addEventListener(
+                    "click",
+                    function () {
+                        viewDocument(
+                            doc.id
+                        );
+                    }
+                );
+
+                downloadButton.addEventListener(
+                    "click",
+                    function () {
+                        downloadDocument(
+                            doc.id
+                        );
+                    }
+                );
+
+                editButton.addEventListener(
+                    "click",
+                    function () {
+                        openEditDocumentModal(
+                            doc
+                        );
+                    }
+                );
+
+                deleteButton.addEventListener(
+                    "click",
+                    function () {
+                        openDeleteDocumentModal(
+                            doc
+                        );
+                    }
+                );
+
+
+                documentList.appendChild(
+                    card
+                );
+
+            }
+        );
+    }
+
+
+
+
+    // ==========================================
+    // EDIT DOCUMENT
+    // ==========================================
+
+    function openEditDocumentModal(doc) {
+
+        selectedEditDocumentId =
+            String(doc.id || "");
+
+        editDocumentName.value =
+            doc.name || "";
+
+        editDocumentFile.value =
+            "";
+
+        editCurrentFileName.textContent =
+            doc.originalName ||
+            "Current file";
+
+        editDocumentModal.style.display =
+            "flex";
+    }
+
+    function closeEditDocumentModal() {
+
+        editDocumentModal.style.display =
+            "none";
+
+        selectedEditDocumentId =
+            "";
+
+        editDocumentForm.reset();
+
+        editCurrentFileName.textContent =
+            "Current file";
+    }
+
+    closeEditDocumentBtn.addEventListener(
+        "click",
+        closeEditDocumentModal
+    );
+
+    cancelEditDocumentBtn.addEventListener(
+        "click",
+        closeEditDocumentModal
+    );
+
+    editDocumentForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            if (!selectedEditDocumentId) {
+                return;
+            }
+
+            const name =
+                editDocumentName.value.trim();
+
+            const file =
+                editDocumentFile.files[0];
+
+            if (!name) {
+
+                alert(
+                    "Please enter a document name."
+                );
+
+                return;
+            }
+
+            if (file) {
+
+                const allowedTypes = [
+                    "application/pdf",
+                    "image/jpeg",
+                    "image/png"
+                ];
+
+                if (
+                    !allowedTypes.includes(
+                        file.type
+                    )
+                ) {
+
+                    alert(
+                        "Only PDF, JPG, JPEG and PNG files are allowed."
+                    );
+
+                    return;
+                }
+
+                if (
+                    file.size >
+                    10 * 1024 * 1024
+                ) {
+
+                    alert(
+                        "File is too large. Maximum size is 10 MB."
+                    );
+
+                    return;
+                }
+            }
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "name",
+                name
+            );
+
+            if (file) {
+                formData.append(
+                    "document",
+                    file
+                );
+            }
+
+            saveDocumentChangesBtn.disabled =
+                true;
+
+            saveDocumentChangesBtn.textContent =
+                "Saving Changes...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/documents/" +
+                        encodeURIComponent(
+                            selectedEditDocumentId
+                        ),
+                        {
+                            method: "PATCH",
+                            credentials:
+                                "same-origin",
+                            body:
+                                formData
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to update document."
+                    );
+                }
+
+                closeEditDocumentModal();
+
+                await loadDocuments();
+
+            } catch (error) {
+
+                console.error(
+                    "Edit document error:",
+                    error
+                );
+
+                alert(
+                    "❌ " +
+                    (
+                        error.message ||
+                        "Unable to connect to server."
+                    )
+                );
+
+            } finally {
+
+                saveDocumentChangesBtn.disabled =
+                    false;
+
+                saveDocumentChangesBtn.textContent =
+                    "💾 Save Changes";
+            }
+        }
+    );
+
+
+    // ==========================================
+    // DELETE DOCUMENT
+    // ==========================================
+
+    function openDeleteDocumentModal(doc) {
+
+        selectedDeleteDocumentId =
+            String(doc.id || "");
+
+        deleteDocumentName.textContent =
+            doc.name || "document";
+
+        deleteDocumentModal.style.display =
+            "flex";
+    }
+
+    function closeDeleteDocumentModal() {
+
+        deleteDocumentModal.style.display =
+            "none";
+
+        selectedDeleteDocumentId =
+            "";
+    }
+
+    closeDeleteDocumentBtn.addEventListener(
+        "click",
+        closeDeleteDocumentModal
+    );
+
+    cancelDeleteDocumentBtn.addEventListener(
+        "click",
+        closeDeleteDocumentModal
+    );
+
+    confirmDeleteDocumentBtn.addEventListener(
+        "click",
+        async function () {
+
+            if (!selectedDeleteDocumentId) {
+                return;
+            }
+
+            confirmDeleteDocumentBtn.disabled =
+                true;
+
+            confirmDeleteDocumentBtn.textContent =
+                "Deleting...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/documents/" +
+                        encodeURIComponent(
+                            selectedDeleteDocumentId
+                        ),
+                        {
+                            method: "DELETE",
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to delete document."
+                    );
+                }
+
+                closeDeleteDocumentModal();
+
+                await loadDocuments();
+
+            } catch (error) {
+
+                console.error(
+                    "Delete document error:",
+                    error
+                );
+
+                alert(
+                    "❌ " +
+                    (
+                        error.message ||
+                        "Unable to connect to server."
+                    )
+                );
+
+            } finally {
+
+                confirmDeleteDocumentBtn.disabled =
+                    false;
+
+                confirmDeleteDocumentBtn.textContent =
+                    "🗑 Confirm Delete";
+            }
+        }
+    );
+
+    window.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                editDocumentModal
+            ) {
+                closeEditDocumentModal();
+            }
+
+            if (
+                event.target ===
+                deleteDocumentModal
+            ) {
+                closeDeleteDocumentModal();
+            }
+        }
+    );
+
+    // ==========================================
+    // UPLOAD DOCUMENT
+    // ==========================================
+
+    documentForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById(
+                        "documentName"
+                    )
+                    .value
+                    .trim();
+
+
+            const file =
+                document
+                    .getElementById(
+                        "documentFile"
+                    )
+                    .files[0];
+
+
+            if (!name) {
+
+                alert(
+                    "Please enter a document name."
+                );
+
+                return;
+            }
+
+
+            if (!file) {
+
+                alert(
+                    "Please select a PDF or photo."
+                );
+
+                return;
+            }
+
+
+            const allowedTypes = [
+
+                "application/pdf",
+
+                "image/jpeg",
+
+                "image/png"
+
+            ];
+
+
+            if (
+                !allowedTypes.includes(
+                    file.type
+                )
+            ) {
+
+                alert(
+                    "Only PDF, JPG, JPEG and PNG files are allowed."
+                );
+
+                return;
+            }
+
+
+            if (
+                file.size >
+                10 * 1024 * 1024
+            ) {
+
+                alert(
+                    "File is too large. Maximum size is 10 MB."
+                );
+
+                return;
+            }
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "name",
+                name
+            );
+
+
+            formData.append(
+                "document",
+                file
+            );
+
+
+            const saveButton =
+                document.getElementById(
+                    "saveDocumentBtn"
+                );
+
+
+            saveButton.disabled =
+                true;
+
+
+            saveButton.textContent =
+                "⏳ Uploading...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/documents",
+                        {
+                            method: "POST",
+
+                            credentials:
+                                "same-origin",
+
+                            body:
+                                formData
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+
+                    alert(
+                        "❌ " +
+                        (
+                            result.message ||
+                            "Unable to upload document."
+                        )
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    "✅ Document uploaded successfully!"
+                );
+
+
+                documentForm.reset();
+
+
+                closeDocumentModal();
+
+
+                await loadDocuments();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Upload error:",
+                    error
+                );
+
+
+                alert(
+                    "❌ Unable to connect to server."
+                );
+
+
+            } finally {
+
+                saveButton.disabled =
+                    false;
+
+
+                saveButton.textContent =
+                    "💾 Save Document";
+            }
+
+        }
+    );
+
+
+
+    // ==========================================
+    // VIEW DOCUMENT
+    // ==========================================
+
+    function viewDocument(
+        documentId
+    ) {
+
+        window.open(
+
+            "/api/documents/" +
+            encodeURIComponent(
+                documentId
+            ) +
+            "/view",
+
+            "_blank"
+        );
+    }
+
+
+
+    // ==========================================
+    // DOWNLOAD DOCUMENT
+    // ==========================================
+
+    function downloadDocument(
+        documentId
+    ) {
+
+        window.location.href =
+
+            "/api/documents/" +
+            encodeURIComponent(
+                documentId
+            ) +
+            "/download";
+    }
+
+
+
+    // ==========================================
+    // SEARCH
+    // ==========================================
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const search =
+                searchInput
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filtered =
+                allDocuments.filter(
+                    function (doc) {
+
+                        return String(
+                            doc.name || ""
+                        )
+                        .toLowerCase()
+                        .includes(
+                            search
+                        );
+
+                    }
+                );
+
+
+            renderDocuments(
+                filtered
+            );
+
+        }
+    );
+
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    async function logout() {
+
+        try {
+
+            await fetch(
+                "/api/logout",
+                {
+                    method: "POST",
+
+                    credentials:
+                        "same-origin"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+        }
+
+
+        window.location.href =
+            "/login.html";
+    }
+
+
+
+
+
+    logoutSettingsBtn.addEventListener(
+        "click",
+        logout
+    );
+
+
+
+    // ==========================================
+    // SETTINGS / SECURITY CENTER
+    // ==========================================
+
+    const securityActionModal =
+        document.getElementById("securityActionModal");
+
+    const securityRecoveryModal =
+        document.getElementById("securityRecoveryModal");
+
+    const securityRecoveryTitle =
+        document.getElementById("securityRecoveryTitle");
+
+    const securityRecoveryDescription =
+        document.getElementById("securityRecoveryDescription");
+
+    const securityRecoveryMessage =
+        document.getElementById("securityRecoveryMessage");
+
+    const recoveryEmailStep =
+        document.getElementById("recoveryEmailStep");
+
+    const recoveryOtpStep =
+        document.getElementById("recoveryOtpStep");
+
+    const recoveryNewPasswordStep =
+        document.getElementById("recoveryNewPasswordStep");
+
+    const recoveryNewPinStep =
+        document.getElementById("recoveryNewPinStep");
+
+    const securityStepForgot =
+        document.getElementById("securityStepForgot");
+
+    let recoveryType = "password";
+
+    const securityActionForm =
+        document.getElementById("securityActionForm");
+
+    const securityActionTitle =
+        document.getElementById("securityActionTitle");
+
+    const securityActionKicker =
+        document.getElementById("securityActionKicker");
+
+    const securityCurrentStep =
+        document.getElementById("securityCurrentStep");
+
+    const securityNewStep =
+        document.getElementById("securityNewStep");
+
+    const securityCurrentValue =
+        document.getElementById("securityCurrentValue");
+
+    const securityNewValue =
+        document.getElementById("securityNewValue");
+
+    const securityConfirmValue =
+        document.getElementById("securityConfirmValue");
+
+    const securityCurrentLabel =
+        document.getElementById("securityCurrentLabel");
+
+    const securityNewLabel =
+        document.getElementById("securityNewLabel");
+
+    const securityConfirmLabel =
+        document.getElementById("securityConfirmLabel");
+
+    const securityVerifyBtn =
+        document.getElementById("securityVerifyBtn");
+
+
+    const securitySaveBtn =
+        document.getElementById("securitySaveBtn");
+
+    const securityBackBtn =
+        document.getElementById("securityBackBtn");
+
+    const securityCurrentMessage =
+        document.getElementById("securityCurrentMessage");
+
+    const securityNewMessage =
+        document.getElementById("securityNewMessage");
+
+    const securityProgressOne =
+        document.getElementById("securityProgressOne");
+
+    const securityProgressTwo =
+        document.getElementById("securityProgressTwo");
+
+    let securityChangeType = "pin";
+    let verifiedCurrentCredential = "";
+
+
+    function setSecurityMessage(element, message, success) {
+        element.textContent = message;
+        element.style.color =
+            success ? "#34d399" : "#f87171";
+    }
+
+
+    function openSecurityAction(type) {
+
+        securityChangeType = type;
+        verifiedCurrentCredential = "";
+
+        securityActionForm.reset();
+
+        securityCurrentStep.classList.add("active");
+        securityNewStep.classList.remove("active");
+
+        securityProgressOne.classList.add("active");
+        securityProgressTwo.classList.remove("active");
+
+        securityCurrentMessage.textContent = "";
+        securityNewMessage.textContent = "";
+
+        const isPin = type === "pin";
+
+        securityActionTitle.textContent =
+            isPin
+                ? "Change Security PIN"
+                : "Change Account Password";
+
+        securityActionKicker.textContent =
+            isPin
+                ? "Verify your current Security PIN before creating a new document-access PIN."
+                : "Verify your current account password before creating a new sign-in password.";
+
+        securityCurrentLabel.textContent =
+            isPin
+                ? "Current Security PIN"
+                : "Current Account Password";
+
+        securityCurrentValue.placeholder =
+            isPin
+                ? "Enter your current 6-digit PIN"
+                : "Enter your current account password";
+
+        securityCurrentValue.type =
+            "password";
+        securityCurrentValue.inputMode =
+            isPin ? "numeric" : "text";
+        securityCurrentValue.maxLength =
+            isPin ? 6 : 256;
+
+        securityNewLabel.textContent =
+            isPin
+                ? "New Security PIN"
+                : "New Account Password";
+
+        securityConfirmLabel.textContent =
+            isPin
+                ? "Confirm New Security PIN"
+                : "Confirm New Account Password";
+
+        securityNewValue.placeholder =
+            isPin
+                ? "Create a new 6-digit PIN"
+                : "Create a new password";
+
+        securityConfirmValue.placeholder =
+            isPin
+                ? "Re-enter your new PIN"
+                : "Re-enter your new password";
+
+        securityNewValue.type =
+            "password";
+
+        securityConfirmValue.type =
+            "password";
+
+        securityStepForgot.textContent =
+            isPin
+                ? "Forgot Security PIN?"
+                : "Forgot Account Password?";
+
+        securityActionModal.style.display = "flex";
+
+        setTimeout(
+            () => securityCurrentValue.focus(),
+            50
+        );
+    }
+
+
+    function closeSecurityAction() {
+        securityActionModal.style.display = "none";
+        verifiedCurrentCredential = "";
+    }
+
+
+    function showSecurityNewStep() {
+
+        securityCurrentStep.classList.remove("active");
+        securityNewStep.classList.add("active");
+
+        securityProgressOne.classList.add("active");
+        securityProgressTwo.classList.add("active");
+
+        securityCurrentMessage.textContent = "";
+        securityNewMessage.textContent = "";
+
+        securityNewValue.focus();
+    }
+
+
+    function returnToSecurityCurrentStep() {
+
+        securityNewStep.classList.remove("active");
+        securityCurrentStep.classList.add("active");
+
+        securityProgressTwo.classList.remove("active");
+
+        securityNewValue.value = "";
+        securityConfirmValue.value = "";
+
+        securityNewMessage.textContent = "";
+
+        securityCurrentValue.focus();
+    }
+
+
+    document
+        .getElementById("changePinBtn")
+        .addEventListener(
+            "click",
+            function () {
+                closeSettingsModal();
+                openSecurityAction("pin");
+            }
+        );
+
+
+    document
+        .getElementById("changePasswordBtn")
+        .addEventListener(
+            "click",
+            function () {
+                closeSettingsModal();
+                openSecurityAction("password");
+            }
+        );
+
+
+    securityBackBtn.addEventListener(
+        "click",
+        returnToSecurityCurrentStep
+    );
+
+
+    securityStepForgot.addEventListener(
+        "click",
+        function () {
+            closeSecurityAction();
+            openRecovery(securityChangeType);
+        }
+    );
+
+
+    document
+        .getElementById("closeSecurityActionBtn")
+        .addEventListener(
+            "click",
+            closeSecurityAction
+        );
+
+
+    securityActionForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            const isPin =
+                securityChangeType === "pin";
+
+            if (
+                securityCurrentStep.classList.contains("active")
+            ) {
+
+                const current =
+                    securityCurrentValue.value.trim();
+
+                if (
+                    isPin
+                        ? !/^\d{6}$/.test(current)
+                        : current.length === 0
+                ) {
+
+                    setSecurityMessage(
+                        securityCurrentMessage,
+                        isPin
+                            ? "Enter your current 6-digit Security PIN."
+                            : "Enter your current account password.",
+                        false
+                    );
+
+                    securityCurrentValue.focus();
+                    return;
+                }
+
+                securityVerifyBtn.disabled = true;
+                securityVerifyBtn.textContent =
+                    "Verifying…";
+
+                try {
+
+                    const response =
+                        await fetch(
+                            isPin
+                                ? "/api/verify-current-security-pin"
+                                : "/api/verify-current-password",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+                                    "Accept":
+                                        "application/json"
+                                },
+                                credentials:
+                                    "same-origin",
+                                cache: "no-store",
+                                body: JSON.stringify(
+                                    isPin
+                                        ? { currentPin: current }
+                                        : { currentPassword: current }
+                                )
+                            }
+                        );
+
+                    const contentType =
+                        response.headers.get("content-type") || "";
+                    let result = null;
+
+                    if (contentType.includes("application/json")) {
+                        result = await response.json();
+                    } else {
+                        const raw = await response.text();
+                        throw new Error(
+                            response.status === 401
+                                ? "Your session has expired. Please log in again."
+                                : `Verification request failed (${response.status}).`
+                        );
+                    }
+
+                    if (!response.ok || !result || !result.success) {
+                        throw new Error(
+                            result?.message ||
+                            `Verification failed (${response.status}).`
+                        );
+                    }
+
+                    // Keep the verified credential only for this two-step change flow.
+                    verifiedCurrentCredential = current;
+
+                    // Explicitly switch the modal to step 2 after successful verification.
+                    securityCurrentStep.classList.remove("active");
+                    securityNewStep.classList.add("active");
+                    securityProgressOne.classList.add("active");
+                    securityProgressTwo.classList.add("active");
+                    securityCurrentMessage.textContent = "";
+                    securityNewMessage.textContent = "";
+                    setTimeout(() => securityNewValue.focus(), 0);
+
+                } catch (error) {
+
+                    setSecurityMessage(
+                        securityCurrentMessage,
+                        isPin
+                            ? "Incorrect Security PIN. Please re-enter your PIN."
+                            : "Incorrect account password. Please re-enter your password.",
+                        false
+                    );
+
+                    securityCurrentValue.select();
+
+                } finally {
+
+                    securityVerifyBtn.disabled = false;
+                    securityVerifyBtn.textContent =
+                        "Continue Securely";
+                }
+
+                return;
+            }
+
+
+            const newCredential =
+                securityNewValue.value;
+
+            const confirmCredential =
+                securityConfirmValue.value;
+
+
+            if (isPin) {
+
+                if (
+                    !/^\d{6}$/.test(newCredential)
+                ) {
+                    setSecurityMessage(
+                        securityNewMessage,
+                        "New Security PIN must contain exactly 6 digits.",
+                        false
+                    );
+                    return;
+                }
+
+                if (
+                    newCredential !== confirmCredential
+                ) {
+                    setSecurityMessage(
+                        securityNewMessage,
+                        "The new Security PIN entries do not match.",
+                        false
+                    );
+                    securityConfirmValue.focus();
+                    return;
+                }
+
+            } else {
+
+                if (
+                    newCredential.length < 8
+                ) {
+                    setSecurityMessage(
+                        securityNewMessage,
+                        "Your new password must contain at least 8 characters.",
+                        false
+                    );
+                    return;
+                }
+
+                if (
+                    newCredential !== confirmCredential
+                ) {
+                    setSecurityMessage(
+                        securityNewMessage,
+                        "The new password entries do not match.",
+                        false
+                    );
+                    securityConfirmValue.focus();
+                    return;
+                }
+            }
+
+
+            securitySaveBtn.disabled = true;
+            securitySaveBtn.textContent =
+                "Saving Securely…";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        isPin
+                            ? "/api/change-security-pin"
+                            : "/api/change-password",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            credentials:
+                                "same-origin",
+                            body: JSON.stringify(
+                                isPin
+                                    ? {
+                                        currentPin:
+                                            verifiedCurrentCredential,
+                                        newPin:
+                                            newCredential,
+                                        confirmPin:
+                                            confirmCredential
+                                    }
+                                    : {
+                                        currentPassword:
+                                            verifiedCurrentCredential,
+                                        newPassword:
+                                            newCredential,
+                                        confirmPassword:
+                                            confirmCredential
+                                    }
+                            )
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+                    throw new Error(
+                        result.message ||
+                        "Unable to save changes."
+                    );
+                }
+
+                setSecurityMessage(
+                    securityNewMessage,
+                    isPin
+                        ? "✓ Security PIN updated successfully."
+                        : "✓ Account password updated successfully.",
+                    true
+                );
+
+                securitySaveBtn.textContent =
+                    "Credential Updated";
+
+                setTimeout(
+                    closeSecurityAction,
+                    900
+                );
+
+            } catch (error) {
+
+                setSecurityMessage(
+                    securityNewMessage,
+                    error.message,
+                    false
+                );
+
+            } finally {
+
+                securitySaveBtn.disabled = false;
+
+                if (securityActionModal.style.display !== "none") {
+                    securitySaveBtn.textContent =
+                        "Save New Credential";
+                }
+            }
+        }
+    );
+
+
+
+
+    function openRecovery(type) {
+        recoveryType = type;
+
+        securityRecoveryTitle.textContent =
+            type === "pin" ? "Recover Security PIN" : "Recover Account Password";
+
+        securityRecoveryDescription.textContent =
+            type === "pin"
+                ? "Verify your registered Gmail address to securely create a new Security PIN."
+                : "Verify your registered Gmail address to securely create a new account password.";
+
+        [recoveryEmailStep, recoveryOtpStep, recoveryNewPasswordStep, recoveryNewPinStep]
+            .forEach(step => step.classList.remove("active"));
+
+        recoveryEmailStep.classList.add("active");
+        securityRecoveryMessage.textContent = "";
+        document.getElementById("recoveryEmail").value = "";
+        document.getElementById("recoveryOtp").value = "";
+        securityRecoveryModal.style.display = "flex";
+
+        setTimeout(() => document.getElementById("recoveryEmail").focus(), 50);
+    }
+
+    function closeRecovery() {
+        securityRecoveryModal.style.display = "none";
+    }
+
+    securityStepForgot.addEventListener("click", function () {
+        closeSecurityAction();
+        openRecovery(securityChangeType);
+    });
+
+    document.getElementById("closeSecurityRecoveryBtn").addEventListener("click", closeRecovery);
+
+    document.getElementById("sendRecoveryOtpBtn").addEventListener("click", async function () {
+        const email = document.getElementById("recoveryEmail").value.trim().toLowerCase();
+        if (!email.endsWith("@gmail.com")) {
+            setSecurityMessage(securityRecoveryMessage, "Enter the Gmail address registered with your DocVault account.", false);
+            return;
+        }
+        const button = this;
+        button.disabled = true;
+        button.textContent = "Sending…";
+        try {
+            const response = await fetch("/api/recovery/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "same-origin",
+                body: JSON.stringify({ email, type: recoveryType })
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Unable to send verification code.");
+            recoveryEmailStep.classList.remove("active");
+            recoveryOtpStep.classList.add("active");
+            setSecurityMessage(securityRecoveryMessage, "✓ Verification code sent to your Gmail.", true);
+            document.getElementById("recoveryOtp").focus();
+        } catch (error) {
+            setSecurityMessage(securityRecoveryMessage, error.message, false);
+        } finally {
+            button.disabled = false;
+            button.textContent = "Send Verification Code";
+        }
+    });
+
+    document.getElementById("verifyRecoveryOtpBtn").addEventListener("click", async function () {
+        const email = document.getElementById("recoveryEmail").value.trim().toLowerCase();
+        const otp = document.getElementById("recoveryOtp").value.trim();
+        if (!/^\d{6}$/.test(otp)) {
+            setSecurityMessage(securityRecoveryMessage, "Enter the six-digit verification code.", false);
+            return;
+        }
+        const button = this;
+        button.disabled = true;
+        button.textContent = "Verifying…";
+        try {
+            const response = await fetch("/api/recovery/verify-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "same-origin",
+                body: JSON.stringify({ email, otp, type: recoveryType })
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Invalid verification code.");
+            recoveryOtpStep.classList.remove("active");
+            (recoveryType === "password" ? recoveryNewPasswordStep : recoveryNewPinStep).classList.add("active");
+            setSecurityMessage(securityRecoveryMessage, "✓ Gmail verified. Create your new credential.", true);
+        } catch (error) {
+            setSecurityMessage(securityRecoveryMessage, error.message, false);
+        } finally {
+            button.disabled = false;
+            button.textContent = "Verify & Continue";
+        }
+    });
+
+    document.getElementById("resetPasswordBtn").addEventListener("click", async function () {
+        const newPassword = document.getElementById("recoveryNewPassword").value;
+        const confirmPassword = document.getElementById("recoveryConfirmPassword").value;
+        if (newPassword.length < 8) return setSecurityMessage(securityRecoveryMessage, "Password must contain at least 8 characters.", false);
+        if (newPassword !== confirmPassword) return setSecurityMessage(securityRecoveryMessage, "The new password entries do not match.", false);
+        await finishRecovery("/api/recovery/reset-password", { newPassword, confirmPassword }, this);
+    });
+
+    document.getElementById("resetPinBtn").addEventListener("click", async function () {
+        const newPin = document.getElementById("recoveryNewPin").value;
+        const confirmPin = document.getElementById("recoveryConfirmPin").value;
+        if (!/^\d{6}$/.test(newPin)) return setSecurityMessage(securityRecoveryMessage, "Security PIN must contain exactly 6 digits.", false);
+        if (newPin !== confirmPin) return setSecurityMessage(securityRecoveryMessage, "The new Security PIN entries do not match.", false);
+        await finishRecovery("/api/recovery/reset-pin", { newPin, confirmPin }, this);
+    });
+
+    async function finishRecovery(url, body, button) {
+        button.disabled = true;
+        button.textContent = "Saving…";
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "same-origin",
+                body: JSON.stringify(body)
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Unable to complete recovery.");
+            setSecurityMessage(securityRecoveryMessage, "✓ " + result.message, true);
+            setTimeout(closeRecovery, 1100);
+        } catch (error) {
+            setSecurityMessage(securityRecoveryMessage, error.message, false);
+        } finally {
+            button.disabled = false;
+            button.textContent = recoveryType === "password" ? "Set New Password" : "Set New Security PIN";
+        }
+    }
+
+    // ==========================================
+    // CLOSE MODALS
+    // ==========================================
+
+    window.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                documentModal
+            ) {
+
+                closeDocumentModal();
+            }
+
+
+            if (
+                event.target ===
+                qrModal
+            ) {
+
+                closeQrModal();
+            }
+
+
+            if (
+                event.target ===
+                settingsModal
+            ) {
+
+                closeSettingsModal();
+            }
+
+            if (event.target === securityActionModal) {
+                closeSecurityAction();
+            }
+
+            if (event.target === securityRecoveryModal) {
+                closeRecovery();
+            }
+
+        }
+    );
+
+
+
+    // ==========================================
+    // CHECK LOGIN
+    // ==========================================
+
+    async function checkLogin() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/me",
+                    {
+                        method: "GET",
+
+                        credentials:
+                            "same-origin"
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !result.loggedIn
+            ) {
+
+                window.location.href =
+                    "/login.html";
+
+                return false;
+            }
+
+
+            if (topProfileName) {
+
+                const displayName =
+                    getStoredProfileName() ||
+                    result.name ||
+                    result.ownerName ||
+                    result.username ||
+                    "Gokul";
+
+                topProfileName.textContent =
+                    "Hi, " +
+                    displayName;
+            }
+
+            window.docVaultOwnerEmail =
+                result.email || "";
+
+            window.docVaultOwnerName =
+                getStoredProfileName() ||
+                result.name ||
+                result.ownerName ||
+                result.username ||
+                "Gokul";
+
+            renderProfile();
+
+            return true;
+
+
+        } catch (error) {
+
+            console.error(
+                "Session check failed:",
+                error
+            );
+
+
+            window.location.href =
+                "/login.html";
+
+            return false;
+        }
+    }
+
+
+
+    // ==========================================
+    // START DASHBOARD
+    // ==========================================
+
+    async function startDashboard() {
+
+        const loggedIn =
+            await checkLogin();
+
+
+        if (!loggedIn) {
+            return;
+        }
+
+
+        await loadDocuments();
+    }
+
+
+    startDashboard();
+
+
+</script>
+
+
+</body>
+
+</html>

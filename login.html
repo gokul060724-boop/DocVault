@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault - Sign In</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            🔐
+        </div>
+
+        <h1>DocVault</h1>
+
+        <p class="subtitle">
+            Secure Document Locker
+        </p>
+
+
+        <div class="login-box">
+
+            <h2>Sign In</h2>
+
+            <p class="login-text">
+                Sign in to manage your documents
+            </p>
+
+
+            <form id="loginForm">
+
+                <label for="loginEmail">
+                    Gmail Address
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="example@gmail.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <label for="loginPassword">
+                    Account Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    id="loginBtn"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="forgot">
+
+                <a href="/forgot-password.html">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+
+            <button
+                type="button"
+                class="create-btn"
+                id="signUpBtn"
+            >
+                Create New Account
+            </button>
+
+
+            <div
+                id="loginMessage"
+                style="
+                    text-align: center;
+                    margin-top: 18px;
+                    font-size: 14px;
+                "
+            ></div>
+
+        </div>
+
+
+        <p class="security-note">
+            🔒 Account password is separate from your Security PIN.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+        const loginMessage =
+            document.getElementById("loginMessage");
+
+
+        // ==========================================
+        // SIGN IN
+        // ==========================================
+
+        loginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                        .getElementById("loginEmail")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+
+                const password =
+                    document
+                        .getElementById("loginPassword")
+                        .value;
+
+
+                if (!email || !password) {
+
+                    loginMessage.textContent =
+                        "❌ Please enter Gmail and password.";
+
+                    loginMessage.style.color =
+                        "#ef4444";
+
+                    return;
+
+                }
+
+
+                loginBtn.disabled = true;
+
+                loginBtn.textContent =
+                    "Signing In...";
+
+                loginMessage.textContent =
+                    "Connecting to DocVault...";
+
+                loginMessage.style.color =
+                    "#94a3b8";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/login",
+                            {
+                                method: "POST",
+
+                                credentials: "same-origin",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email: email,
+                                        password: password
+                                    })
+                            }
+                        );
+
+
+                    // Read response safely
+                    const responseText =
+                        await response.text();
+
+                    let result;
+
+
+                    try {
+
+                        result =
+                            JSON.parse(
+                                responseText
+                            );
+
+                    } catch (jsonError) {
+
+                        console.error(
+                            "Invalid server response:",
+                            responseText
+                        );
+
+                        throw new Error(
+                            "Server returned an invalid response."
+                        );
+
+                    }
+
+
+                    if (
+                        response.ok &&
+                        result.success
+                    ) {
+
+                        loginMessage.textContent =
+                            "✅ Login successful!";
+
+                        loginMessage.style.color =
+                            "#22c55e";
+
+
+                        loginBtn.textContent =
+                            "Login Successful ✓";
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "/dashboard.html";
+
+                            },
+                            700
+                        );
+
+
+                    } else {
+
+                        loginMessage.textContent =
+                            "❌ " +
+                            (
+                                result.message ||
+                                "Login failed."
+                            );
+
+                        loginMessage.style.color =
+                            "#ef4444";
+
+
+                        loginBtn.disabled =
+                            false;
+
+                        loginBtn.textContent =
+                            "Sign In";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login request error:",
+                        error
+                    );
+
+
+                    loginMessage.textContent =
+                        "❌ " +
+                        error.message;
+
+                    loginMessage.style.color =
+                        "#ef4444";
+
+
+                    loginBtn.disabled =
+                        false;
+
+                    loginBtn.textContent =
+                        "Sign In";
+
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // SIGN UP
+        // ==========================================
+
+        document
+            .getElementById("signUpBtn")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "/register.html";
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>

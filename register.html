@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault — Create Account</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(99, 102, 241, 0.14),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(14, 165, 233, 0.10),
+                    transparent 30%
+                ),
+                #f6f8fc;
+
+            color: #172033;
+        }
+
+        .container {
+            width: min(100%, 520px);
+            margin: 0 auto;
+            padding: 42px 20px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111827,
+                    #334155
+                );
+
+            color: white;
+            font-size: 27px;
+
+            box-shadow:
+                0 14px 35px
+                rgba(15, 23, 42, 0.16);
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+        }
+
+        .brand p {
+            margin: 7px 0 0;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .login-box {
+            position: relative;
+
+            padding: 32px;
+
+            background:
+                rgba(255, 255, 255, 0.94);
+
+            border: 1px solid
+                rgba(148, 163, 184, 0.20);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 24px 70px
+                rgba(15, 23, 42, 0.09);
+
+            backdrop-filter: blur(12px);
+        }
+
+        .login-box::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 28px;
+
+            width: 3px;
+            height: 58px;
+
+            border-radius: 0 5px 5px 0;
+
+            background:
+                linear-gradient(
+                    #6366f1,
+                    #0ea5e9
+                );
+        }
+
+        .login-box h2 {
+            margin: 0;
+
+            font-size: 23px;
+            font-weight: 750;
+
+            letter-spacing: -0.4px;
+        }
+
+        .login-text {
+            margin:
+                8px 0 28px;
+
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+
+            margin:
+                17px 0 8px;
+
+            color: #344054;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            letter-spacing: 0.1px;
+        }
+
+        input {
+            width: 100%;
+
+            height: 48px;
+
+            padding:
+                0 15px;
+
+            border:
+                1px solid #d8dee9;
+
+            border-radius: 12px;
+
+            background: #fbfcfe;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color .2s,
+                box-shadow .2s,
+                background .2s;
+        }
+
+        input:hover {
+            border-color: #b9c3d3;
+        }
+
+        input:focus {
+            background: #ffffff;
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(99, 102, 241, 0.09);
+        }
+
+        input:disabled {
+            background: #f1f4f8;
+            color: #667085;
+            cursor: not-allowed;
+        }
+
+        button {
+            width: 100%;
+
+            height: 48px;
+
+            margin-top: 22px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #334155
+                );
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            letter-spacing: 0.1px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px
+                rgba(15, 23, 42, 0.15);
+
+            transition:
+                transform .18s,
+                box-shadow .18s,
+                opacity .18s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(15, 23, 42, 0.19);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.58;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .owner-name-group {
+            margin-bottom: 2px;
+        }
+
+        .forgot {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #edf0f5;
+
+            text-align: center;
+        }
+
+        .forgot a {
+            color: #52607a;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .forgot a:hover {
+            color: #111827;
+        }
+
+        .security-note {
+            margin: 22px 0 0;
+
+            text-align: center;
+
+            color: #7b8798;
+
+            font-size: 12px;
+        }
+
+        #otpMessage,
+        #securityMessage {
+            line-height: 1.5;
+        }
+
+        @media (max-width: 560px) {
+
+            .container {
+                padding:
+                    26px 15px;
+            }
+
+            .login-box {
+                padding:
+                    26px 21px;
+
+                border-radius: 18px;
+            }
+
+            .brand {
+                margin-bottom: 22px;
+            }
+
+            .brand-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 24px;
+            }
+
+            .login-box h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🔐
+            </div>
+
+            <h1>
+                DocVault
+            </h1>
+
+            <p>
+                Secure document management
+            </p>
+
+        </div>
+
+
+        <!-- MAIN CARD -->
+
+        <div class="login-box">
+
+            <h2 id="pageTitle">
+                Create Account
+            </h2>
+
+            <p
+                class="login-text"
+                id="loginText"
+            >
+                Enter your details to create your secure vault.
+            </p>
+
+
+            <!-- ================================= -->
+            <!-- STEP 1 — NAME + GMAIL -->
+            <!-- ================================= -->
+
+            <form id="registerForm">
+
+                <div class="owner-name-group">
+
+                    <label for="ownerName">
+                        Owner Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="ownerName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="80"
+                        required
+                    >
+
+                </div>
+
+
+                <label for="registerEmail">
+                    Gmail Address
+                </label>
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="example@gmail.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    id="sendOtpBtn"
+                >
+                    Send Verification Code
+                </button>
+
+            </form>
+
+
+            <!-- ================================= -->
+            <!-- STEP 2 — OTP -->
+            <!-- ================================= -->
+
+            <div
+                id="otpSection"
+                style="display:none;"
+            >
+
+                <label for="otp">
+                    Verification Code
+                </label>
+
+                <input
+                    type="text"
+                    id="otp"
+                    placeholder="Enter 6-digit code"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                >
+
+
+                <button
+                    type="button"
+                    id="verifyOtpBtn"
+                >
+                    Verify Gmail
+                </button>
+
+
+                <p
+                    id="otpMessage"
+                    style="
+                        text-align:center;
+                        margin-top:14px;
+                        font-size:13px;
+                    "
+                ></p>
+
+            </div>
+
+
+            <!-- ================================= -->
+            <!-- STEP 3 — PASSWORD + PIN -->
+            <!-- ================================= -->
+
+            <form
+                id="securityForm"
+                style="display:none;"
+            >
+
+                <label for="accountPassword">
+                    Account Password
+                </label>
+
+                <input
+                    type="password"
+                    id="accountPassword"
+                    placeholder="Minimum 8 characters"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Re-enter your password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <label for="securityPin">
+                    Security PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="securityPin"
+                    placeholder="6-digit Security PIN"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <label for="confirmSecurityPin">
+                    Confirm Security PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmSecurityPin"
+                    placeholder="Re-enter your Security PIN"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    id="createVaultBtn"
+                >
+                    Create Secure Vault
+                </button>
+
+
+                <p
+                    id="securityMessage"
+                    style="
+                        text-align:center;
+                        margin-top:14px;
+                        font-size:13px;
+                    "
+                ></p>
+
+            </form>
+
+
+            <div class="forgot">
+
+                <a href="/">
+                    ← Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <p class="security-note">
+            🔒 Your Gmail is used for account recovery.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const registerForm =
+            document.getElementById(
+                "registerForm"
+            );
+
+        const ownerNameInput =
+            document.getElementById(
+                "ownerName"
+            );
+
+        const emailInput =
+            document.getElementById(
+                "registerEmail"
+            );
+
+        const sendOtpBtn =
+            document.getElementById(
+                "sendOtpBtn"
+            );
+
+        const otpSection =
+            document.getElementById(
+                "otpSection"
+            );
+
+        const otpInput =
+            document.getElementById(
+                "otp"
+            );
+
+        const verifyOtpBtn =
+            document.getElementById(
+                "verifyOtpBtn"
+            );
+
+        const otpMessage =
+            document.getElementById(
+                "otpMessage"
+            );
+
+        const securityForm =
+            document.getElementById(
+                "securityForm"
+            );
+
+        const accountPassword =
+            document.getElementById(
+                "accountPassword"
+            );
+
+        const confirmPassword =
+            document.getElementById(
+                "confirmPassword"
+            );
+
+        const securityPin =
+            document.getElementById(
+                "securityPin"
+            );
+
+        const confirmSecurityPin =
+            document.getElementById(
+                "confirmSecurityPin"
+            );
+
+        const createVaultBtn =
+            document.getElementById(
+                "createVaultBtn"
+            );
+
+        const securityMessage =
+            document.getElementById(
+                "securityMessage"
+            );
+
+        const pageTitle =
+            document.getElementById(
+                "pageTitle"
+            );
+
+        const loginText =
+            document.getElementById(
+                "loginText"
+            );
+
+
+        // ==========================================
+        // STEP 1 — SEND OTP
+        // ==========================================
+
+        registerForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+                const ownerName =
+                    ownerNameInput.value
+                        .trim();
+
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (
+                    ownerName.length < 2
+                ) {
+
+                    alert(
+                        "Please enter your full Owner Name."
+                    );
+
+                    ownerNameInput.focus();
+
+                    return;
+                }
+
+
+                if (
+                    !email.endsWith(
+                        "@gmail.com"
+                    )
+                ) {
+
+                    alert(
+                        "Please enter a valid Gmail address."
+                    );
+
+                    emailInput.focus();
+
+                    return;
+                }
+
+
+                sendOtpBtn.disabled =
+                    true;
+
+                sendOtpBtn.textContent =
+                    "Sending Code...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/send-otp",
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email
+                                    })
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        result.success
+                    ) {
+
+                        otpSection.style.display =
+                            "block";
+
+                        ownerNameInput.disabled =
+                            true;
+
+                        emailInput.disabled =
+                            true;
+
+                        sendOtpBtn.textContent =
+                            "Code Sent ✓";
+
+                        otpInput.focus();
+
+                        alert(
+                            "Verification code sent to your Gmail."
+                        );
+
+                    } else {
+
+                        alert(
+                            result.message ||
+                            "Unable to send verification code."
+                        );
+
+                        sendOtpBtn.disabled =
+                            false;
+
+                        sendOtpBtn.textContent =
+                            "Send Verification Code";
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "OTP ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to connect to server."
+                    );
+
+                    sendOtpBtn.disabled =
+                        false;
+
+                    sendOtpBtn.textContent =
+                        "Send Verification Code";
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // STEP 2 — VERIFY OTP
+        // ==========================================
+
+        verifyOtpBtn.addEventListener(
+            "click",
+            async function () {
+
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+                const otp =
+                    otpInput.value.trim();
+
+
+                if (
+                    !/^\d{6}$/.test(
+                        otp
+                    )
+                ) {
+
+                    alert(
+                        "Verification code must contain exactly 6 digits."
+                    );
+
+                    otpInput.focus();
+
+                    return;
+                }
+
+
+                verifyOtpBtn.disabled =
+                    true;
+
+                verifyOtpBtn.textContent =
+                    "Verifying...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/verify-otp",
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        email,
+
+                                        otp
+                                    })
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        result.success
+                    ) {
+
+                        otpMessage.textContent =
+                            "Gmail verified successfully.";
+
+                        otpMessage.style.color =
+                            "#16a34a";
+
+                        verifyOtpBtn.textContent =
+                            "Gmail Verified ✓";
+
+                        otpSection.style.display =
+                            "none";
+
+                        registerForm.style.display =
+                            "none";
+
+                        securityForm.style.display =
+                            "block";
+
+                        pageTitle.textContent =
+                            "Secure Your Vault";
+
+                        loginText.textContent =
+                            "Set your password and Security PIN.";
+
+                        accountPassword.focus();
+
+                    } else {
+
+                        otpMessage.textContent =
+                            result.message ||
+                            "Invalid verification code.";
+
+                        otpMessage.style.color =
+                            "#dc2626";
+
+                        verifyOtpBtn.disabled =
+                            false;
+
+                        verifyOtpBtn.textContent =
+                            "Verify Gmail";
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "VERIFY OTP ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to connect to server."
+                    );
+
+                    verifyOtpBtn.disabled =
+                        false;
+
+                    verifyOtpBtn.textContent =
+                        "Verify Gmail";
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // STEP 3 — CREATE ACCOUNT
+        // ==========================================
+
+        securityForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const ownerName =
+                    ownerNameInput.value
+                        .trim();
+
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+                const password =
+                    accountPassword.value;
+
+                const confirmPass =
+                    confirmPassword.value;
+
+                const pin =
+                    securityPin.value;
+
+                const confirmPin =
+                    confirmSecurityPin.value;
+
+
+                if (
+                    ownerName.length < 2
+                ) {
+
+                    securityMessage.textContent =
+                        "Please enter a valid Owner Name.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    return;
+                }
+
+
+                if (
+                    password.length < 8
+                ) {
+
+                    securityMessage.textContent =
+                        "Password must be at least 8 characters.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    accountPassword.focus();
+
+                    return;
+                }
+
+
+                if (
+                    password !==
+                    confirmPass
+                ) {
+
+                    securityMessage.textContent =
+                        "Passwords do not match.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    confirmPassword.focus();
+
+                    return;
+                }
+
+
+                if (
+                    !/^\d{6}$/.test(
+                        pin
+                    )
+                ) {
+
+                    securityMessage.textContent =
+                        "Security PIN must contain exactly 6 digits.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    securityPin.focus();
+
+                    return;
+                }
+
+
+                if (
+                    pin !==
+                    confirmPin
+                ) {
+
+                    securityMessage.textContent =
+                        "Security PINs do not match.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    confirmSecurityPin.focus();
+
+                    return;
+                }
+
+
+                if (
+                    password ===
+                    pin
+                ) {
+
+                    securityMessage.textContent =
+                        "Security PIN must be different from your password.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    securityPin.focus();
+
+                    return;
+                }
+
+
+                createVaultBtn.disabled =
+                    true;
+
+                createVaultBtn.textContent =
+                    "Creating Vault...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/create-account",
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        ownerName,
+
+                                        email,
+
+                                        password,
+
+                                        securityPin:
+                                            pin
+                                    })
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        result.success
+                    ) {
+
+                        securityMessage.textContent =
+                            "Account created successfully.";
+
+                        securityMessage.style.color =
+                            "#16a34a";
+
+                        createVaultBtn.textContent =
+                            "Vault Created ✓";
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "/dashboard.html";
+
+                            },
+                            900
+                        );
+
+                    } else {
+
+                        securityMessage.textContent =
+                            result.message ||
+                            "Unable to create account.";
+
+                        securityMessage.style.color =
+                            "#dc2626";
+
+                        createVaultBtn.disabled =
+                            false;
+
+                        createVaultBtn.textContent =
+                            "Create Secure Vault";
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "CREATE ACCOUNT ERROR:",
+                        error
+                    );
+
+                    securityMessage.textContent =
+                        "Unable to connect to server.";
+
+                    securityMessage.style.color =
+                        "#dc2626";
+
+                    createVaultBtn.disabled =
+                        false;
+
+                    createVaultBtn.textContent =
+                        "Create Secure Vault";
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault - Secure Document Access</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --dv-bg: #07111f;
+            --dv-card: rgba(15, 27, 46, 0.96);
+            --dv-border: rgba(148, 163, 184, 0.18);
+            --dv-text: #f8fafc;
+            --dv-muted: #94a3b8;
+            --dv-accent: #38bdf8;
+            --dv-accent2: #2563eb;
+            --dv-success: #22c55e;
+            --dv-danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: var(--dv-text);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(56, 189, 248, .12), transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(37, 99, 235, .14), transparent 32%),
+                var(--dv-bg);
+        }
+
+        .container {
+            width: min(440px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 54px 0 30px;
+        }
+
+        .brand-mark {
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 18px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(56, 189, 248, .25);
+            border-radius: 19px;
+            background: linear-gradient(145deg, rgba(56, 189, 248, .16), rgba(37, 99, 235, .12));
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+            font-size: 28px;
+        }
+
+        .page-title {
+            margin: 0;
+            text-align: center;
+            font-size: 38px;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -.9px;
+        }
+
+        .page-subtitle {
+            margin: 9px 0 28px;
+            text-align: center;
+            color: var(--dv-muted);
+            font-size: 14px;
+        }
+
+        .login-box {
+            padding: 28px;
+            border: 1px solid var(--dv-border);
+            border-radius: 24px;
+            background: var(--dv-card);
+            box-shadow:
+                0 25px 75px rgba(0, 0, 0, .36),
+                inset 0 1px 0 rgba(255, 255, 255, .03);
+            backdrop-filter: blur(18px);
+        }
+
+        .login-box h2 {
+            margin: 0 0 8px;
+            font-size: 21px;
+            letter-spacing: -.25px;
+        }
+
+        .login-text {
+            margin: 0 0 22px;
+            color: var(--dv-muted);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin: 0 0 19px;
+            padding: 7px 11px;
+            border: 1px solid rgba(34, 197, 94, .22);
+            border-radius: 999px;
+            background: rgba(34, 197, 94, .08);
+            color: #bbf7d0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .field {
+            margin-bottom: 17px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .field input {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            outline: none;
+            background: #0b1628;
+            color: var(--dv-text);
+            font-size: 15px;
+            transition: .2s ease;
+        }
+
+        .field input::placeholder {
+            color: #64748b;
+        }
+
+        .field input:focus {
+            border-color: var(--dv-accent);
+            background: #0d1a2e;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, .10);
+        }
+
+        #viewerPin {
+            text-align: center;
+            letter-spacing: 6px;
+            font-weight: 800;
+        }
+
+        #viewerBtn {
+            width: 100%;
+            min-height: 50px;
+            border: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--dv-accent), var(--dv-accent2));
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(37, 99, 235, .26);
+            transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+        }
+
+        #viewerBtn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            filter: brightness(1.06);
+        }
+
+        #viewerBtn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        #viewerBtn:disabled {
+            opacity: .65;
+            cursor: wait;
+        }
+
+        #viewerMessage {
+            min-height: 20px;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .forgot {
+            margin-top: 21px;
+            text-align: center;
+        }
+
+        .forgot a {
+            color: #7dd3fc;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .security-note {
+            margin: 19px 0 0;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 34px;
+            }
+
+            .login-box {
+                padding: 22px;
+                border-radius: 20px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <div class="brand-mark" aria-hidden="true">
+            🔐
+        </div>
+
+        <h1 class="page-title">
+            DocVault
+        </h1>
+
+        <p class="page-subtitle" id="viewerSubtitle">
+            Secure View &amp; Download
+        </p>
+
+
+        <div class="login-box">
+
+            <h2>
+                Secure Document Access
+            </h2>
+
+            <div class="secure-badge">
+                <span>🔒</span>
+                <span id="accessMode">
+                    Protected document access
+                </span>
+            </div>
+
+            <p class="login-text" id="viewerLoginText">
+                Enter your Gmail and Security PIN to view your documents.
+            </p>
+
+
+            <form id="viewerForm">
+
+                <div class="field" id="emailField">
+
+                    <label for="viewerEmail">
+                        Gmail Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="viewerEmail"
+                        placeholder="example@gmail.com"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="viewerPin">
+                        Security PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="viewerPin"
+                        placeholder="6-digit Security PIN"
+                        maxlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{6}"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="viewerBtn"
+                >
+                    View Documents
+                </button>
+
+            </form>
+
+
+            <div id="viewerMessage"></div>
+
+
+            <div class="forgot">
+
+                <a href="/">
+                    ← Back to Home
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <p class="security-note">
+            🔒 View &amp; Download access only. Editing is not allowed.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const viewerForm =
+            document.getElementById("viewerForm");
+
+        const viewerBtn =
+            document.getElementById("viewerBtn");
+
+        const viewerMessage =
+            document.getElementById("viewerMessage");
+
+        const viewerEmail =
+            document.getElementById("viewerEmail");
+
+        const viewerPin =
+            document.getElementById("viewerPin");
+
+        const emailField =
+            document.getElementById("emailField");
+
+        const viewerLoginText =
+            document.getElementById("viewerLoginText");
+
+        const accessMode =
+            document.getElementById("accessMode");
+
+
+        // ==========================================
+        // READ QR TOKEN
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const qrToken =
+            urlParams.get("token");
+
+
+        // ==========================================
+        // SET ACCESS MODE
+        // ==========================================
+
+        if (qrToken) {
+
+            // QR ACCESS:
+            // PIN ONLY
+
+            emailField.style.display =
+                "none";
+
+            viewerEmail.required =
+                false;
+
+            viewerLoginText.textContent =
+                "Enter the 6-digit Security PIN linked to this QR code.";
+
+            accessMode.textContent =
+                "QR-secured access";
+
+            viewerBtn.textContent =
+                "Unlock Documents";
+
+        } else {
+
+            // DIRECT VIEW & DOWNLOAD:
+            // GMAIL + PIN
+
+            emailField.style.display =
+                "block";
+
+            viewerEmail.required =
+                true;
+
+            viewerLoginText.textContent =
+                "Enter your Gmail and Security PIN to view your documents.";
+
+            accessMode.textContent =
+                "Protected document access";
+
+            viewerBtn.textContent =
+                "View Documents";
+        }
+
+
+        // ==========================================
+        // MESSAGE HELPER
+        // ==========================================
+
+        function showMessage(
+            message,
+            type
+        ) {
+
+            viewerMessage.textContent =
+                message;
+
+            if (type === "success") {
+
+                viewerMessage.style.color =
+                    "#22c55e";
+
+            } else {
+
+                viewerMessage.style.color =
+                    "#ef4444";
+            }
+        }
+
+
+        // ==========================================
+        // FORM SUBMIT
+        // ==========================================
+
+        viewerForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    viewerEmail.value
+                        .trim()
+                        .toLowerCase();
+
+                const pin =
+                    viewerPin.value
+                        .trim();
+
+
+                // ==========================================
+                // PIN CHECK
+                // ==========================================
+
+                if (
+                    !/^\d{6}$/.test(pin)
+                ) {
+
+                    showMessage(
+                        "❌ Security PIN must contain exactly 6 digits.",
+                        "error"
+                    );
+
+                    viewerPin.focus();
+
+                    return;
+                }
+
+
+                // ==========================================
+                // DIRECT MODE EMAIL CHECK
+                // ==========================================
+
+                if (!qrToken) {
+
+                    if (!email) {
+
+                        showMessage(
+                            "❌ Please enter your Gmail address.",
+                            "error"
+                        );
+
+                        viewerEmail.focus();
+
+                        return;
+                    }
+
+
+                    if (
+                        !email.endsWith(
+                            "@gmail.com"
+                        )
+                    ) {
+
+                        showMessage(
+                            "❌ Please enter a valid Gmail address.",
+                            "error"
+                        );
+
+                        viewerEmail.focus();
+
+                        return;
+                    }
+
+                }
+
+
+                // ==========================================
+                // LOADING STATE
+                // ==========================================
+
+                viewerBtn.disabled =
+                    true;
+
+                viewerBtn.textContent =
+                    qrToken
+                        ? "Verifying PIN..."
+                        : "Checking access...";
+
+                viewerMessage.textContent =
+                    "";
+
+
+                // ==========================================
+                // REQUEST BODY
+                // ==========================================
+
+                const requestBody = {
+                    pin: pin
+                };
+
+
+                if (qrToken) {
+
+                    requestBody.token =
+                        qrToken;
+
+                } else {
+
+                    requestBody.email =
+                        email;
+                }
+
+
+                // ==========================================
+                // SERVER REQUEST
+                // ==========================================
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/viewer-login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                credentials: "same-origin",
+
+                                body:
+                                    JSON.stringify(
+                                        requestBody
+                                    )
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    // ==========================================
+                    // SUCCESS
+                    // ==========================================
+
+                    if (
+                        response.ok &&
+                        result.success
+                    ) {
+
+                        showMessage(
+                            "✅ Access granted. Opening documents...",
+                            "success"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "/viewer.html";
+
+                            },
+                            500
+                        );
+
+                        return;
+                    }
+
+
+                    // ==========================================
+                    // FAILED
+                    // ==========================================
+
+                    showMessage(
+                        "❌ " +
+                        (
+                            result.message ||
+                            "Access denied."
+                        ),
+                        "error"
+                    );
+
+
+                    viewerBtn.disabled =
+                        false;
+
+                    viewerBtn.textContent =
+                        qrToken
+                            ? "Unlock Documents"
+                            : "View Documents";
+
+                }
+
+
+                // ==========================================
+                // CONNECTION ERROR
+                // ==========================================
+
+                catch (error) {
+
+                    console.error(
+                        "VIEWER LOGIN ERROR:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "❌ Unable to connect to server.",
+                        "error"
+                    );
+
+
+                    viewerBtn.disabled =
+                        false;
+
+                    viewerBtn.textContent =
+                        qrToken
+                            ? "Unlock Documents"
+                            : "View Documents";
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // PIN INPUT
+        // NUMBERS ONLY
+        // ==========================================
+
+        viewerPin.addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value
+                        .replace(
+                            /\D/g,
+                            ""
+                        )
+                        .slice(
+                            0,
+                            6
+                        );
+
+            }
+        );
+
+
+        // ==========================================
+        // ENTER KEY FRIENDLY
+        // ==========================================
+
+        viewerPin.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    viewerForm.requestSubmit();
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

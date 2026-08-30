@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault - Secure Document Locker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            🔐
+        </div>
+
+        <h1>DocVault</h1>
+
+        <p class="subtitle">
+            Your Secure Document Locker
+        </p>
+
+
+        <div class="login-box">
+
+            <h2>Welcome</h2>
+
+            <p class="login-text">
+                Securely store and access your important documents
+            </p>
+
+
+            <!-- SIGN IN -->
+
+            <button
+                type="button"
+                id="signInBtn"
+            >
+                🔐 Sign In
+            </button>
+
+
+            <!-- SIGN UP -->
+
+            <button
+                type="button"
+                id="signUpBtn"
+                class="create-btn"
+                style="margin-top: 12px;"
+            >
+                ✨ Sign Up
+            </button>
+
+
+            <!-- VIEW & DOWNLOAD -->
+
+            <button
+                type="button"
+                id="viewerBtn"
+                class="secondary-btn"
+                style="margin-top: 12px;"
+            >
+                📄 View & Download
+            </button>
+
+
+            <div class="divider">
+                <span>SECURE DOCUMENT VAULT</span>
+            </div>
+
+
+            <div
+                style="
+                    text-align: center;
+                    color: #94a3b8;
+                    font-size: 13px;
+                    line-height: 1.7;
+                "
+            >
+                🔐 Gmail protected account<br>
+                📄 Secure document storage<br>
+                📷 Permanent QR access
+            </div>
+
+        </div>
+
+
+        <p class="security-note">
+            🔒 Your documents are protected with secure authentication.
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // SIGN IN
+        // ==========================================
+
+        document
+            .getElementById("signInBtn")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "/login.html";
+
+                }
+            );
+
+
+        // ==========================================
+        // SIGN UP
+        // ==========================================
+
+        document
+            .getElementById("signUpBtn")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "/register.html";
+
+                }
+            );
+
+
+        // ==========================================
+        // VIEW & DOWNLOAD
+        // ==========================================
+
+        document
+            .getElementById("viewerBtn")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "/viewer-login.html";
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>

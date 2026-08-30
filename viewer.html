@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocVault - My Documents</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Compact document row: View + Download on the same line */
+        .document-list .document-card {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            padding: 14px 16px !important;
+            min-height: 76px !important;
+        }
+
+        .document-list .document-icon {
+            width: 44px !important;
+            min-width: 44px !important;
+            height: 44px !important;
+            display: grid !important;
+            place-items: center !important;
+            font-size: 24px !important;
+        }
+
+        .document-list .document-info {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+        }
+
+        .document-list .document-info h3 {
+            margin: 0 !important;
+            font-size: 15px !important;
+            line-height: 1.25 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .document-list .document-info p {
+            margin: 4px 0 0 !important;
+            font-size: 12px !important;
+            line-height: 1.2 !important;
+        }
+
+        .document-list .document-actions {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 8px !important;
+            flex: 0 0 auto !important;
+        }
+
+        .document-list .document-actions button {
+            width: auto !important;
+            min-width: 92px !important;
+            height: 40px !important;
+            padding: 0 14px !important;
+            margin: 0 !important;
+            border-radius: 10px !important;
+            font-size: 13px !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
+        }
+
+        @media (max-width: 650px) {
+            .document-list .document-card {
+                gap: 10px !important;
+                padding: 12px !important;
+            }
+
+            .document-list .document-actions {
+                gap: 6px !important;
+            }
+
+            .document-list .document-actions button {
+                min-width: 76px !important;
+                padding: 0 10px !important;
+                font-size: 12px !important;
+            }
+        }
+    </style>
+
+<style>
+/* FINAL VIEWER COMPACT LAYOUT */
+.document-list .document-card {
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  padding:12px 14px !important;
+  min-height:70px !important;
+}
+.document-list .document-icon {
+  flex:0 0 42px !important;
+  width:42px !important;
+  height:42px !important;
+  display:grid !important;
+  place-items:center !important;
+  font-size:22px !important;
+}
+.document-list .document-info {
+  flex:1 1 auto !important;
+  min-width:0 !important;
+}
+.document-list .document-info h3 {
+  margin:0 !important;
+  font-size:15px !important;
+  line-height:1.25 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+.document-list .document-info p {
+  margin:3px 0 0 !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  color:#94a3b8 !important;
+}
+.document-list .document-actions {
+  display:flex !important;
+  flex:0 0 auto !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+.document-list .document-actions button {
+  width:auto !important;
+  min-width:82px !important;
+  height:36px !important;
+  padding:0 11px !important;
+  margin:0 !important;
+  border-radius:9px !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+}
+@media (max-width:650px) {
+  .document-list .document-card { gap:8px !important; padding:10px !important; }
+  .document-list .document-icon { flex-basis:36px !important; width:36px !important; height:36px !important; font-size:19px !important; }
+  .document-list .document-actions { gap:5px !important; }
+  .document-list .document-actions button { min-width:70px !important; height:34px !important; padding:0 8px !important; font-size:11px !important; }
+}
+</style>
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+
+            <div>
+                <div class="brand">
+                    🔐 DocVault
+                </div>
+
+                <p class="welcome">
+                    View & Download Only
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="logout-btn"
+                id="viewerLogoutBtn"
+            >
+                Exit
+            </button>
+
+        </header>
+
+
+        <!-- SECURITY NOTICE -->
+        <div
+            style="
+                margin: 20px 0;
+                padding: 16px;
+                border-radius: 12px;
+                background: rgba(34, 197, 94, 0.10);
+                border: 1px solid rgba(34, 197, 94, 0.25);
+            "
+        >
+
+            🔒 <strong>View & Download Access</strong>
+
+            <p style="margin: 8px 0 0;">
+                You can view and download documents.
+                Adding, editing and deleting documents is disabled.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+        <section class="search-section">
+
+            <input
+                type="search"
+                id="viewerSearch"
+                placeholder="🔍 Search documents..."
+            >
+
+        </section>
+
+
+        <!-- DOCUMENT COUNT -->
+        <div class="document-heading">
+
+            <div>
+
+                <h2>Documents</h2>
+
+                <p id="viewerDocumentCount">
+                    Loading documents...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOCUMENT LIST -->
+        <section
+            id="viewerDocumentList"
+            class="document-list"
+        >
+
+            <!-- Documents will be loaded from server -->
+
+            <div
+                id="viewerLoading"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    📂
+                </div>
+
+                <h3>Loading Documents...</h3>
+
+                <p>
+                    Please wait while your secure documents are loaded.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const viewerSearch =
+            document.getElementById("viewerSearch");
+
+        const viewerDocumentList =
+            document.getElementById(
+                "viewerDocumentList"
+            );
+
+        const viewerDocumentCount =
+            document.getElementById(
+                "viewerDocumentCount"
+            );
+
+
+        // ==========================================
+        // LOAD DOCUMENTS
+        // ==========================================
+
+        async function loadViewerDocuments() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/viewer/documents"
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!result.success) {
+
+                    viewerDocumentList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">🔒</div>
+                            <h3>Access Denied</h3>
+                            <p>${result.message}</p>
+                        </div>
+                    `;
+
+                    viewerDocumentCount.textContent =
+                        "Access denied";
+
+                    return;
+                }
+
+
+                const documents =
+                    result.documents || [];
+
+
+                renderDocuments(documents);
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                viewerDocumentList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <h3>Unable to Load Documents</h3>
+                        <p>Please try again.</p>
+                    </div>
+                `;
+
+                viewerDocumentCount.textContent =
+                    "Unable to load";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // RENDER DOCUMENTS
+        // ==========================================
+
+        function renderDocuments(documentList) {
+
+            viewerDocumentList.innerHTML = "";
+
+
+            viewerDocumentCount.textContent =
+                documentList.length +
+                (
+                    documentList.length === 1
+                        ? " document"
+                        : " documents"
+                );
+
+
+            if (documentList.length === 0) {
+
+                viewerDocumentList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📁</div>
+                        <h3>No Documents</h3>
+                        <p>No documents are available in this vault.</p>
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            documentList.forEach(function (item) {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "document-card";
+
+                card.dataset.name =
+                    item.name;
+
+
+                card.innerHTML = `
+
+                    <div class="document-icon">
+                        ${getDocumentIcon(item.fileType)}
+                    </div>
+
+                    <div class="document-info">
+
+                        <h3>
+                            ${escapeHtml(item.name)}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(item.fileType || "Document")}
+                        </p>
+
+                    </div>
+
+                    <div class="document-actions">
+
+                        <button
+                            type="button"
+                            class="secondary-btn view-btn"
+                            data-id="${item.id}"
+                        >
+                            👁️ View
+                        </button>
+
+                        <button
+                            type="button"
+                            class="download-btn"
+                            data-id="${item.id}"
+                        >
+                            ⬇️ Download
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                viewerDocumentList.appendChild(card);
+
+            });
+
+
+            addDocumentListeners();
+
+        }
+
+
+        // ==========================================
+        // DOCUMENT ICON
+        // ==========================================
+
+        function getDocumentIcon(fileType) {
+
+            if (!fileType) {
+                return "📄";
+            }
+
+
+            const type =
+                fileType.toLowerCase();
+
+
+            if (type.includes("pdf")) {
+                return "📕";
+            }
+
+
+            if (
+                type.includes("jpg") ||
+                type.includes("jpeg") ||
+                type.includes("png") ||
+                type.includes("image")
+            ) {
+                return "🖼️";
+            }
+
+
+            return "📄";
+        }
+
+
+        // ==========================================
+        // BUTTON EVENTS
+        // ==========================================
+
+        function addDocumentListeners() {
+
+            document
+                .querySelectorAll(".view-btn")
+                .forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const id =
+                                button.dataset.id;
+
+                            viewDocument(id);
+
+                        }
+                    );
+
+                });
+
+
+            document
+                .querySelectorAll(".download-btn")
+                .forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const id =
+                                button.dataset.id;
+
+                            downloadDocument(id);
+
+                        }
+                    );
+
+                });
+
+        }
+
+
+        // ==========================================
+        // VIEW
+        // ==========================================
+
+        function viewDocument(id) {
+
+            window.open(
+                "/api/viewer/documents/" +
+                encodeURIComponent(id) +
+                "/view",
+                "_blank"
+            );
+
+        }
+
+
+        // ==========================================
+        // DOWNLOAD
+        // ==========================================
+
+        function downloadDocument(id) {
+
+            window.location.href =
+                "/api/viewer/documents/" +
+                encodeURIComponent(id) +
+                "/download";
+
+        }
+
+
+        // ==========================================
+        // SEARCH
+        // ==========================================
+
+        viewerSearch.addEventListener(
+            "input",
+            function () {
+
+                const search =
+                    viewerSearch.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const cards =
+                    document.querySelectorAll(
+                        ".document-card"
+                    );
+
+
+                cards.forEach(function (card) {
+
+                    const name =
+                        card.dataset.name
+                            .toLowerCase();
+
+
+                    if (name.includes(search)) {
+
+                        card.style.display =
+                            "";
+
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+                });
+
+            }
+        );
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // EXIT
+        // ==========================================
+
+        document
+            .getElementById("viewerLogoutBtn")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href = "/";
+
+                }
+            );
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadViewerDocuments();
+
+    </script>
+
+</body>
+
+</html>
