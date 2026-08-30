@@ -118,7 +118,7 @@ const app = express();
 
  
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
  
 
@@ -290,23 +290,35 @@ app.use(session({
 
  
 
-app.use(express.static(
+// Serve the frontend files from the repository root.
+// Render runs this server from the project root, where index.html,
+// login.html, register.html, etc. are stored.
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
- 
+const frontendPages = [
+    "index.html",
+    "login.html",
+    "register.html",
+    "forgot-password.html",
+    "create-password.html",
+    "create-pin.html",
+    "dashboard.html",
+    "viewer-login.html",
+    "viewer.html"
+];
 
- 
+frontendPages.forEach((page) => {
+    app.get(`/${page}`, (req, res) => {
+        res.sendFile(path.join(__dirname, page));
+    });
+});
 
- 
-
-    path.join(__dirname, "public")
-
- 
-
- 
-
- 
-
-));
+// style.css is also stored in the repository root.
+app.get("/style.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "style.css"));
+});
 
  
 
