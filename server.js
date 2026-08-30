@@ -92,15 +92,31 @@ app.use(session({
 
  
 
-app.use(
+// Frontend files are stored in the repository root (not in /public).
+// Serve only the files that are meant to be public.
+const frontendFiles = [
+    "index.html",
+    "login.html",
+    "register.html",
+    "create-password.html",
+    "create-pin.html",
+    "forgot-password.html",
+    "dashboard.html",
+    "viewer-login.html",
+    "viewer.html",
+    "style.css",
+    "app.js"
+];
 
-    express.static(
+frontendFiles.forEach((file) => {
+    app.get(`/${file}`, (req, res) => {
+        res.sendFile(path.join(__dirname, file));
+    });
+});
 
-        path.join(__dirname, "public")
-
-    )
-
-);
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
  
 
@@ -2670,12 +2686,14 @@ app.get(
 
  
 
+            const publicBaseUrl =
+                process.env.RENDER_EXTERNAL_URL ||
+                process.env.APP_URL ||
+                `http://localhost:${PORT}`;
+
             const viewerUrl =
-
-                `http://10.20.137.41:3000/viewer-login.html?token=${encodeURIComponent(
-
+                `${publicBaseUrl.replace(/\/$/, "")}/viewer-login.html?token=${encodeURIComponent(
                     qrToken
-
                 )}`;
 
  
@@ -4618,364 +4636,6 @@ app.post(
 
 // ==========================================
 
- 
-
-app.post(
-
-    "/api/change-security-pin",
-
-    requireLogin,
-
-    async (req, res) => {
-
- 
-
-        try {
-
- 
-
-            const currentPin =
-
-                String(
-
-                    req.body.currentPin || ""
-
-                );
-
- 
-
-            const newPin =
-
-                String(
-
-                    req.body.newPin || ""
-
-                );
-
- 
-
-            const confirmPin =
-
-                String(
-
-                    req.body.confirmPin || ""
-
-                );
-
- 
-
- 
-
-            if (
-
-                !/^\d{6}$/.test(
-
-                    currentPin
-
-                )
-
-            ) {
-
- 
-
-                return res.status(400).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "Current Security PIN must contain exactly 6 digits."
-
-                });
-
-            }
-
- 
-
- 
-
-            if (
-
-                !/^\d{6}$/.test(
-
-                    newPin
-
-                )
-
-            ) {
-
- 
-
-                return res.status(400).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "New Security PIN must contain exactly 6 digits."
-
-                });
-
-            }
-
- 
-
- 
-
-            if (
-
-                newPin !==
-
-                confirmPin
-
-            ) {
-
- 
-
-                return res.status(400).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "New Security PIN entries do not match."
-
-                });
-
-            }
-
- 
-
- 
-
-            const user =
-
-                await users.findOne({
-
- 
-
-                    email:
-
-                        req.session.userEmail
-
-                });
-
- 
-
- 
-
-            if (!user) {
-
- 
-
-                return res.status(404).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "User account not found."
-
-                });
-
-            }
-
- 
-
- 
-
-            if (
-
-                !user.securityPinHash
-
-            ) {
-
- 
-
-                return res.status(400).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "Security PIN is not configured."
-
-                });
-
-            }
-
- 
-
- 
-
-            const valid =
-
-                await bcrypt.compare(
-
- 
-
-                    currentPin,
-
- 
-
-                    user.securityPinHash
-
-                );
-
- 
-
- 
-
-            if (!valid) {
-
- 
-
-                return res.status(401).json({
-
- 
-
-                    success: false,
-
- 
-
-                    message:
-
-                        "Incorrect Security PIN."
-
-                });
-
-            }
-
- 
-
- 
-
-            const securityPinHash =
-
-                await bcrypt.hash(
-
-                    newPin,
-
-                    12
-
-                );
-
- 
-
- 
-
-            await users.updateOne(
-
- 
-
-                {
-
-                    email:
-
-                        user.email
-
-                },
-
- 
-
-                {
-
-                    $set: {
-
-                        securityPinHash
-
-                    }
-
-                }
-
-            );
-
- 
-
- 
-
-            res.json({
-
- 
-
-                success: true,
-
- 
-
-                message:
-
-                    "Security PIN updated successfully."
-
-            });
-
- 
-
- 
-
-        } catch (error) {
-
- 
-
-            console.error(
-
-                "CHANGE PIN ERROR:",
-
-                error
-
-            );
-
- 
-
- 
-
-            res.status(500).json({
-
- 
-
-                success: false,
-
- 
-
-                message:
-
-                    "Unable to change Security PIN."
-
-            });
-
-        }
-
-    }
-
-);
-
- 
-
- 
-
- 
-
-// ==========================================
-
 // EDIT DOCUMENT
 
 // ==========================================
@@ -5722,15 +5382,7 @@ async function startServer() {
 
  
 
-        app.listen(PORT, "0.0.0.0",
-
- 
-
-            "0.0.0.0",
-
- 
-
-            () => {
+        app.listen(PORT, "0.0.0.0", () => {
 
  
 
