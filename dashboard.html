@@ -948,169 +948,28 @@
             font-size: 13px;
         }
 
-        .qr-card {
-            width: 85.6mm;
-            height: 53.98mm;
-            max-width: 100%;
-            aspect-ratio: 85.6 / 53.98;
-            box-sizing: border-box;
-            padding: 10px;
-            border: 1px solid #2f486b;
-            border-radius: 10px;
-            background:
-                radial-gradient(circle at top right, rgba(45, 144, 205, .16), transparent 35%),
-                linear-gradient(145deg, #162640, #0e182b);
-        }
-
-        .qr-card-brand {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            margin-bottom: 5px;
-        }
-
-        .qr-brand-mark {
-            width: 44px;
-            height: 44px;
-            display: grid;
-            place-items: center;
-            border: 1px solid #3c6a91;
-            border-radius: 13px;
-            background: #102a45;
-            font-size: 20px;
-        }
-
-        .qr-brand-name {
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 850;
-        }
-
-        .qr-brand-subtitle {
-            margin-top: 2px;
-            color: #63c8f5;
-            font-size: 6px;
-            font-weight: 800;
-            letter-spacing: 1.2px;
-        }
-
-        .qr-image-frame {
-            width: 30mm;
-            height: 30mm;
-            display: grid;
-            place-items: center;
-            margin: 0 auto 18px;
-            padding: 12px;
-            border: 1px solid #dbeafe;
-            border-radius: 18px;
-            background: #ffffff;
-            box-shadow: 0 15px 35px rgba(0,0,0,.25);
-        }
-
-        .qr-image {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: contain;
-            image-rendering: pixelated;
-        }
-
-        .qr-owner {
-            text-align: center;
-        }
-
-        /* OWNER NAME MUST ALWAYS BE WHITE */
-        .qr-owner-name {
-            color: #ffffff !important;
-            font-size: 11px;
-            font-weight: 850;
-            line-height: 1.3;
-        }
-
-        .qr-owner-email {
-            margin-top: 2px;
-            color: #cbd9ea;
-            font-size: 7px;
-            word-break: break-word;
-        }
-
-        .qr-divider {
-            height: 1px;
-            margin: 18px 0;
-            background: #2b405e;
-        }
-
-        .qr-secure-note {
-            display: flex;
-            align-items: flex-start;
-            gap: 5px;
-            padding: 6px;
-            border: 1px solid #294362;
-            border-radius: 13px;
-            background: rgba(8, 20, 37, .55);
-        }
-
-        .qr-secure-note > span {
-            font-size: 17px;
-        }
-
-        .qr-secure-note strong {
-            color: #f4f8ff;
-            font-size: 8px;
-        }
-
-        .qr-secure-note p {
-            margin: 2px 0 0;
-            color: #8fa5c0;
-            font-size: 6px;
-            line-height: 1.5;
-        }
-
-        .qr-details {
-            margin-top: 13px;
-            padding: 11px 13px;
-            border: 1px solid #293f5e;
-            border-radius: 12px;
-            background: #0f192c;
-        }
-
-        .qr-url-label {
-            margin-bottom: 5px;
-            color: #6fbce1;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .qr-url {
-            color: #aebed2;
-            font-size: 11px;
-            line-height: 1.45;
-            word-break: break-all;
-        }
-
-        .qr-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 13px;
-        }
-
-        @media (max-width: 560px) {
-            .qr-card {
-                padding: 18px;
-            }
-
-            .qr-image-frame {
-                width: min(250px, 72vw);
-                height: min(250px, 72vw);
-            }
-
-            .qr-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        .qr-card { width: 100%; max-width: 520px; aspect-ratio: 85.6 / 54; margin: 0 auto; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: #fff; color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden; }
+        .qr-card-brand { text-align: center; margin-bottom: 3px; }
+        .qr-brand-mark { display: none; }
+        .qr-brand-name { color: #10213d; font-size: 17px; font-weight: 900; line-height: 1; }
+        .qr-brand-subtitle { margin-top: 2px; color: #1687bf; font-size: 6px; font-weight: 900; letter-spacing: 1px; }
+        .qr-image-frame { width: 116px; height: 116px; display: grid; place-items: center; margin: 1px auto 3px; padding: 4px; border: 2px solid #111827; border-radius: 7px; background: #fff; }
+        .qr-image { width: 100%; height: 100%; display: block; object-fit: contain; image-rendering: pixelated; }
+        .qr-profile-photo { width: 28px; height: 28px; display: block; margin: 0 auto 2px; border-radius: 50%; object-fit: cover; border: 2px solid #10213d; background: #e2e8f0; }
+        .qr-profile-initial { width: 28px; height: 28px; display: grid; place-items: center; margin: 0 auto 2px; border-radius: 50%; background: #10213d; color: #fff; font-size: 12px; font-weight: 900; }
+        .qr-owner { width: 100%; text-align: center; }
+        .qr-owner-name { color: #10213d !important; font-size: 11px; font-weight: 900; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .qr-owner-email { margin-top: 1px; color: #475569; font-size: 7px; line-height: 1.05; word-break: break-all; }
+        .qr-divider { width: 82%; height: 1px; margin: 3px auto 2px; background: #cbd5e1; }
+        .qr-secure-note { text-align: center; color: #64748b; font-size: 6px; line-height: 1.05; }
+        .qr-secure-note > span { display: none; }
+        .qr-secure-note strong { color: #334155; font-size: 6px; }
+        .qr-secure-note p { margin: 1px 0 0; color: #64748b; font-size: 6px; line-height: 1.05; }
+        .qr-details { margin-top: 10px; padding: 9px 11px; border: 1px solid #293f5e; border-radius: 12px; background: #0f192c; }
+        .qr-url-label { margin-bottom: 5px; color: #6fbce1; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+        .qr-url { color: #aebed2; font-size: 11px; line-height: 1.45; word-break: break-all; }
+        .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
+        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 8px 12px; } .qr-image-frame { width: 92px; height: 92px; } .qr-actions { grid-template-columns: 1fr; } }
 
         /* =====================================
            SETTINGS
@@ -2238,6 +2097,8 @@
                     >
                 </div>
 
+                <div id="qrProfilePhotoWrap" aria-label="Profile photo"></div>
+
                 <div class="qr-owner">
                     <div id="qrOwnerName" class="qr-owner-name">Vault Owner</div>
                     <div id="qrOwnerEmail" class="qr-owner-email"></div>
@@ -2927,6 +2788,9 @@
         const qrOwnerEmail =
             document.getElementById("qrOwnerEmail");
 
+        const qrProfilePhotoWrap =
+            document.getElementById("qrProfilePhotoWrap");
+
         renderProfile();
 
         qrLoading.style.display = "flex";
@@ -2975,6 +2839,8 @@
             qrOwnerEmail.textContent =
                 window.docVaultOwnerEmail || "";
 
+            renderQrProfilePhoto();
+
             qrUrl.textContent =
                 result.viewerUrl || "";
 
@@ -3003,6 +2869,16 @@
 
             qrError.style.display = "block";
         }
+    }
+
+
+    function renderQrProfilePhoto() {
+        const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
+        const name = document.getElementById("qrOwnerName").textContent || "G";
+        if (!qrProfilePhotoWrap) return;
+        qrProfilePhotoWrap.innerHTML = photo
+            ? `<img class="qr-profile-photo" src="${photo}" alt="Profile photo">`
+            : `<div class="qr-profile-initial">${escapeHtml((name.charAt(0) || "G").toUpperCase())}</div>`;
     }
 
 
@@ -3058,330 +2934,77 @@
 
 
     // ==========================================
-    // QR DOWNLOAD - ISOLATED
+    // QR DOWNLOAD - ATM CARD SIZE
+    // 85.60 x 53.98 mm at 300 DPI = 1011 x 638 px
     // ==========================================
 
-    document
-        .getElementById("downloadQrBtn")
-        .addEventListener(
-            "click",
-            async function () {
+    document.getElementById("downloadQrBtn").addEventListener("click", async function () {
+        const qrImage = document.getElementById("qrImage");
+        if (!qrImage.src || !qrImage.complete) { alert("QR code is not ready."); return; }
+        try {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const width = 1011, height = 638;
+            canvas.width = width; canvas.height = height;
+            ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, width, height);
+            ctx.strokeStyle = "#10213d"; ctx.lineWidth = 6; ctx.strokeRect(12, 12, width - 24, height - 24);
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#10213d"; ctx.font = "900 30px Arial"; ctx.fillText("DocVault", width / 2, 42);
+            ctx.fillStyle = "#1687bf"; ctx.font = "900 11px Arial"; ctx.fillText("PERMANENT SECURE ACCESS", width / 2, 59);
+            const qrSize = 318, qrX = (width - qrSize) / 2, qrY = 72;
+            ctx.fillStyle = "#fff"; ctx.fillRect(qrX - 8, qrY - 8, qrSize + 16, qrSize + 16);
+            ctx.strokeStyle = "#111827"; ctx.lineWidth = 4; ctx.strokeRect(qrX - 8, qrY - 8, qrSize + 16, qrSize + 16);
+            ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+            const ownerName = document.getElementById("qrOwnerName").textContent || "Vault Owner";
+            const ownerEmail = document.getElementById("qrOwnerEmail").textContent || "";
+            const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
+            const photoSize = 55, photoX = (width - photoSize) / 2, photoY = 403;
+            ctx.save(); ctx.beginPath(); ctx.arc(width / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2); ctx.clip();
+            if (photo) { const profileImage = await loadImageForCard(photo); ctx.drawImage(profileImage, photoX, photoY, photoSize, photoSize); }
+            else { ctx.fillStyle = "#10213d"; ctx.fillRect(photoX, photoY, photoSize, photoSize); ctx.fillStyle = "#fff"; ctx.font = "900 26px Arial"; ctx.fillText((ownerName.charAt(0) || "G").toUpperCase(), width / 2, photoY + 37); }
+            ctx.restore();
+            ctx.fillStyle = "#10213d"; ctx.font = "900 17px Arial"; ctx.fillText(ownerName, width / 2, 485);
+            ctx.fillStyle = "#475569"; ctx.font = "500 11px Arial"; ctx.fillText(ownerEmail, width / 2, 503);
+            ctx.fillStyle = "#64748b"; ctx.font = "500 9px Arial"; ctx.fillText("Scan QR to access documents • Security PIN required", width / 2, 530);
+            const link = document.createElement("a"); link.download = "DocVault-Permanent-QR-ATM-Card.png"; link.href = canvas.toDataURL("image/png", 1); document.body.appendChild(link); link.click(); link.remove();
+        } catch (error) { console.error("QR download error:", error); alert("Unable to download QR card."); }
+    });
 
-                const qrImage =
-                    document.getElementById(
-                        "qrImage"
-                    );
-
-                if (
-                    !qrImage.src ||
-                    !qrImage.complete
-                ) {
-                    return;
-                }
-
-                try {
-
-                    const canvas =
-                        document.createElement(
-                            "canvas"
-                        );
-
-                    const ctx =
-                        canvas.getContext("2d");
-
-                    const width = 900;
-                    const height = 1120;
-
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    ctx.fillStyle = "#0e182b";
-                    ctx.fillRect(
-                        0,
-                        0,
-                        width,
-                        height
-                    );
-
-                    ctx.fillStyle = "#162640";
-                    ctx.fillRect(
-                        45,
-                        45,
-                        width - 90,
-                        height - 90
-                    );
-
-                    ctx.fillStyle = "#ffffff";
-                    ctx.font =
-                        "800 44px Arial";
-                    ctx.fillText(
-                        "🔐 DocVault",
-                        90,
-                        125
-                    );
-
-                    ctx.fillStyle = "#63c8f5";
-                    ctx.font =
-                        "800 18px Arial";
-                    ctx.fillText(
-                        "PERMANENT SECURE ACCESS",
-                        90,
-                        160
-                    );
-
-                    const qrSize = 560;
-                    const qrX =
-                        (width - qrSize) / 2;
-                    const qrY = 205;
-
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fillRect(
-                        qrX - 18,
-                        qrY - 18,
-                        qrSize + 36,
-                        qrSize + 36
-                    );
-
-                    ctx.drawImage(
-                        qrImage,
-                        qrX,
-                        qrY,
-                        qrSize,
-                        qrSize
-                    );
-
-                    const ownerName =
-                        document
-                            .getElementById(
-                                "qrOwnerName"
-                            )
-                            .textContent ||
-                        "Vault Owner";
-
-                    const ownerEmail =
-                        document
-                            .getElementById(
-                                "qrOwnerEmail"
-                            )
-                            .textContent ||
-                        "";
-
-                    ctx.textAlign = "center";
-
-                    // OWNER NAME - WHITE
-                    ctx.fillStyle = "#ffffff";
-                    ctx.font =
-                        "800 34px Arial";
-                    ctx.fillText(
-                        ownerName,
-                        width / 2,
-                        855
-                    );
-
-                    ctx.fillStyle = "#cbd9ea";
-                    ctx.font =
-                        "500 21px Arial";
-                    ctx.fillText(
-                        ownerEmail,
-                        width / 2,
-                        895
-                    );
-
-                    ctx.fillStyle = "#63c8f5";
-                    ctx.font =
-                        "700 19px Arial";
-                    ctx.fillText(
-                        "Scan to open secure document viewer",
-                        width / 2,
-                        965
-                    );
-
-                    ctx.fillStyle = "#91a5bd";
-                    ctx.font =
-                        "500 17px Arial";
-                    ctx.fillText(
-                        "Security PIN required for document access",
-                        width / 2,
-                        1000
-                    );
-
-                    ctx.textAlign = "start";
-
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-                    link.download =
-                        "DocVault-Permanent-QR.png";
-
-                    link.href =
-                        canvas.toDataURL(
-                            "image/png"
-                        );
-
-                    document.body.appendChild(
-                        link
-                    );
-
-                    link.click();
-                    link.remove();
-
-                } catch (error) {
-
-                    console.error(
-                        "QR download error:",
-                        error
-                    );
-
-                    alert(
-                        "Unable to download QR."
-                    );
-                }
-            }
-        );
+    function loadImageForCard(src) {
+        return new Promise((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = reject; image.src = src; });
+    }
 
 
     // ==========================================
-    // QR PRINT - ISOLATED
+    // QR PRINT - ATM CARD SIZE
     // ==========================================
 
-    document
-        .getElementById("printQrBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const qrCard =
-                    document.getElementById(
-                        "qrCard"
-                    );
-
-                if (
-                    !qrCard ||
-                    qrCard.style.display === "none"
-                ) {
-                    return;
-                }
-
-                const printWindow =
-                    window.open(
-                        "",
-                        "_blank",
-                        "width=700,height=850"
-                    );
-
-                if (!printWindow) {
-                    alert(
-                        "Please allow pop-ups to print the QR."
-                    );
-                    return;
-                }
-
-                printWindow.document.write(`
-                    <!doctype html>
-                    <html>
-                    <head>
-                        <title>DocVault Permanent QR</title>
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 35px;
-                                background: #0e182b;
-                                color: white;
-                                font-family: Arial, sans-serif;
-                                text-align: center;
-                            }
-
-                            .card {
-                                width: 85.6mm;
-                                height: 53.98mm;
-                                box-sizing: border-box;
-                                margin: 0;
-                                padding: 4mm;
-                                border-radius: 3mm;
-                                background: #162640;
-                            }
-
-                            img {
-                                width: 30mm;
-                                height: 30mm;
-                                object-fit: contain;
-                                background: white;
-                                padding: 12px;
-                                border-radius: 15px;
-                            }
-
-                            h1 {
-                                margin: 2px 0;
-                                color: white;
-                                font-size: 11pt;
-                            }
-
-                            .email {
-                                color: #cbd9ea;
-                                font-size: 7pt;
-                            }
-
-                            .note {
-                                margin-top: 3px;
-                                color: #63c8f5;
-                                font-size: 6pt;
-                            }
-
-                            @page {
-                                size: 85.6mm 53.98mm;
-                                margin: 0;
-                            }
-
-                            @media print {
-                                html, body {
-                                    width: 85.6mm;
-                                    height: 53.98mm;
-                                }
-
-                                .card {
-                                    break-inside: avoid;
-                                    page-break-inside: avoid;
-                                }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="card">
-                            <h1>🔐 DocVault</h1>
-                            <img
-                                src="${document.getElementById("qrImage").src}"
-                            >
-                            <h1>
-                                ${escapeHtml(
-                                    document.getElementById("qrOwnerName").textContent
-                                )}
-                            </h1>
-                            <div class="email">
-                                ${escapeHtml(
-                                    document.getElementById("qrOwnerEmail").textContent
-                                )}
-                            </div>
-                            <div class="note">
-                                Scan to open secure document viewer
-                            </div>
-                        </div>
-                    </body>
-                    </html>
-                `);
-
-                printWindow.document.close();
-                printWindow.focus();
-
-                setTimeout(
-                    function () {
-                        printWindow.print();
-                    },
-                    300
-                );
-            }
-        );
+    document.getElementById("printQrBtn").addEventListener("click", function () {
+        const qrCard = document.getElementById("qrCard");
+        const qrImage = document.getElementById("qrImage");
+        if (!qrCard || qrCard.style.display === "none" || !qrImage.src) { alert("QR code is not ready."); return; }
+        const printWindow = window.open("", "_blank", "width=520,height=420");
+        if (!printWindow) { alert("Please allow pop-ups to print the QR."); return; }
+        const ownerName = document.getElementById("qrOwnerName").textContent || "Vault Owner";
+        const ownerEmail = document.getElementById("qrOwnerEmail").textContent || "";
+        const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
+        const photoMarkup = photo ? `<img class="profile-photo" src="${photo}" alt="Profile photo">` : `<div class="profile-initial">${escapeHtml((ownerName.charAt(0) || "G").toUpperCase())}</div>`;
+        printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>DocVault Permanent QR</title><style>
+            @page { size: 85.60mm 53.98mm; margin: 0; }
+            html,body { width:85.60mm; height:53.98mm; margin:0; padding:0; }
+            body { background:#fff; font-family:Arial,sans-serif; }
+            .card { width:85.60mm; height:53.98mm; box-sizing:border-box; padding:1.5mm; border:.5mm solid #10213d; text-align:center; overflow:hidden; color:#10213d; }
+            .brand { font-size:4mm; font-weight:900; line-height:1; }
+            .subtitle { margin-top:.5mm; color:#1687bf; font-size:1.4mm; font-weight:900; letter-spacing:.3mm; }
+            .qr { width:30mm; height:30mm; object-fit:contain; margin:1.2mm auto .6mm; display:block; }
+            .profile-photo,.profile-initial { width:5.2mm; height:5.2mm; margin:0 auto .4mm; border-radius:50%; display:block; object-fit:cover; border:.3mm solid #10213d; box-sizing:border-box; }
+            .profile-initial { display:grid; place-items:center; background:#10213d; color:#fff; font-size:2.3mm; font-weight:900; }
+            .name { font-size:2.6mm; font-weight:900; line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+            .email { margin-top:.35mm; color:#475569; font-size:1.5mm; line-height:1; word-break:break-all; }
+            .note { margin-top:.7mm; color:#64748b; font-size:1.2mm; line-height:1; }
+        </style></head><body><div class="card"><div class="brand">🔐 DocVault</div><div class="subtitle">PERMANENT SECURE ACCESS</div><img class="qr" src="${qrImage.src}">${photoMarkup}<div class="name">${escapeHtml(ownerName)}</div><div class="email">${escapeHtml(ownerEmail)}</div><div class="note">Scan QR to access documents • Security PIN required</div></div></body></html>`);
+        printWindow.document.close(); printWindow.focus(); setTimeout(function(){ printWindow.print(); },500);
+    });
 
 
     settingsBtn.addEventListener(
