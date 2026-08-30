@@ -4013,175 +4013,113 @@
 
 
     // ==========================================
-    // PRINT DOCUMENT
+    // PRINT DOCUMENT - RELIABLE PDF / IMAGE PRINT
     // ==========================================
 
-    function printDocument(
-        documentId,
-        fileType
-    ) {
+    function printDocument(documentId, fileType) {
         const viewUrl =
             "/api/documents/" +
-            encodeURIComponent(
-                documentId
-            ) +
+            encodeURIComponent(documentId) +
             "/view";
 
-        const printWindow =
-            window.open(
-                "",
-                "_blank",
-                "width=1000,height=900"
-            );
+        const printWindow = window.open(
+            "",
+            "_blank",
+            "width=1000,height=900"
+        );
 
         if (!printWindow) {
-            alert(
-                "Please allow pop-ups to print documents."
-            );
+            alert("Please allow pop-ups to print documents.");
             return;
         }
 
-        const type =
-            String(fileType || "")
-                .toLowerCase();
+        const type = String(fileType || "").toLowerCase();
+        const isPdf = type === "application/pdf";
 
-        const isPdf =
-            type === "application/pdf";
-
+        printWindow.document.open();
         printWindow.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
                 <title>DocVault - Print</title>
-
                 <style>
-                    * {
-                        box-sizing: border-box;
-                    }
-
-                    html,
-                    body {
+                    @page { margin: 0; }
+                    * { box-sizing: border-box; }
+                    html, body {
                         margin: 0;
                         padding: 0;
                         width: 100%;
                         min-height: 100%;
-                        background: #ffffff;
+                        background: #fff;
                     }
-
                     body {
                         display: flex;
                         align-items: center;
                         justify-content: center;
                     }
-
-                    .print-image {
+                    #printImage {
                         display: block;
-                        max-width: 100%;
+                        max-width: 100vw;
                         max-height: 100vh;
                         object-fit: contain;
                     }
-
-                    .print-frame {
+                    #printFrame {
+                        display: block;
                         width: 100vw;
                         height: 100vh;
                         border: 0;
                     }
-
                     @media print {
-                        body {
-                            display: block;
-                        }
-
-                        .print-image {
-                            max-width: 100%;
+                        body { display: block; }
+                        #printImage {
+                            width: 100%;
+                            height: auto;
+                            max-width: none;
                             max-height: none;
                         }
-
-                        .print-frame {
+                        #printFrame {
                             width: 100%;
                             height: 100vh;
                         }
                     }
                 </style>
             </head>
-
             <body>
-                ${
-                    isPdf
-                        ? `<iframe
-                                id="printFrame"
-                                class="print-frame"
-                                src="${viewUrl}"
-                           ></iframe>`
-                        : `<img
-                                id="printImage"
-                                class="print-image"
-                                src="${viewUrl}"
-                                alt="Document"
-                           >`
+                ${isPdf
+                    ? `<iframe id="printFrame" src="${viewUrl}"></iframe>`
+                    : `<img id="printImage" src="${viewUrl}" alt="Document">`
                 }
             </body>
             </html>
         `);
-
         printWindow.document.close();
 
-        function startPrinting() {
-            setTimeout(
-                function () {
-                    printWindow.focus();
+        let printed = false;
+        function doPrint() {
+            if (printed || printWindow.closed) return;
+            printed = true;
+            printWindow.focus();
+            setTimeout(function () {
+                try {
                     printWindow.print();
-                },
-                600
-            );
+                } catch (error) {
+                    console.error("Print error:", error);
+                }
+            }, 150);
         }
 
-        if (isPdf) {
-            const frame =
-                printWindow.document.getElementById(
-                    "printFrame"
-                );
+        const target = printWindow.document.getElementById(
+            isPdf ? "printFrame" : "printImage"
+        );
 
-            if (frame) {
-                frame.addEventListener(
-                    "load",
-                    startPrinting,
-                    { once: true }
-                );
-            } else {
-                startPrinting();
-            }
-        } else {
-            const image =
-                printWindow.document.getElementById(
-                    "printImage"
-                );
-
-            if (image) {
-                image.addEventListener(
-                    "load",
-                    startPrinting,
-                    { once: true }
-                );
-
-                image.addEventListener(
-                    "error",
-                    function () {
-                        printWindow.close();
-
-                        alert(
-                            "Unable to load the document for printing."
-                        );
-                    },
-                    { once: true }
-                );
-            } else {
-                startPrinting();
-            }
+        if (target) {
+            target.addEventListener("load", doPrint, { once: true });
         }
+
+        // Fallback for PDF viewers that do not reliably fire iframe load.
+        setTimeout(doPrint, isPdf ? 1800 : 1200);
     }
-
 
     // ==========================================
     // SEARCH
