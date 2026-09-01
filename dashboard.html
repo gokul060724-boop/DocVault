@@ -948,28 +948,28 @@
             font-size: 13px;
         }
 
-        .qr-card { width: 100%; max-width: 520px; aspect-ratio: 85.6 / 54; margin: 0 auto; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: #fff; color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden; }
-        .qr-card-brand { text-align: center; margin-bottom: 3px; }
+        .qr-card { width: 100%; max-width: 520px; aspect-ratio: 85.6 / 54; margin: 0 auto; padding: 13px 17px; border: 1px solid #cbd5e1; border-radius: 16px; background: linear-gradient(135deg,#ffffff,#f7fbff); color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: grid; grid-template-columns: 46% 54%; align-items: center; overflow: hidden; }
+        .qr-card-brand { text-align: left; margin-bottom: 4px; }
         .qr-brand-mark { display: none; }
-        .qr-brand-name { color: #10213d; font-size: 17px; font-weight: 900; line-height: 1; }
-        .qr-brand-subtitle { margin-top: 2px; color: #1687bf; font-size: 6px; font-weight: 900; letter-spacing: 1px; }
-        .qr-image-frame { width: 116px; height: 116px; display: grid; place-items: center; margin: 1px auto 3px; padding: 4px; border: 2px solid #111827; border-radius: 7px; background: #fff; }
+        .qr-brand-name { color: #10213d; font-size: 18px; font-weight: 900; line-height: 1; }
+        .qr-brand-subtitle { margin-top: 3px; color: #1687bf; font-size: 6px; font-weight: 900; letter-spacing: 1px; }
+        .qr-image-frame { width: 128px; height: 128px; display: grid; place-items: center; margin: 0 auto; padding: 5px; border: 2px solid #10213d; border-radius: 9px; background: #fff; box-shadow: 0 7px 18px rgba(16,33,61,.12); }
         .qr-image { width: 100%; height: 100%; display: block; object-fit: contain; image-rendering: pixelated; }
-        .qr-profile-photo { width: 28px; height: 28px; display: block; margin: 0 auto 2px; border-radius: 50%; object-fit: cover; border: 2px solid #10213d; background: #e2e8f0; }
-        .qr-profile-initial { width: 28px; height: 28px; display: grid; place-items: center; margin: 0 auto 2px; border-radius: 50%; background: #10213d; color: #fff; font-size: 12px; font-weight: 900; }
-        .qr-owner { width: 100%; text-align: center; }
-        .qr-owner-name { color: #10213d !important; font-size: 11px; font-weight: 900; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .qr-owner-email { margin-top: 1px; color: #475569; font-size: 7px; line-height: 1.05; word-break: break-all; }
-        .qr-divider { width: 82%; height: 1px; margin: 3px auto 2px; background: #cbd5e1; }
-        .qr-secure-note { text-align: center; color: #64748b; font-size: 6px; line-height: 1.05; }
+        .qr-profile-photo { width: 30px; height: 30px; display: block; margin: 8px 0 4px; border-radius: 50%; object-fit: cover; border: 2px solid #10213d; background: #e2e8f0; }
+        .qr-profile-initial { width: 30px; height: 30px; display: grid; place-items: center; margin: 8px 0 4px; border-radius: 50%; background: #10213d; color: #fff; font-size: 12px; font-weight: 900; }
+        .qr-owner { width: 100%; text-align: left; }
+        .qr-owner-name { color: #10213d !important; font-size: 12px; font-weight: 900; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .qr-owner-email { margin-top: 2px; color: #475569; font-size: 7px; line-height: 1.1; word-break: break-all; }
+        .qr-divider { width: 36px; height: 2px; margin: 7px 0 5px; background: #1687bf; }
+        .qr-secure-note { text-align: left; color: #64748b; font-size: 7px; line-height: 1.25; }
         .qr-secure-note > span { display: none; }
-        .qr-secure-note strong { color: #334155; font-size: 6px; }
-        .qr-secure-note p { margin: 1px 0 0; color: #64748b; font-size: 6px; line-height: 1.05; }
+        .qr-secure-note strong { color: #334155; font-size: 7px; }
+        .qr-secure-note p { margin: 2px 0 0; color: #64748b; font-size: 6.5px; line-height: 1.25; }
         .qr-details { margin-top: 10px; padding: 9px 11px; border: 1px solid #293f5e; border-radius: 12px; background: #0f192c; }
         .qr-url-label { margin-bottom: 5px; color: #6fbce1; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
         .qr-url { color: #aebed2; font-size: 11px; line-height: 1.45; word-break: break-all; }
         .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
-        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 8px 12px; } .qr-image-frame { width: 92px; height: 92px; } .qr-actions { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 9px 11px; grid-template-columns: 44% 56%; } .qr-image-frame { width: 94px; height: 94px; } .qr-brand-name { font-size: 15px; } .qr-actions { grid-template-columns: 1fr; } }
 
         /* =====================================
            SETTINGS
@@ -3052,19 +3052,22 @@
         const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
         const photoMarkup = photo ? `<img class="profile-photo" src="${photo}" alt="Profile photo">` : `<div class="profile-initial">${escapeHtml((ownerName.charAt(0) || "G").toUpperCase())}</div>`;
         printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>DocVault Permanent QR</title><style>
-            @page { size: 53.98mm 85.60mm; margin: 0; }
-            html,body { width:53.98mm; height:85.60mm; margin:0; padding:0; }
+            @page { size: 85.60mm 53.98mm; margin: 0; }
+            html,body { width:85.60mm; height:53.98mm; margin:0; padding:0; }
             body { background:#fff; font-family:Arial,sans-serif; }
-            .card { width:53.98mm; height:85.60mm; box-sizing:border-box; padding:1.5mm; border:.5mm solid #10213d; text-align:center; overflow:hidden; color:#10213d; }
+            .card { width:85.60mm; height:53.98mm; box-sizing:border-box; padding:2.2mm 3mm; border:.45mm solid #10213d; border-radius:3mm; text-align:left; overflow:hidden; color:#10213d; display:flex; align-items:center; gap:3.2mm; }
+            .qr-side { flex:0 0 42mm; display:flex; align-items:center; justify-content:center; }
+            .qr { width:38mm; height:38mm; object-fit:contain; display:block; }
+            .info { flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; }
             .brand { font-size:4.2mm; font-weight:900; line-height:1; }
-            .subtitle { margin-top:.7mm; color:#1687bf; font-size:1.4mm; font-weight:900; letter-spacing:.3mm; }
-            .qr { width:40mm; height:40mm; object-fit:contain; margin:1.8mm auto .8mm; display:block; }
-            .profile-photo,.profile-initial { width:5.2mm; height:5.2mm; margin:0 auto .4mm; border-radius:50%; display:block; object-fit:cover; border:.3mm solid #10213d; box-sizing:border-box; }
-            .profile-initial { display:grid; place-items:center; background:#10213d; color:#fff; font-size:2.3mm; font-weight:900; }
-            .name { font-size:2.6mm; font-weight:900; line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-            .email { margin-top:.35mm; color:#475569; font-size:1.5mm; line-height:1; word-break:break-all; }
-            .note { margin-top:1mm; color:#64748b; font-size:1.2mm; line-height:1; }
-        </style></head><body><div class="card"><div class="brand">🔐 DocVault</div><div class="subtitle">PERMANENT SECURE ACCESS</div><img class="qr" src="${qrImage.src}">${photoMarkup}<div class="name">${escapeHtml(ownerName)}</div><div class="email">${escapeHtml(ownerEmail)}</div><div class="note">Scan QR to access documents • Security PIN required</div></div></body></html>`);
+            .subtitle { margin-top:1mm; color:#1687bf; font-size:1.45mm; font-weight:900; letter-spacing:.32mm; }
+            .profile-photo,.profile-initial { width:7mm; height:7mm; margin:3mm 0 1.5mm; border-radius:50%; display:block; object-fit:cover; border:.35mm solid #10213d; box-sizing:border-box; }
+            .profile-initial { display:grid; place-items:center; background:#10213d; color:#fff; font-size:3mm; font-weight:900; }
+            .name { font-size:3mm; font-weight:900; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+            .email { margin-top:1mm; color:#475569; font-size:1.65mm; line-height:1.15; word-break:break-all; }
+            .divider { width:18mm; height:.45mm; margin:2.5mm 0; background:#1687bf; }
+            .note { color:#64748b; font-size:1.5mm; line-height:1.25; max-width:34mm; }
+        </style></head><body><div class="card"><div class="qr-side"><img class="qr" src="${qrImage.src}" alt="DocVault QR"></div><div class="info"><div class="brand">🔐 DocVault</div><div class="subtitle">PERMANENT SECURE ACCESS</div>${photoMarkup}<div class="name">${escapeHtml(ownerName)}</div><div class="email">${escapeHtml(ownerEmail)}</div><div class="divider"></div><div class="note">Scan to open your protected document viewer. Security PIN required.</div></div></div></body></html>`);
         printWindow.document.close(); printWindow.focus(); setTimeout(function(){ printWindow.print(); },500);
     });
 
@@ -3581,6 +3584,19 @@
                 return;
             }
 
+            // Prevent renaming a document to another existing name.
+            const normalizedEditName = name.replace(/\\s+/g, " ").trim().toLowerCase();
+            const duplicateEditDocument = (allDocuments || []).find(function (doc) {
+                return String(doc.id || "") !== String(selectedEditDocumentId) &&
+                    String(doc.name || "").replace(/\\s+/g, " ").trim().toLowerCase() === normalizedEditName;
+            });
+
+            if (duplicateEditDocument) {
+                alert('❌ Document already exists. Please choose a different document name.');
+                editDocumentName.focus();
+                return;
+            }
+
             if (file) {
 
                 const allowedTypes = [
@@ -3873,6 +3889,18 @@
                 return;
             }
 
+            // Prevent duplicate document names (case-insensitive and whitespace-normalized).
+            const normalizedName = name.replace(/\\s+/g, " ").trim().toLowerCase();
+            const duplicateDocument = (allDocuments || []).find(function (doc) {
+                return String(doc.name || "").replace(/\\s+/g, " ").trim().toLowerCase() === normalizedName;
+            });
+
+            if (duplicateDocument) {
+                alert('❌ Document already exists. Please choose a different document name.');
+                document.getElementById("documentName").focus();
+                return;
+            }
+
 
             const allowedTypes = [
 
@@ -3968,12 +3996,15 @@
                     !result.success
                 ) {
 
+                    const serverMessage = String(result.message || "");
+                    const duplicateError =
+                        response.status === 409 ||
+                        /already exists|duplicate|same name/i.test(serverMessage);
+
                     alert(
-                        "❌ " +
-                        (
-                            result.message ||
-                            "Unable to upload document."
-                        )
+                        duplicateError
+                            ? "❌ Document already exists. Please choose a different document name."
+                            : "❌ " + (serverMessage || "Unable to upload document.")
                     );
 
                     return;
