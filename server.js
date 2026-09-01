@@ -30,6 +30,8 @@ app.use(express.urlencoded({
     extended: true
 }));
  
+app.set("trust proxy", 1);
+ 
 app.use(session({
     secret:
         process.env.SESSION_SECRET ||
@@ -42,12 +44,12 @@ app.use(session({
     cookie: {
         httpOnly: true,
         sameSite: "lax",
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         maxAge: 30 * 60 * 1000
     }
 }));
  
-app.use(express.static(__dirname));
+// Static files are mounted after API/page routes.
  
 // ==========================================
 // PAGE ROUTES
@@ -1315,497 +1317,91 @@ app.get(
  
 app.post("/api/recovery/send-otp", async (req, res) => {
  
- 
- 
- 
- 
- 
- 
     try {
  
+        const email =
+            cleanEmail(req.body.email);
  
- 
- 
- 
- 
- 
-        const email = cleanEmail(req.body.email);
- 
- 
- 
- 
- 
- 
- 
-        const type = String(req.body.type || "").trim();
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+        const type =
+            String(req.body.type || "")
+                .trim()
+                .toLowerCase();
  
         if (!email || !email.endsWith("@gmail.com")) {
- 
- 
- 
- 
- 
- 
- 
             return res.status(400).json({
- 
- 
- 
- 
- 
- 
- 
                 success: false,
- 
- 
- 
- 
- 
- 
- 
                 message: "Please enter a valid Gmail address."
- 
- 
- 
- 
- 
- 
- 
             });
- 
- 
- 
- 
- 
- 
- 
         }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
         if (!["pin", "password"].includes(type)) {
- 
- 
- 
- 
- 
- 
- 
             return res.status(400).json({
- 
- 
- 
- 
- 
- 
- 
                 success: false,
- 
- 
- 
- 
- 
- 
- 
                 message: "Invalid recovery type."
- 
- 
- 
- 
- 
- 
- 
             });
- 
- 
- 
- 
- 
- 
- 
         }
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-        const user = await users.findOne({ email });
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+        const user =
+            await users.findOne({ email });
  
         if (!user) {
- 
- 
- 
- 
- 
- 
- 
             return res.status(404).json({
- 
- 
- 
- 
- 
- 
- 
                 success: false,
- 
- 
- 
- 
- 
- 
- 
-                message: "No DocVault account found for this Gmail."
- 
- 
- 
- 
- 
- 
- 
+                message:
+                    "No DocVault account found for this Gmail."
             });
- 
- 
- 
- 
- 
- 
- 
         }
  
+        const otp =
+            crypto.randomInt(100000, 1000000).toString();
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
-        const otp = crypto
- 
- 
- 
- 
- 
- 
- 
-            .randomInt(100000, 1000000)
- 
- 
- 
- 
- 
- 
- 
-            .toString();
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-        const key = `recovery:${type}:${email}`;
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+        const key =
+            `recovery:${type}:${email}`;
  
         otpStore.set(key, {
- 
- 
- 
- 
- 
- 
- 
             otp,
- 
- 
- 
- 
- 
- 
- 
             expires: Date.now() + 5 * 60 * 1000
- 
- 
- 
- 
- 
- 
- 
         });
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
         await transporter.sendMail({
- 
- 
- 
- 
- 
- 
- 
-            from: `"DocVault" <${process.env.GMAIL_USER}>`,
- 
- 
- 
- 
- 
- 
- 
+            from:
+                `"DocVault" <${process.env.GMAIL_USER}>`,
             to: email,
- 
- 
- 
- 
- 
- 
- 
             subject:
- 
- 
- 
- 
- 
- 
- 
                 type === "pin"
- 
- 
- 
- 
- 
- 
- 
                     ? "DocVault - Security PIN Recovery OTP"
- 
- 
- 
- 
- 
- 
- 
                     : "DocVault - Password Recovery OTP",
- 
- 
- 
- 
- 
- 
- 
             text:
- 
- 
- 
- 
- 
- 
- 
-                `Your DocVault ${type === "pin" ? "Security PIN" : "Password"} recovery OTP is ${otp}. ` +
- 
- 
- 
- 
- 
- 
- 
+                `Your DocVault ${
+                    type === "pin" ? "Security PIN" : "Password"
+                } recovery OTP is ${otp}. ` +
                 `This OTP will expire in 5 minutes.`
- 
- 
- 
- 
- 
- 
- 
         });
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-        return res.json({
- 
- 
- 
- 
- 
- 
- 
+        return res.status(200).json({
             success: true,
- 
- 
- 
- 
- 
- 
- 
-            message: "Verification code sent successfully."
- 
- 
- 
- 
- 
- 
- 
+            message:
+                "Verification code sent successfully."
         });
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
     } catch (error) {
  
- 
- 
- 
- 
- 
- 
-        console.error("RECOVERY SEND OTP ERROR:", error);
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+        console.error(
+            "RECOVERY SEND OTP ERROR:",
+            error
+        );
  
         return res.status(500).json({
- 
- 
- 
- 
- 
- 
- 
             success: false,
- 
- 
- 
- 
- 
- 
- 
-            message: "Unable to send recovery code."
- 
- 
- 
- 
- 
- 
- 
+            message:
+                "Unable to send recovery code."
         });
- 
- 
- 
- 
- 
- 
- 
     }
- 
- 
- 
- 
- 
- 
- 
 });
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 // ==========================================
- 
- 
- 
- 
- 
- 
- 
-// VERIFY RECOVERY OTP
+// // VERIFY RECOVERY OTP
  
  
  
@@ -4736,6 +4332,8 @@ app.post(
     }
 );
  
+ 
+app.use(express.static(__dirname));
  
 // JSON response for missing API endpoints.
 app.use("/api", (req, res) => {
