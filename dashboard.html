@@ -948,7 +948,7 @@
             font-size: 13px;
         }
 
-        .qr-card { width: 100%; max-width: 320px; aspect-ratio: 53.98 / 85.60; margin: 0 auto; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: #fff; color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden; }
+        .qr-card { width: 100%; max-width: 360px; aspect-ratio: 53.98 / 85.60; margin: 0 auto; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: #fff; color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden; }
         .qr-card-brand { text-align: center; margin-bottom: 3px; }
         .qr-brand-mark { display: none; }
         .qr-brand-name { color: #10213d; font-size: 17px; font-weight: 900; line-height: 1; }
@@ -969,7 +969,7 @@
         .qr-url-label { margin-bottom: 5px; color: #6fbce1; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
         .qr-url { color: #aebed2; font-size: 11px; line-height: 1.45; word-break: break-all; }
         .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
-        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 8px 12px; } .qr-image-frame { width: 92px; height: 92px; } .qr-actions { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .qr-card { max-width: 310px; padding: 12px 10px; } .qr-image-frame { width: 100px; height: 100px; } .qr-actions { grid-template-columns: 1fr; } }
 
         /* =====================================
            SETTINGS
@@ -2945,13 +2945,12 @@
 
 
     // ==========================================
-    // QR DOWNLOAD - VERTICAL ATM CARD SIZE
-    // 53.98 x 85.60 mm at 300 DPI ≈ 638 x 1011 px
+    // QR DOWNLOAD - PORTRAIT ATM CARD SIZE
+    // 53.98 x 85.60 mm at 300 DPI = 638 x 1011 px
     // ==========================================
 
     document.getElementById("downloadQrBtn").addEventListener("click", async function () {
         const qrImage = document.getElementById("qrImage");
-
         if (!qrImage.src || !qrImage.complete) {
             alert("QR code is not ready.");
             return;
@@ -2970,44 +2969,45 @@
             ctx.fillRect(0, 0, width, height);
 
             ctx.strokeStyle = "#10213d";
-            ctx.lineWidth = 5;
-            ctx.strokeRect(8, 8, width - 16, height - 16);
+            ctx.lineWidth = 6;
+            ctx.strokeRect(10, 10, width - 20, height - 20);
 
             ctx.textAlign = "center";
-
             ctx.fillStyle = "#10213d";
             ctx.font = "900 30px Arial";
             ctx.fillText("DocVault", width / 2, 48);
 
             ctx.fillStyle = "#1687bf";
-            ctx.font = "900 12px Arial";
-            ctx.fillText("PERMANENT SECURE ACCESS", width / 2, 70);
+            ctx.font = "900 11px Arial";
+            ctx.fillText("PERMANENT SECURE ACCESS", width / 2, 67);
 
-            const qrSize = 420;
+            const qrSize = 430;
             const qrX = (width - qrSize) / 2;
-            const qrY = 98;
+            const qrY = 100;
 
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(qrX - 8, qrY - 8, qrSize + 16, qrSize + 16);
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(qrX - 9, qrY - 9, qrSize + 18, qrSize + 18);
 
             ctx.strokeStyle = "#111827";
             ctx.lineWidth = 4;
-            ctx.strokeRect(qrX - 8, qrY - 8, qrSize + 16, qrSize + 16);
+            ctx.strokeRect(qrX - 9, qrY - 9, qrSize + 18, qrSize + 18);
 
             ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
 
             const ownerName =
-                document.getElementById("qrOwnerName").textContent || "Vault Owner";
+                document.getElementById("qrOwnerName").textContent ||
+                "Vault Owner";
 
             const ownerEmail =
-                document.getElementById("qrOwnerEmail").textContent || "";
+                document.getElementById("qrOwnerEmail").textContent ||
+                "";
 
             const photo =
                 localStorage.getItem(PROFILE_PHOTO_KEY);
 
-            const photoSize = 82;
+            const photoSize = 58;
             const photoX = (width - photoSize) / 2;
-            const photoY = 550;
+            const photoY = 570;
 
             ctx.save();
             ctx.beginPath();
@@ -3021,60 +3021,66 @@
             ctx.clip();
 
             if (photo) {
-                const profileImage = await loadImageForCard(photo);
-                ctx.drawImage(profileImage, photoX, photoY, photoSize, photoSize);
+                const profileImage =
+                    await loadImageForCard(photo);
+
+                ctx.drawImage(
+                    profileImage,
+                    photoX,
+                    photoY,
+                    photoSize,
+                    photoSize
+                );
             } else {
                 ctx.fillStyle = "#10213d";
-                ctx.fillRect(photoX, photoY, photoSize, photoSize);
-                ctx.fillStyle = "#ffffff";
-                ctx.font = "900 36px Arial";
+                ctx.fillRect(
+                    photoX,
+                    photoY,
+                    photoSize,
+                    photoSize
+                );
+
+                ctx.fillStyle = "#fff";
+                ctx.font = "900 27px Arial";
                 ctx.fillText(
                     (ownerName.charAt(0) || "G").toUpperCase(),
                     width / 2,
-                    photoY + 54
+                    photoY + 39
                 );
             }
 
             ctx.restore();
 
-            ctx.strokeStyle = "#10213d";
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(
-                width / 2,
-                photoY + photoSize / 2,
-                photoSize / 2,
-                0,
-                Math.PI * 2
-            );
-            ctx.stroke();
-
             ctx.fillStyle = "#10213d";
-            ctx.font = "900 23px Arial";
-            ctx.fillText(ownerName, width / 2, 672);
+            ctx.font = "900 18px Arial";
+            ctx.fillText(ownerName, width / 2, 670);
 
             ctx.fillStyle = "#475569";
-            ctx.font = "500 13px Arial";
-            ctx.fillText(ownerEmail, width / 2, 696);
-
-            ctx.strokeStyle = "#cbd5e1";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(90, 730);
-            ctx.lineTo(width - 90, 730);
-            ctx.stroke();
-
-            ctx.fillStyle = "#334155";
-            ctx.font = "700 13px Arial";
-            ctx.fillText("Scan QR to access documents", width / 2, 770);
+            ctx.font = "500 11px Arial";
+            ctx.fillText(ownerEmail, width / 2, 692);
 
             ctx.fillStyle = "#64748b";
-            ctx.font = "500 11px Arial";
-            ctx.fillText("Security PIN required", width / 2, 792);
+            ctx.font = "500 10px Arial";
+            ctx.fillText(
+                "Scan QR to access documents",
+                width / 2,
+                738
+            );
 
-            const link = document.createElement("a");
-            link.download = "DocVault-Permanent-QR-Vertical-ATM-Card.png";
-            link.href = canvas.toDataURL("image/png", 1);
+            ctx.fillText(
+                "Security PIN required",
+                width / 2,
+                756
+            );
+
+            const link =
+                document.createElement("a");
+
+            link.download =
+                "DocVault-Permanent-QR-Portrait-ATM-Card.png";
+
+            link.href =
+                canvas.toDataURL("image/png", 1);
 
             document.body.appendChild(link);
             link.click();
@@ -3087,29 +3093,34 @@
     });
 
     function loadImageForCard(src) {
-        return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.onload = () => resolve(image);
-            image.onerror = reject;
-            image.src = src;
-        });
+        return new Promise((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = reject; image.src = src; });
     }
 
 
     // ==========================================
-    // QR PRINT - VERTICAL ATM CARD SIZE
+    // QR PRINT - PORTRAIT ATM CARD SIZE
+    // Physical size: 53.98 x 85.60 mm
     // ==========================================
 
     document.getElementById("printQrBtn").addEventListener("click", function () {
         const qrCard = document.getElementById("qrCard");
         const qrImage = document.getElementById("qrImage");
 
-        if (!qrCard || qrCard.style.display === "none" || !qrImage.src) {
+        if (
+            !qrCard ||
+            qrCard.style.display === "none" ||
+            !qrImage.src
+        ) {
             alert("QR code is not ready.");
             return;
         }
 
-        const printWindow = window.open("", "_blank", "width=520,height=900");
+        const printWindow =
+            window.open(
+                "",
+                "_blank",
+                "width=420,height=700"
+            );
 
         if (!printWindow) {
             alert("Please allow pop-ups to print the QR.");
@@ -3117,25 +3128,27 @@
         }
 
         const ownerName =
-            document.getElementById("qrOwnerName").textContent || "Vault Owner";
+            document.getElementById("qrOwnerName").textContent ||
+            "Vault Owner";
 
         const ownerEmail =
-            document.getElementById("qrOwnerEmail").textContent || "";
+            document.getElementById("qrOwnerEmail").textContent ||
+            "";
 
         const photo =
             localStorage.getItem(PROFILE_PHOTO_KEY);
 
         const photoMarkup = photo
             ? `<img class="profile-photo" src="${photo}" alt="Profile photo">`
-            : `<div class="profile-initial">${escapeHtml(
-                (ownerName.charAt(0) || "G").toUpperCase()
-            )}</div>`;
+            : `<div class="profile-initial">${escapeHtml((ownerName.charAt(0) || "G").toUpperCase())}</div>`;
 
+        printWindow.document.open();
         printWindow.document.write(`
             <!doctype html>
             <html>
             <head>
                 <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>DocVault Permanent QR</title>
                 <style>
                     @page {
@@ -3143,27 +3156,32 @@
                         margin: 0;
                     }
 
-                    html, body {
+                    * {
+                        box-sizing: border-box;
+                    }
+
+                    html,
+                    body {
                         width: 53.98mm;
                         height: 85.60mm;
                         margin: 0;
                         padding: 0;
+                        background: #fff;
                     }
 
                     body {
-                        background: white;
                         font-family: Arial, sans-serif;
                     }
 
                     .card {
                         width: 53.98mm;
                         height: 85.60mm;
-                        box-sizing: border-box;
-                        padding: 2mm;
-                        border: .45mm solid #10213d;
+                        padding: 2.2mm 2.4mm;
+                        border: .35mm solid #10213d;
+                        background: #fff;
+                        color: #10213d;
                         text-align: center;
                         overflow: hidden;
-                        color: #10213d;
                     }
 
                     .brand {
@@ -3173,48 +3191,47 @@
                     }
 
                     .subtitle {
-                        margin-top: .8mm;
+                        margin-top: .7mm;
                         color: #1687bf;
                         font-size: 1.45mm;
                         font-weight: 900;
-                        letter-spacing: .25mm;
+                        letter-spacing: .28mm;
                     }
 
                     .qr {
-                        width: 36mm;
-                        height: 36mm;
+                        width: 37mm;
+                        height: 37mm;
                         object-fit: contain;
                         display: block;
-                        margin: 2.2mm auto 2.4mm;
-                        border: .45mm solid #111827;
-                        padding: .8mm;
+                        margin: 3mm auto 2.4mm;
+                        border: .35mm solid #111827;
+                        padding: 1.1mm;
                     }
 
                     .profile-photo,
                     .profile-initial {
-                        width: 10mm;
-                        height: 10mm;
+                        width: 6mm;
+                        height: 6mm;
                         margin: 0 auto 1.2mm;
                         border-radius: 50%;
                         display: block;
                         object-fit: cover;
-                        border: .45mm solid #10213d;
-                        box-sizing: border-box;
+                        border: .3mm solid #10213d;
                     }
 
                     .profile-initial {
                         display: grid;
                         place-items: center;
                         background: #10213d;
-                        color: white;
-                        font-size: 4mm;
+                        color: #fff;
+                        font-size: 2.5mm;
                         font-weight: 900;
                     }
 
                     .name {
-                        font-size: 3.1mm;
+                        font-size: 2.8mm;
                         font-weight: 900;
-                        line-height: 1.1;
+                        line-height: 1.05;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -3223,51 +3240,55 @@
                     .email {
                         margin-top: .8mm;
                         color: #475569;
-                        font-size: 1.7mm;
-                        line-height: 1.1;
+                        font-size: 1.55mm;
+                        line-height: 1.05;
                         word-break: break-all;
                     }
 
-                    .divider {
-                        width: 82%;
-                        height: .3mm;
-                        margin: 2.3mm auto 1.8mm;
-                        background: #cbd5e1;
-                    }
-
                     .note {
-                        color: #334155;
-                        font-size: 1.8mm;
+                        margin-top: 2.2mm;
+                        color: #64748b;
+                        font-size: 1.35mm;
                         line-height: 1.25;
-                        font-weight: 700;
                     }
 
-                    .pin-note {
-                        margin-top: 1mm;
-                        color: #64748b;
-                        font-size: 1.55mm;
+                    @media print {
+                        html,
+                        body {
+                            width: 53.98mm;
+                            height: 85.60mm;
+                        }
+
+                        .card {
+                            page-break-after: avoid;
+                            break-inside: avoid;
+                        }
                     }
                 </style>
             </head>
             <body>
                 <div class="card">
-                    <div class="brand">🔐 DocVault</div>
+                    <div class="brand">DocVault</div>
                     <div class="subtitle">PERMANENT SECURE ACCESS</div>
 
-                    <img class="qr" src="${qrImage.src}" alt="Permanent QR">
+                    <img
+                        class="qr"
+                        src="${qrImage.src}"
+                        alt="DocVault Permanent QR"
+                    >
 
                     ${photoMarkup}
 
-                    <div class="name">${escapeHtml(ownerName)}</div>
-                    <div class="email">${escapeHtml(ownerEmail)}</div>
-
-                    <div class="divider"></div>
-
-                    <div class="note">
-                        Scan QR to access documents
+                    <div class="name">
+                        ${escapeHtml(ownerName)}
                     </div>
 
-                    <div class="pin-note">
+                    <div class="email">
+                        ${escapeHtml(ownerEmail)}
+                    </div>
+
+                    <div class="note">
+                        Scan QR to access documents<br>
                         Security PIN required
                     </div>
                 </div>
@@ -3278,17 +3299,30 @@
         printWindow.document.close();
         printWindow.focus();
 
-        setTimeout(
-            function () {
+        const printNow = () => {
+            if (!printWindow.closed) {
                 printWindow.print();
-            },
-            700
-        );
+            }
+        };
+
+        setTimeout(printNow, 700);
     });
 
 
+    settingsBtn.addEventListener(
+        "click",
+        openSettingsModal
+    );
+
+
+    closeSettingsBtn.addEventListener(
+        "click",
+        closeSettingsModal
+    );
+
+
+
     // ==========================================
-// ==========================================
     // FILE SIZE
     // ==========================================
 
@@ -4270,175 +4304,120 @@
 
 
     // ==========================================
-    // PRINT DOCUMENT
+    // PRINT DOCUMENT - RELIABLE PDF / IMAGE PRINT
     // ==========================================
 
-    function printDocument(
-        documentId,
-        fileType
-    ) {
+    function printDocument(documentId, fileType) {
         const viewUrl =
             "/api/documents/" +
-            encodeURIComponent(
-                documentId
-            ) +
+            encodeURIComponent(documentId) +
             "/view";
 
-        const printWindow =
-            window.open(
-                "",
-                "_blank",
-                "width=1000,height=900"
-            );
+        const printWindow = window.open(
+            "",
+            "_blank",
+            "width=1000,height=900"
+        );
 
         if (!printWindow) {
-            alert(
-                "Please allow pop-ups to print documents."
-            );
+            alert("Please allow pop-ups to print documents.");
             return;
         }
 
-        const type =
-            String(fileType || "")
-                .toLowerCase();
+        const type = String(fileType || "").toLowerCase();
+        const isPdf = type === "application/pdf";
 
-        const isPdf =
-            type === "application/pdf";
-
+        printWindow.document.open();
         printWindow.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
                 <title>DocVault - Print</title>
-
                 <style>
-                    * {
-                        box-sizing: border-box;
-                    }
-
-                    html,
-                    body {
+                    @page { margin: 0; }
+                    * { box-sizing: border-box; }
+                    html, body {
                         margin: 0;
                         padding: 0;
                         width: 100%;
                         min-height: 100%;
-                        background: #ffffff;
+                        background: #fff;
                     }
-
                     body {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                        overflow: hidden;
                     }
-
-                    .print-image {
+                    .print-only {
+                        width: 100vw;
+                        min-height: 100vh;
+                        margin: 0;
+                        padding: 0;
+                        background: #fff;
+                    }
+                    #printImage {
                         display: block;
-                        max-width: 100%;
+                        max-width: 100vw;
                         max-height: 100vh;
                         object-fit: contain;
                     }
-
-                    .print-frame {
+                    #printFrame {
+                        display: block;
                         width: 100vw;
                         height: 100vh;
                         border: 0;
                     }
-
                     @media print {
-                        body {
-                            display: block;
-                        }
-
-                        .print-image {
-                            max-width: 100%;
+                        body { display: block; }
+                        #printImage {
+                            width: 100%;
+                            height: auto;
+                            max-width: none;
                             max-height: none;
                         }
-
-                        .print-frame {
+                        #printFrame {
                             width: 100%;
                             height: 100vh;
                         }
                     }
                 </style>
             </head>
-
             <body>
-                ${
-                    isPdf
-                        ? `<iframe
-                                id="printFrame"
-                                class="print-frame"
-                                src="${viewUrl}"
-                           ></iframe>`
-                        : `<img
-                                id="printImage"
-                                class="print-image"
-                                src="${viewUrl}"
-                                alt="Document"
-                           >`
-                }
+                <main class="print-only">
+                    ${isPdf
+                        ? `<iframe id="printFrame" src="${viewUrl}" title="Document"></iframe>`
+                        : `<img id="printImage" src="${viewUrl}" alt="Document">`
+                    }
+                </main>
             </body>
             </html>
         `);
-
         printWindow.document.close();
 
-        function startPrinting() {
-            setTimeout(
-                function () {
-                    printWindow.focus();
+        let printed = false;
+        function doPrint() {
+            if (printed || printWindow.closed) return;
+            printed = true;
+            printWindow.focus();
+            setTimeout(function () {
+                try {
                     printWindow.print();
-                },
-                600
-            );
+                } catch (error) {
+                    console.error("Print error:", error);
+                }
+            }, 150);
         }
 
-        if (isPdf) {
-            const frame =
-                printWindow.document.getElementById(
-                    "printFrame"
-                );
+        const target = printWindow.document.getElementById(
+            isPdf ? "printFrame" : "printImage"
+        );
 
-            if (frame) {
-                frame.addEventListener(
-                    "load",
-                    startPrinting,
-                    { once: true }
-                );
-            } else {
-                startPrinting();
-            }
-        } else {
-            const image =
-                printWindow.document.getElementById(
-                    "printImage"
-                );
-
-            if (image) {
-                image.addEventListener(
-                    "load",
-                    startPrinting,
-                    { once: true }
-                );
-
-                image.addEventListener(
-                    "error",
-                    function () {
-                        printWindow.close();
-
-                        alert(
-                            "Unable to load the document for printing."
-                        );
-                    },
-                    { once: true }
-                );
-            } else {
-                startPrinting();
-            }
+        if (target) {
+            target.addEventListener("load", doPrint, { once: true });
         }
+
+        // Fallback for PDF viewers that do not reliably fire iframe load.
+        setTimeout(doPrint, isPdf ? 1800 : 1200);
     }
-
 
     // ==========================================
     // SEARCH
@@ -5116,12 +5095,23 @@
                 credentials: "same-origin",
                 body: JSON.stringify({ email, type: recoveryType })
             });
-            const contentType = response.headers.get("content-type") || "";
-            if (!contentType.includes("application/json")) {
-                throw new Error("Server returned an invalid response. Please redeploy server.js and try again.");
+            const raw = await response.text();
+            let result = {};
+            try {
+                result = raw ? JSON.parse(raw) : {};
+            } catch {
+                throw new Error(
+                    response.status === 404
+                        ? "Recovery service is unavailable. Please restart the DocVault server."
+                        : "Recovery service returned an invalid response."
+                );
             }
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error(result.message || "Unable to send verification code.");
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Unable to send verification code."
+                );
+            }
             recoveryEmailStep.classList.remove("active");
             recoveryOtpStep.classList.add("active");
             setSecurityMessage(securityRecoveryMessage, "✓ Verification code sent to your Gmail.", true);
@@ -5151,8 +5141,23 @@
                 credentials: "same-origin",
                 body: JSON.stringify({ email, otp, type: recoveryType })
             });
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error(result.message || "Invalid verification code.");
+            const raw = await response.text();
+            let result = {};
+            try {
+                result = raw ? JSON.parse(raw) : {};
+            } catch {
+                throw new Error(
+                    response.status === 404
+                        ? "Recovery verification service is unavailable."
+                        : "Recovery service returned an invalid response."
+                );
+            }
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Invalid verification code."
+                );
+            }
             recoveryOtpStep.classList.remove("active");
             (recoveryType === "password" ? recoveryNewPasswordStep : recoveryNewPinStep).classList.add("active");
             setSecurityMessage(securityRecoveryMessage, "✓ Gmail verified. Create your new credential.", true);
@@ -5190,8 +5195,23 @@
                 credentials: "same-origin",
                 body: JSON.stringify(body)
             });
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error(result.message || "Unable to complete recovery.");
+            const raw = await response.text();
+            let result = {};
+            try {
+                result = raw ? JSON.parse(raw) : {};
+            } catch {
+                throw new Error(
+                    response.status === 404
+                        ? "Recovery service is unavailable."
+                        : "Recovery service returned an invalid response."
+                );
+            }
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Unable to complete recovery."
+                );
+            }
             setSecurityMessage(securityRecoveryMessage, "✓ " + result.message, true);
             setTimeout(closeRecovery, 1100);
         } catch (error) {
