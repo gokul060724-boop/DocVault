@@ -1,5 +1,4 @@
 
- 
 require("dotenv").config();
  
 const express = require("express");
@@ -49,7 +48,7 @@ app.use(session({
     }
 }));
  
-// Static files are mounted after API/page routes.
+// Static files are mounted after API routes so API requests are never answered with HTML.
  
 // ==========================================
 // PAGE ROUTES
@@ -117,16 +116,28 @@ async function connectMongoDB() {
 const transporter =
     nodemailer.createTransport({
  
-        service: "gmail",
+        host: "smtp.gmail.com",
+ 
+        port: 465,
+ 
+        secure: true,
+ 
+        connectionTimeout: 15000,
+ 
+        greetingTimeout: 10000,
+ 
+        socketTimeout: 20000,
  
         auth: {
             user:
                 process.env.GMAIL_USER,
  
             pass:
-                process.env.GMAIL_APP_PASSWORD
+                process.env.GMAIL_APP_PASSWORD ||
+                process.env.GMAIL_PASSWORD
         }
     });
+ 
  
 // ==========================================
 // OTP STORE
@@ -1334,10 +1345,19 @@ app.post("/api/recovery/send-otp", async (req, res) => {
             });
         }
  
-        if (!["pin", "password"].includes(type)) {
+        if (!['pin', 'password'].includes(type)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid recovery type."
+            });
+        }
+ 
+        if (!process.env.GMAIL_USER ||
+            !(process.env.GMAIL_APP_PASSWORD || process.env.GMAIL_PASSWORD)) {
+            console.error("GMAIL SMTP CONFIGURATION MISSING");
+            return res.status(500).json({
+                success: false,
+                message: "Email service is not configured. Please check GMAIL_USER and GMAIL_APP_PASSWORD in Render Environment Variables."
             });
         }
  
@@ -1347,8 +1367,7 @@ app.post("/api/recovery/send-otp", async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message:
-                    "No DocVault account found for this Gmail."
+                message: "No DocVault account found for this Gmail."
             });
         }
  
@@ -1357,11 +1376,6 @@ app.post("/api/recovery/send-otp", async (req, res) => {
  
         const key =
             `recovery:${type}:${email}`;
- 
-        otpStore.set(key, {
-            otp,
-            expires: Date.now() + 5 * 60 * 1000
-        });
  
         await transporter.sendMail({
             from:
@@ -1372,16 +1386,19 @@ app.post("/api/recovery/send-otp", async (req, res) => {
                     ? "DocVault - Security PIN Recovery OTP"
                     : "DocVault - Password Recovery OTP",
             text:
-                `Your DocVault ${
-                    type === "pin" ? "Security PIN" : "Password"
-                } recovery OTP is ${otp}. ` +
+                `Your DocVault ${type === "pin" ? "Security PIN" : "Password"} recovery OTP is ${otp}. ` +
                 `This OTP will expire in 5 minutes.`
+        });
+ 
+        // Store the OTP only after Gmail accepts the message.
+        otpStore.set(key, {
+            otp,
+            expires: Date.now() + 5 * 60 * 1000
         });
  
         return res.status(200).json({
             success: true,
-            message:
-                "Verification code sent successfully."
+            message: "Verification code sent successfully."
         });
  
     } catch (error) {
@@ -1391,17 +1408,26 @@ app.post("/api/recovery/send-otp", async (req, res) => {
             error
         );
  
+        let message =
+            "Unable to send verification code. Please try again.";
+ 
+        if (error && error.code === "EAUTH") {
+            message =
+                "Gmail authentication failed. Check GMAIL_USER and use a Gmail App Password in Render.";
+        } else if (error && error.code === "ETIMEDOUT") {
+            message =
+                "Gmail connection timed out. Please try again.";
+        }
+ 
         return res.status(500).json({
             success: false,
-            message:
-                "Unable to send recovery code."
+            message
         });
     }
 });
  
  
-// ==========================================
-// // VERIFY RECOVERY OTP
+// VERIFY RECOVERY OTP
  
  
  
@@ -3248,8 +3274,14 @@ app.get(
                 );
             }
  
+            const publicBaseUrl =
+                String(
+                    process.env.PUBLIC_BASE_URL ||
+                    `${req.protocol}://${req.get("host")}`
+                ).replace(/\/$/, "");
+ 
             const viewerUrl =
-                `http://10.20.137.41:3000/viewer-login.html?token=${encodeURIComponent(
+                `${publicBaseUrl}/viewer-login.html?token=${encodeURIComponent(
                     qrToken
                 )}`;
  
