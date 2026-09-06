@@ -948,7 +948,7 @@
             font-size: 13px;
         }
 
-        .qr-card { width: 100%; max-width: 520px; aspect-ratio: 85.6 / 54; margin: 0 auto; padding: 13px 17px; border: 1px solid #cbd5e1; border-radius: 16px; background: linear-gradient(135deg,#ffffff,#f7fbff); color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: grid; grid-template-columns: 46% 54%; align-items: center; overflow: hidden; }
+        .qr-card { width: 53.98mm; max-width: 100%; height: 85.60mm; aspect-ratio: 53.98 / 85.60; margin: 0 auto; padding: 13px 17px; border: 1px solid #cbd5e1; border-radius: 16px; background: linear-gradient(135deg,#ffffff,#f7fbff); color: #10213d; box-shadow: 0 18px 40px rgba(0,0,0,.22); display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto auto; align-items: center; overflow: hidden; }
         .qr-card-brand { text-align: left; margin-bottom: 4px; }
         .qr-brand-mark { display: none; }
         .qr-brand-name { color: #10213d; font-size: 18px; font-weight: 900; line-height: 1; }
@@ -969,7 +969,7 @@
         .qr-url-label { margin-bottom: 5px; color: #6fbce1; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
         .qr-url { color: #aebed2; font-size: 11px; line-height: 1.45; word-break: break-all; }
         .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
-        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 9px 11px; grid-template-columns: 44% 56%; } .qr-image-frame { width: 94px; height: 94px; } .qr-brand-name { font-size: 15px; } .qr-actions { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .qr-card { max-width: 390px; padding: 9px 11px; grid-template-columns: 1fr; } .qr-image-frame { width: 94px; height: 94px; } .qr-brand-name { font-size: 15px; } .qr-actions { grid-template-columns: 1fr; } }
 
         /* =====================================
            SETTINGS
@@ -3052,11 +3052,11 @@
         const photo = localStorage.getItem(PROFILE_PHOTO_KEY);
         const photoMarkup = photo ? `<img class="profile-photo" src="${photo}" alt="Profile photo">` : `<div class="profile-initial">${escapeHtml((ownerName.charAt(0) || "G").toUpperCase())}</div>`;
         printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>DocVault Permanent QR</title><style>
-            @page { size: 85.60mm 53.98mm; margin: 0; }
-            html,body { width:85.60mm; height:53.98mm; margin:0; padding:0; }
+            @page { size: 53.98mm 85.60mm; margin: 0; }
+            html,body { width:53.98mm; height:85.60mm; margin:0; padding:0; }
             body { background:#fff; font-family:Arial,sans-serif; }
-            .card { width:85.60mm; height:53.98mm; box-sizing:border-box; padding:2.2mm 3mm; border:.45mm solid #10213d; border-radius:3mm; text-align:left; overflow:hidden; color:#10213d; display:flex; align-items:center; gap:3.2mm; }
-            .qr-side { flex:0 0 42mm; display:flex; align-items:center; justify-content:center; }
+            .card { width:53.98mm; height:85.60mm; box-sizing:border-box; padding:2.2mm 3mm; border:.45mm solid #10213d; border-radius:3mm; text-align:left; overflow:hidden; color:#10213d; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.2mm; }
+            .qr-side { flex:0 0 auto; display:flex; align-items:center; justify-content:center; }
             .qr { width:38mm; height:38mm; object-fit:contain; display:block; }
             .info { flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; }
             .brand { font-size:4.2mm; font-weight:900; line-height:1; }
