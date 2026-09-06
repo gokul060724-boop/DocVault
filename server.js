@@ -1,3 +1,17 @@
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
+
+RESEND_FROM=DocVault <onboarding@resend.dev>
+
+MONGODB_URI=your-existing-value
+
+SESSION_SECRET=your-existing-value
+
+PUBLIC_BASE_URL=https://docvault-g4uu.onrender.com
+
+Complete server.js code:
+
+ 
+
 require("dotenv").config();
 
  
@@ -5,8 +19,6 @@ require("dotenv").config();
 const express = require("express");
 
 const path = require("path");
-
-const nodemailer = require("nodemailer");
 
 const session = require("express-session");
 
@@ -220,151 +232,145 @@ async function connectMongoDB() {
 
 // ==========================================
 
-// GMAIL
+// EMAIL API (RESEND)
 
 // ==========================================
 
  
 
-const gmailUser =
+// Render Free services block outbound SMTP ports 25, 465 and 587.
 
-    String(process.env.GMAIL_USER || "").trim();
+// Use Resend's HTTPS API instead of Nodemailer/Gmail SMTP.
+
+const resendApiKey =
+
+    String(process.env.RESEND_API_KEY || "").trim();
 
  
 
-const gmailPassword =
+const resendFrom =
 
     String(
 
-        process.env.GMAIL_APP_PASSWORD ||
+        process.env.RESEND_FROM ||
 
-        process.env.GMAIL_PASSWORD ||
+        "DocVault <onboarding@resend.dev>"
 
-        ""
-
-    ).replace(/\s/g, "");
+    ).trim();
 
  
 
-function createGmailTransporter(secure, port) {
+async function sendEmailMessage(mailOptions) {
 
  
 
-    return nodemailer.createTransport({
+    if (!resendApiKey) {
 
- 
+        const error = new Error("RESEND_API_KEY is not configured.");
 
-        host: "smtp.gmail.com",
-
- 
-
-        port,
-
- 
-
-        secure,
-
- 
-
-        requireTLS: !secure,
-
- 
-
-        // Force IPv4 on Render to avoid ENETUNREACH IPv6 SMTP errors
-
-        family: 4,
-
- 
-
-        connectionTimeout: 10000,
-
- 
-
-        greetingTimeout: 10000,
-
- 
-
-        socketTimeout: 15000,
-
- 
-
-        auth: {
-
-            user: gmailUser,
-
-            pass: gmailPassword
-
-        }
-
-    });
-
-}
-
- 
-
-const transporter465 =
-
-    createGmailTransporter(true, 465);
-
- 
-
-const transporter587 =
-
-    createGmailTransporter(false, 587);
-
- 
-
-async function sendGmailMessage(mailOptions) {
-
- 
-
-    let firstError = null;
-
- 
-
-    try {
-
-        return await transporter465.sendMail(mailOptions);
-
-    } catch (error) {
-
-        firstError = error;
-
-        console.error(
-
-            "GMAIL SMTP 465 ERROR:",
-
-            error
-
-        );
-
-    }
-
- 
-
-    try {
-
-        return await transporter587.sendMail(mailOptions);
-
-    } catch (error) {
-
-        console.error(
-
-            "GMAIL SMTP 587 ERROR:",
-
-            error
-
-        );
-
-        error.firstSmtpError = firstError;
+        error.code = "RESEND_CONFIG_MISSING";
 
         throw error;
 
     }
 
-}
+ 
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
  
+
+    try {
+
+        const response = await fetch("https://api.resend.com/emails", {
+
+            method: "POST",
+
+            headers: {
+
+                "Authorization": `Bearer ${resendApiKey}`,
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                from: mailOptions.from || resendFrom,
+
+                to: Array.isArray(mailOptions.to)
+
+                    ? mailOptions.to
+
+                    : [mailOptions.to],
+
+                subject: mailOptions.subject,
+
+                text: mailOptions.text,
+
+                html: mailOptions.html
+
+            }),
+
+            signal: controller.signal
+
+        });
+
+ 
+
+        const data = await response.json().catch(() => ({}));
+
+ 
+
+        if (!response.ok) {
+
+            const error = new Error(
+
+                data.message ||
+
+                data.error ||
+
+                `Resend API returned HTTP ${response.status}`
+
+            );
+
+            error.code = data.name || `HTTP_${response.status}`;
+
+            error.statusCode = response.status;
+
+            error.response = data;
+
+            throw error;
+
+        }
+
+ 
+
+        return data;
+
+ 
+
+    } catch (error) {
+
+        if (error && error.name === "AbortError") {
+
+            error.code = "RESEND_TIMEOUT";
+
+            error.message = "Resend API request timed out.";
+
+        }
+
+        throw error;
+
+    } finally {
+
+        clearTimeout(timeout);
+
+    }
+
+}
 
  
 
@@ -734,13 +740,13 @@ app.post(
 
  
 
-            await transporter.sendMail({
+            await sendEmailMessage({
 
  
 
                 from:
 
-                    `"DocVault" <${process.env.GMAIL_USER}>`,
+                    resendFrom,
 
  
 
@@ -2794,15 +2800,15 @@ app.post("/api/recovery/send-otp", async (req, res) => {
 
  
 
-        if (!gmailUser || !gmailPassword) {
+        if (!resendApiKey) {
 
-            console.error("GMAIL SMTP CONFIGURATION MISSING");
+            console.error("RESEND API CONFIGURATION MISSING");
 
             return res.status(500).json({
 
                 success: false,
 
-                message: "Email service is not configured. Please check GMAIL_USER and GMAIL_APP_PASSWORD in Render Environment Variables."
+                message: "Email service is not configured. Please add RESEND_API_KEY in Render Environment Variables."
 
             });
 
@@ -2842,11 +2848,11 @@ app.post("/api/recovery/send-otp", async (req, res) => {
 
  
 
-        await sendGmailMessage({
+        await sendEmailMessage({
 
             from:
 
-                `"DocVault" <${gmailUser}>`,
+                resendFrom,
 
             to: email,
 
@@ -2910,23 +2916,29 @@ app.post("/api/recovery/send-otp", async (req, res) => {
 
  
 
-        if (error && ["EAUTH", "AUTH"].includes(error.code)) {
+        if (error && error.code === "RESEND_CONFIG_MISSING") {
 
             message =
 
-                "Gmail authentication failed. Check GMAIL_USER and use a 16-character Gmail App Password in Render.";
+                "Email service is not configured. Add RESEND_API_KEY in Render Environment Variables.";
 
-        } else if (error && ["ETIMEDOUT", "ESOCKET", "ECONNECTION"].includes(error.code)) {
-
-            message =
-
-                "Gmail SMTP connection failed. Please check Render network access and try again.";
-
-        } else if (error && error.responseCode === 535) {
+        } else if (error && error.code === "RESEND_TIMEOUT") {
 
             message =
 
-                "Gmail rejected the login. Use a Gmail App Password, not your normal Gmail password.";
+                "Email service timed out. Please try again.";
+
+        } else if (error && error.statusCode === 401) {
+
+            message =
+
+                "Resend rejected the API key. Check RESEND_API_KEY in Render Environment Variables.";
+
+        } else if (error && error.statusCode === 403) {
+
+            message =
+
+                "Resend rejected this sender or recipient. Verify your Resend sender/domain settings.";
 
         }
 
@@ -9055,3 +9067,4 @@ async function startServer() {
  
 
 startServer();
+
